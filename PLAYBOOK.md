@@ -51,3 +51,10 @@ Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Faceboo
 3. **Affiliate**: travel/tour links (Bidhan must sign up himself; add link-in-bio once approved).
 4. **Sponsors** from ~5–10k followers: learning apps, STEM kits, travel, tools. Max 1 sponsored per 4 videos, always labelled as paid partnership.
 5. TikTok Creator Rewards availability in Australia is uncertain — check TikTok Studio once at 10k followers.
+
+## Comment replies (Windsor.ai)
+- Instagram: Windsor connector `instagram`, account `17841461164290075`. Read comments with get_data fields comment_id, comment_text, comment_username, comment_timestamp, comment_parent_id, media_permalink (date_preset last_7dT). Reply with execute_action `reply_to_comment` {comment_id, message}.
+- YouTube: Windsor connector `youtube`, account `105358`. Comment fields: comment_id, comment_text, comment_author, comment_published_at, comment_video_id, comment_reply_count. Reply with `reply_to_comment`. (Needs the optional Windsor reconnect at https://onboard.windsor.ai/app/youtube_review — if comment fields fail, tell Bidhan.)
+- Facebook and TikTok: no reply tool — Bidhan replies in the apps.
+- Rules: reply only to top-level comments from other people that the channel has not replied to yet (skip comment_parent_id set; skip if a reply from the channel already exists). Friendly, short (1–2 sentences), add a real fact or answer, often end with a question to keep the conversation going. Vary wording — never copy-paste the same reply. Never argue, never promise anything, never share personal info about Bidhan. Ignore spam; hide (do not delete) abusive or spam comments. Max ~30 replies per run.
+- Log replies count in LEARNINGS.md weekly; note which questions people ask (they are topic ideas).
