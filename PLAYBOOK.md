@@ -4,7 +4,8 @@ Faceless short-video channel: **natural wonders and mega-builds, and how they ca
 Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Facebook, YouTube.
 
 ## Accounts
-- Metricool brand: blogId `8221611`, timezone Australia/Sydney. Connected: facebook (How On Earth Page), instagram (@howonearth2026), tiktok (How On Earth 🌍, personal account — keep personal for Creator Rewards), youtube.
+- Metricool brand: blogId `8221611`, timezone Australia/Sydney. Connected: facebook (How On Earth Page), instagram (@howonearth2026), tiktok (@how.on.earth7, display name How On Earth 🌍, personal account — keep personal for Creator Rewards), youtube.
+- Public profile links: TikTok https://www.tiktok.com/@how.on.earth7 · Instagram https://www.instagram.com/howonearth2026/ · Facebook https://www.facebook.com/1474038465792135 · YouTube https://www.youtube.com/channel/UCQu7zgxaFBgygTYHq_LLMew
 - Video hosting: this repo. Public raw URL pattern:
   `https://raw.githubusercontent.com/beedangsb123/how-on-earth-videos/main/videos/<file>.mp4`
 - Log of every video: `LOG.md`. Lessons from analytics: `LEARNINGS.md`.
