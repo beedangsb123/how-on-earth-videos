@@ -43,7 +43,7 @@ Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Faceboo
 
 ## Posting
 - Schedule through Metricool `createScheduledPost` with all four providers in one post: facebook type REEL (+ title), instagram type REEL, tiktok (title, PUBLIC_TO_EVERYONE), youtube type short (title with #shorts, category EDUCATION or SCIENCE_TECHNOLOGY, tags).
-- Use `getBestTimeToPostByNetwork` when choosing times; default evening 6–8 pm Sydney.
+- **Post time: 10:00 am Australia/Sydney, every day (Bidhan's choice 2026-11-20).** = 6 pm US Eastern / 3 pm US Pacific (prime time in the highest-paying market) and the top hour for TikTok, Instagram and Facebook in Metricool's best-time data; UK/Europe catch it next morning; India (low pay per view) is asleep — accepted trade-off. Re-check weekly with `getBestTimeToPostByNetwork` and the account's own analytics; if the data clearly favours another slot, propose the change to Bidhan in the run message rather than switching silently.
 - Caption: curiosity line + 1 emoji + 5–8 hashtags (mix broad and specific, always #howonearth).
 
 ## Money plan (US$500/month target)
