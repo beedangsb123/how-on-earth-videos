@@ -38,7 +38,7 @@ If a topic fails any one of these, pick another. Note in LOG.md for each video o
 
 ## Topic strategy
 - Alternate natural wonders and mega-builds. Favour things people have heard of but can't explain.
-- Mix: ~40% Australia/NZ (home audience), ~60% global icons (US/UK/EU audiences pay more).
+- Mix: ~30% Australia/NZ (home audience), ~70% global icons — US icons first (US audience pays most). (Revised 2026-11-20 strategy review; was 40/60.)
 - Series hooks that build bingeing: "Australia's wonders", "Impossible builds", "Earth's weirdest places".
 - Before choosing, check `LOG.md` — never repeat a topic. Check `LEARNINGS.md` and lean into what performed best.
 - Facts: verify each claim with at least one reputable source (government, university, encyclopaedia, major museum). Note sources in LOG.md.
@@ -52,7 +52,8 @@ If a topic fails any one of these, pick another. Note in LOG.md for each video o
 ## Posting
 - Schedule through Metricool `createScheduledPost` with all four providers in one post: facebook type REEL (+ title), instagram type REEL, tiktok (title, PUBLIC_TO_EVERYONE), youtube type short (title with #shorts, category EDUCATION or SCIENCE_TECHNOLOGY, tags).
 - **Post time: 10:00 am Australia/Sydney, every day (Bidhan's choice 2026-11-20).** = 6 pm US Eastern / 3 pm US Pacific (prime time in the highest-paying market) and the top hour for TikTok, Instagram and Facebook in Metricool's best-time data; UK/Europe catch it next morning; India (low pay per view) is asleep — accepted trade-off. Re-check weekly with `getBestTimeToPostByNetwork` and the account's own analytics; if the data clearly favours another slot, propose the change to Bidhan in the run message rather than switching silently.
-- Caption: curiosity line + 1 emoji + 5–8 hashtags (mix broad and specific, always #howonearth).
+- Caption: open with a QUESTION or 'guess' line (Instagram comments were the best signal on video 001) + 1 emoji + the key number + 5–6 hashtags (2 broad, 3 specific, always #howonearth). Titles use the searchable phrase people type ("How was Hoover Dam built"), not just a teaser.
+- firstCommentText (Instagram/Facebook): one engagement question, e.g. "Which mega-build should we explain next? 👇" — comment topics feed LOG/topic ideas.
 
 ## Money plan (US$500/month target)
 1. **Facebook Content Monetization** (Australia eligible, invite-only) — usually the first real payout for this niche.
@@ -76,3 +77,16 @@ If a topic fails any one of these, pick another. Note in LOG.md for each video o
   - No fade from/to black at the start or end — start on a full, bright, busy frame; use cross-cuts or colour wipes between scenes.
   - After rendering, check: for the first, middle and last frame, measure the mean brightness and variance of the top 150 px and bottom 150 px strips (e.g. with numpy/PIL); if a strip is near-uniform (std dev < 6) or very dark (mean < 25), fix the scene before posting.
 - Facebook also showed "Low 20-second view rate" on video 001: the first 3 seconds must show the most striking image + a bold claim, with the first visual change within 1.5 s.
+
+## Strategy review 2026-11-20 (first analytics, video 001 at ~18 h)
+Data: Instagram 312 views / 260 reach, 3-s view rate 65% (skip 35%), avg watch 23.8 s, 8 likes, 4 comments, 1 save, 0 shares. Facebook 103 views (Metricool), avg watch 15 s, ~58% gone by 3 s (Bidhan's screenshot). TikTok 7 views, 3 likes, 1 comment, 2 shares (new account — almost no distribution yet). YouTube: no analytics yet (Windsor returns no rows for the first 48 h; Metricool's YouTube video metrics are deprecated — use Windsor `youtube`).
+What changes (v2, applied from video 002):
+1. **Hooks** — the biggest leak (35–58% gone in 3 s). Frame 1 = the subject + a ≤6-word claim in huge type ending in "?!"; voice starts at 0.0 s (leading silence trimmed in tts2.py); first cut/punch-in by 1.3 s; open loop ("the fix is still hidden inside") in the second line.
+2. **Length** — keep 61–75 s for monetisation, but aim 65–72 s and ≤ ~200 words at voice speed 1.08; tight 0.25 s gaps between lines; end card ≤2.3 s.
+3. **Visual style** — new engine (pipeline/engine.py): procedural textures on every surface (sky, rock, water, concrete, terrain), camera push-ins and cuts every 2–3 s, particles (steam, sparks, flow), thermal/x-ray views, counters that tick up, colour-wipe transitions (never black), kinetic captions with gold keywords. Edge-band check is automated (pipeline/check_edges.py) and must PASS.
+4. **Sound** — pipeline/audio2.py: driving 100-bpm synth bed ducked under the voice + whoosh/boom/tick/thunk/crack SFX on every cut and counter.
+5. **Topics** — every topic must have ONE repeatable shock number for the hook (125 years, 726 ft…). US icons first for pay; alternate natural wonder / mega-build.
+6. **Captions & hashtags** — question-led caption, 5–6 hashtags, searchable titles, an engagement question as first comment.
+7. **Posting time** — 10:00 Sydney adopted. Compare after 7 posts (2026-11-27) using per-post views at 24 h.
+8. **Money plan** — unchanged order; realistic note: no meaningful payout before ~1–3 months. Instagram has no direct payout in Australia → use it for growth and sponsor proof. Start the weekly YouTube long-form compilation once 8 shorts exist (~2026-11-27).
+9. **Style test** — odd = hybrid (real CC/PD imagery + animation), even = pure animation; compare on 2026-12-04.
