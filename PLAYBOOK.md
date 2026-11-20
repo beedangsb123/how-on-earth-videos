@@ -102,3 +102,12 @@ What changes (v2, applied from video 002):
 7. **Posting time** — 10:00 Sydney adopted. Compare after 7 posts (2026-11-27) using per-post views at 24 h.
 8. **Money plan** — unchanged order; realistic note: no meaningful payout before ~1–3 months. Instagram has no direct payout in Australia → use it for growth and sponsor proof. Start the weekly YouTube long-form compilation once 8 shorts exist (~2026-11-27).
 9. **Style test** — CANCELLED 2026-11-20 by Bidhan's feedback on 002: real imagery + globe zoom is now the standard for every video (see section above).
+
+## Anti-"AI slop" rules (2026-11-20) — protects monetisation (YouTube inauthentic-content policy, TikTok originality filter, Meta originality)
+- Never let two videos in a row share the same structure. Rotate formats: (a) classic "how it formed/was built" explainer, (b) "3 things you didn't know about X", (c) myth vs fact, (d) timeline "from nothing to now in 60 s", (e) scale comparison ("if Uluru were in Sydney…"), (f) "engineer's take" — one specific engineering/geology insight explained properly (loads, materials, erosion rates, construction method).
+- Every video must contain at least one specific, checkable detail that generic AI fact-pages don't have (a number, a method, a named process, a primary source), and show a small on-screen source line.
+- Rotate voices, music key/tempo, colour accents and opening shot type; never reuse a sentence or hook phrasing from LOG.md.
+- Only 1 video per day maximum. Quality over quantity — skip a day rather than post something weak or unverified.
+- Prefer real imagery (public domain / CC) plus our own diagrams over purely synthetic visuals; never generate fake "realistic" footage of real places or events.
+- Keep AI-content labels on; honesty is safer than being caught undisclosed.
+- If Bidhan records his own voiceover for a script, always prefer his voice over TTS.
