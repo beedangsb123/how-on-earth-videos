@@ -61,9 +61,9 @@ class Globe:
         rho2 = x * x + y * y; inside = rho2 <= 1.0
         out = self.space.copy()
         if inside.any():
-            xi, yi = x[inside], y[inside]; z = np.sqrt(1 - xi * xi - yi * yi)
+            xi, yi = x[inside], y[inside]; z = np.sqrt(np.clip(1 - xi * xi - yi * yi, 0, 1))
             p0, l0 = math.radians(lat0), math.radians(lon0)
-            lat = np.arcsin(z * math.sin(p0) + yi * math.cos(p0))
+            lat = np.arcsin(np.clip(z * math.sin(p0) + yi * math.cos(p0), -1, 1))
             lon = l0 + np.arctan2(xi, z * math.cos(p0) - yi * math.sin(p0))
             u = ((lon / (2 * math.pi) + 0.5) % 1.0) * (self.tw - 1)
             v = (0.5 - lat / math.pi) * (self.th - 1)
