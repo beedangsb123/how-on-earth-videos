@@ -57,7 +57,7 @@ Reference build: `pipeline/render_002b.py` (Hoover Dam remake: real aerials + NA
 ## Respect & policy
 - Indigenous sacred sites (e.g. Uluṟu, Kata Tjuṯa): distant silhouettes only, no close-up rock features of sensitive sites, acknowledge Traditional Owners.
 - No copyrighted footage, characters, logos, music. No real people's likeness. No photos of public figures.
-- Always set AI-content labels (tiktok isAigc, instagram isAiGenerated, youtube isAiGeneratedContent). YouTube madeForKids = false.
+- AI-content labels OFF (Bidhan's decision 2026-11-20: educational videos, no one impersonated): tiktok isAigc=false, instagram isAiGenerated=false, youtube isAiGeneratedContent=false. YouTube madeForKids = false. Never depict real people or make realistic fake events/footage; if a video ever does, ask Bidhan before posting.
 - Family-friendly, no gore, no disaster-exploitation.
 
 ## Posting
