@@ -5,6 +5,11 @@ Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Faceboo
 
 ## Channel mission (Bidhan's own words, 2026-11-20)
 Bidhan is a civil engineer who has always been fascinated by how things work — big designs, big buildings — and equally by geography and geology: how natural landscapes came about. He believes people are more interested in the **HOW** than the what/why. The channel should become a platform for like-minded, curious people. "Nothing fancy" — daily, educational, accurate. Every video must answer a clear "how did this come about / how does this work" question, about either a natural landscape or a great human-made structure. Entertainment hooks serve the education, never replace it.
+**Topic filter (Bidhan, 2026-11-20): a topic is used ONLY if it passes all three:**
+1. **Viral-friendly** — a famous or visually stunning subject most people recognise, with a surprising "wait, what?" fact that works as a 1.5 s hook and makes people share or comment.
+2. **Good for monetisation** — appeals to high-value audiences (US/UK/AU/CA adults), fits the 61–75 s format, and links naturally to sponsors/affiliates (travel and tours, learning apps, STEM kits, tools, documentaries).
+3. **Ad-friendly** — brand-safe: no disasters with deaths as the focus, no war, politics, religion disputes, tragedy, gore or controversy; family-friendly wording.
+If a topic fails any one of these, pick another. Note in LOG.md for each video one line on why it passed.
 
 ## Accounts
 - Metricool brand: blogId `8221611`, timezone Australia/Sydney. Connected: facebook (How On Earth Page), instagram (@howonearth2026), tiktok (@how.on.earth7, display name How On Earth 🌍, personal account — keep personal for Creator Rewards), youtube.
