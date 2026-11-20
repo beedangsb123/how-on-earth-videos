@@ -3,6 +3,9 @@
 Faceless short-video channel: **natural wonders and mega-builds, and how they came to be.**
 Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Facebook, YouTube.
 
+## Channel mission (Bidhan's own words, 2026-11-20)
+Bidhan is a civil engineer who has always been fascinated by how things work — big designs, big buildings — and equally by geography and geology: how natural landscapes came about. He believes people are more interested in the **HOW** than the what/why. The channel should become a platform for like-minded, curious people. "Nothing fancy" — daily, educational, accurate. Every video must answer a clear "how did this come about / how does this work" question, about either a natural landscape or a great human-made structure. Entertainment hooks serve the education, never replace it.
+
 ## Accounts
 - Metricool brand: blogId `8221611`, timezone Australia/Sydney. Connected: facebook (How On Earth Page), instagram (@howonearth2026), tiktok (@how.on.earth7, display name How On Earth 🌍, personal account — keep personal for Creator Rewards), youtube.
 - Public profile links: TikTok https://www.tiktok.com/@how.on.earth7 · Instagram https://www.instagram.com/howonearth2026/ · Facebook https://www.facebook.com/1474038465792135 · YouTube https://www.youtube.com/channel/UCQu7zgxaFBgygTYHq_LLMew
