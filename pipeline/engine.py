@@ -150,11 +150,75 @@ def label(c, s, y, t, x=W / 2, size=46, bg=GOLD, fg=NAVY):
     text(c, s, 0, size * 0.36, size, col=fg, alpha=a); c.restore()
 
 
-def badge(c):
+def mini_globe(c, cx, cy, r, t=0.0):
+    """small drawn Earth icon: ocean gradient, stylised continents, grid lines, gold orbit"""
     c.save()
-    w = text_w(c, "HOW ON EARTH?", 36) + 40
-    c.set_source_rgba(*NAVY, 0.55); rrect(c, W / 2 - w / 2, 196, w, 58, 29); c.fill()
-    text(c, "HOW ON EARTH?", W / 2, 238, 36, col=GOLD); c.restore()
+    g = cairo.RadialGradient(cx - r * 0.35, cy - r * 0.35, r * 0.1, cx, cy, r)
+    g.add_color_stop_rgb(0, *hexc("7FD3FF")); g.add_color_stop_rgb(0.6, *hexc("2A7DD1")); g.add_color_stop_rgb(1, *hexc("103E85"))
+    c.arc(cx, cy, r, 0, 2 * math.pi); c.set_source(g); c.fill_preserve(); c.clip()
+    off = (t * 0.25 % 1.0) * 2 * r  # continents drift slowly = spinning globe
+    c.set_source_rgb(*hexc("4CB963"))
+    for dx in (-2 * r, 0, 2 * r):
+        x0 = cx - r + off + dx
+        for (px, py, rx, ry) in ((0.35, -0.35, 0.35, 0.28), (0.55, 0.25, 0.22, 0.38), (1.25, -0.15, 0.32, 0.25), (1.45, 0.4, 0.15, 0.14)):
+            c.save(); c.translate(x0 + px * r, cy + py * r); c.scale(rx * r, ry * r); c.arc(0, 0, 1, 0, 2 * math.pi); c.restore(); c.fill()
+    c.set_source_rgba(1, 1, 1, 0.35); c.set_line_width(max(1, r * 0.06))
+    for k in (-0.5, 0, 0.5):
+        c.save(); c.translate(cx, cy + k * r); c.scale(1, 0.18); c.arc(0, 0, r * math.sqrt(1 - k * k), 0, 2 * math.pi); c.restore(); c.stroke()
+    c.save(); c.translate(cx, cy); c.scale(0.45, 1); c.arc(0, 0, r, 0, 2 * math.pi); c.restore(); c.stroke()
+    hl = cairo.RadialGradient(cx - r * 0.4, cy - r * 0.45, 0, cx - r * 0.4, cy - r * 0.45, r * 0.7)
+    hl.add_color_stop_rgba(0, 1, 1, 1, 0.55); hl.add_color_stop_rgba(1, 1, 1, 1, 0)
+    c.set_source(hl); c.paint()
+    c.restore()
+    c.save(); c.translate(cx, cy); c.rotate(-0.35); c.scale(1.45, 0.42)
+    c.arc(0, 0, r, math.pi * 0.95, math.pi * 2.05); c.restore()
+    c.set_source_rgba(*GOLD, 1); c.set_line_width(max(2, r * 0.13)); c.set_line_cap(cairo.LINE_CAP_ROUND); c.stroke()
+    a = t * 2.2; c.set_source_rgba(1, 0.97, 0.8, 1)
+    c.arc(cx + math.cos(a) * r * 1.45 * math.cos(-0.35) - math.sin(a) * r * 0.42 * math.sin(-0.35),
+          cy + math.cos(a) * r * 1.45 * math.sin(-0.35) + math.sin(a) * r * 0.42 * math.cos(-0.35), r * 0.12, 0, 2 * math.pi); c.fill()
+
+
+def badge(c, t=0.0, y=190):
+    """channel badge v2 (Bidhan 2026-11-20: 'make the icon more attractive'): glossy navy pill, gold gradient rim,
+    spinning mini-globe with orbit, HOW ON (white) EARTH? (gold), light sweep every 4 s"""
+    c.save()
+    size = 38; h = 70
+    tw = text_w(c, "HOW ON ", size); tw2 = text_w(c, "EARTH?", size)
+    w = 70 + tw + tw2 + 34; x = W / 2 - w / 2
+    c.set_source_rgba(0, 0, 0, 0.35); rrect(c, x + 3, y + 6, w, h, h / 2); c.fill()
+    g = cairo.LinearGradient(0, y, 0, y + h); g.add_color_stop_rgba(0, *hexc("26407F"), 0.92); g.add_color_stop_rgba(1, *NAVY, 0.92)
+    rrect(c, x, y, w, h, h / 2); c.set_source(g); c.fill()
+    rim = cairo.LinearGradient(x, 0, x + w, 0)
+    rim.add_color_stop_rgb(0, *hexc("FFE29A")); rim.add_color_stop_rgb(0.5, *ORANGE); rim.add_color_stop_rgb(1, *hexc("FFE29A"))
+    rrect(c, x + 2, y + 2, w - 4, h - 4, h / 2 - 2); c.set_source(rim); c.set_line_width(4); c.stroke()
+    gl = cairo.LinearGradient(0, y, 0, y + h / 2); gl.add_color_stop_rgba(0, 1, 1, 1, 0.22); gl.add_color_stop_rgba(1, 1, 1, 1, 0)
+    rrect(c, x + 6, y + 5, w - 12, h / 2 - 4, h / 4); c.set_source(gl); c.fill()
+    ph = (t % 4.0) / 0.8
+    if ph < 1:
+        sx = x + ph * (w + 120) - 60
+        c.save(); rrect(c, x, y, w, h, h / 2); c.clip()
+        sg = cairo.LinearGradient(sx - 40, 0, sx + 40, 0)
+        sg.add_color_stop_rgba(0, 1, 1, 1, 0); sg.add_color_stop_rgba(0.5, 1, 1, 1, 0.45); sg.add_color_stop_rgba(1, 1, 1, 1, 0)
+        c.set_source(sg); c.paint(); c.restore()
+    mini_globe(c, x + 40, y + h / 2, 22, t)
+    tx = x + 76; ty = y + h / 2 + size * 0.36
+    text(c, "HOW ON ", tx, ty, size, col=WHITE, align="left", stroke=4)
+    text(c, "EARTH?", tx + tw, ty, size, col=GOLD, align="left", stroke=4)
+    c.restore()
+
+
+def end_card_logo(c, t, cx, cy, r, logo):
+    """end-card logo v2: glowing pulsing halo, rotating gold arcs, logo pops in"""
+    k = back(t / 0.45)
+    for i in range(6, 0, -1):
+        c.set_source_rgba(*GOLD, 0.05 * (1 + 0.3 * math.sin(t * 5))); c.arc(cx, cy, r * k + i * 14, 0, 2 * math.pi); c.fill()
+    c.save(); c.translate(cx, cy); c.rotate(t * 1.4); c.set_line_cap(cairo.LINE_CAP_ROUND)
+    for j in range(3):
+        c.arc(0, 0, r * k + 26, j * 2.09, j * 2.09 + 1.2); c.set_source_rgba(*GOLD, 0.95); c.set_line_width(8); c.stroke()
+    c.restore()
+    c.save(); s = r * k / 540; c.translate(cx - 540 * s, cy - 540 * s); c.scale(s, s)
+    c.arc(540, 540, 540, 0, 2 * math.pi); c.clip(); c.set_source_surface(logo, 0, 0); c.paint(); c.restore()
+    c.set_source_rgba(1, 1, 1, 0.9); c.set_line_width(6); c.arc(cx, cy, r * k, 0, 2 * math.pi); c.stroke()
 
 
 # ---------------- captions ----------------

@@ -33,6 +33,7 @@ Video 002 (pure animation) "doesn't sound interesting and doesn't have any stock
 4. **Sound interesting**: script as a story — shock-number hook → the PROBLEM (stakes) → why it seemed impossible → the clever HOW → payoff twist → loop line. Short punchy sentences, "you" framing, vivid comparisons, a "wait, what?" every ~15 s. Cut flat linking lines.
 5. Hook shot = the most striking image of the subject (real photo if available) + ≤6-word claim.
 6. Never send Bidhan the video file — text-only summary.
+7. **Channel badge v2** (Bidhan: "make the How On Earth icon more attractive"): use `badge(c, t)` from engine.py (glossy navy pill, gold rim, spinning mini-globe with orbit, HOW ON white + EARTH? gold, light sweep every 4 s; pass the global time so it animates) and `end_card_logo()` for the end card (pulsing halo + rotating gold arcs). Keep improving it if it still looks plain.
 Reference build: `pipeline/render_002b.py` (Hoover Dam remake: real aerials + NARA/USBR archival photos with sepia/grain, globe zoom, thermal-camera tint on photos, globe route SF→NY).
 
 ## Making it NOT boring (quality bar — every video must beat the last)

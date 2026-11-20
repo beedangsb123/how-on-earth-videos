@@ -246,10 +246,7 @@ def s10(c, t, d):
     if BLUR is None:
         BLUR = np.asarray(Image.fromarray(finish(AER.kb(0, 1.0, 1.0, (0.52, 0.42)), 0)).filter(ImageFilter.GaussianBlur(10)), np.float32)
     to_ctx(c, (BLUR * 0.75).astype(np.uint8))
-    k = back(t / 0.4)
-    c.save(); s = 0.56 * k; c.translate(W / 2 - 540 * s, 360); c.scale(s, s)
-    c.arc(540, 540, 540, 0, 2 * math.pi); c.clip(); c.set_source_surface(R2.LOGO, 0, 0); c.paint(); c.restore()
-    c.set_source_rgba(*GOLD, 1); c.set_line_width(10); c.arc(W / 2, 360 + 540 * 0.56 * k, 540 * 0.56 * k, 0, 2 * math.pi); c.stroke()
+    end_card_logo(c, t, W / 2, 660, 290, R2.LOGO)
     pop_text(c, "FOLLOW", W / 2, 1150, 130, t, col=GOLD, stroke=14)
     text(c, "a new wonder every day", W / 2, 1240, 54, col=WHITE, stroke=8, alpha=ease(t / 0.4))
 
@@ -267,7 +264,7 @@ def frame(c, gt):
     SCENES[i](c, t, d)
     c.restore()
     if i < len(SCENES) - 1:
-        badge(c); captions(c, meta[i]["cap"], meta[i]["dur"], t)
+        badge(c, gt); captions(c, meta[i]["cap"], meta[i]["dur"], t)
     if i > 0: wipe(c, t, col=GOLD if i % 2 else ORANGE)
 
 
