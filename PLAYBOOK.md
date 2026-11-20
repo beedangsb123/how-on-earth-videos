@@ -25,6 +25,14 @@ If a topic fails any one of these, pick another. Note in LOG.md for each video o
 - Burnt-in captions in the safe zone: y≈1300–1500, max width 860 px. Keep anything important out of: top 180 px, bottom 400 px, right 160 px (platform UI).
 - Brand: night-to-dawn palette — navy #0B1026, #1B2B5C, blue #3E5C9A, orange #F28C38, gold #FFC857. Poppins Bold (Montserrat for ṉ ṟ ṯ). Small "HOW ON EARTH?" badge top. End card with logo + "FOLLOW".
 
+## Bidhan's feedback on video 002 (2026-11-20) — MANDATORY from video 003
+Video 002 (pure animation, Hoover Dam) "doesn't sound interesting and doesn't have any stock images or real-world videos". He wants a globe/map that shows WHERE the place is and zooms in from Earth. "Do better than this."
+1. **Real imagery is the main visual in EVERY video** (the pure-animation style is retired; the style test is cancelled). At least ~60% of screen time is real photos/footage of the actual place or structure, with slow Ken Burns push/pan, and our animated arrows, labels, counters, cross-sections and x-rays layered on top. Use `pipeline/fetch_media.py` (Wikimedia Commons PD/CC0/CC BY/CC BY-SA only + NASA images, both tested working 2026-11-20). Look for real footage too: Commons has public-domain archival films and webm clips (e.g. "The Story of Hoover Dam", USDOI, PD). Cut 2–6 s segments with ffmpeg. Credit CC BY/BY-SA authors in the caption.
+2. **Globe zoom in the first ~5 s**: right after the 1.5 s hook shot, spin a realistic Earth (`pipeline/globe.py`, NASA Blue Marble, PD) to the location, zoom in, then `handoff()` iris-reveals a real aerial photo of the place, with a pin + place-name label ("BLACK CANYON · NEVADA/ARIZONA, USA"). Can also return mid-video for "how big is it" comparisons.
+3. **Sound interesting**: write the script as a story — a hook with a shock number → the PROBLEM (stakes) → why it seemed impossible → the clever HOW (step by step) → a payoff twist → a loop line. Short punchy sentences, "you" framing, vivid comparisons people can picture, at least one "wait, what?" per 15 s. Cut flat linking lines ("Then came…", "So they…"). Audition 2–3 kokoro voices/speeds (am_michael, am_fenrir, am_puck, am_onyx…) on the hook line and use the most energetic, natural one; music with more energy and rises into the reveals.
+4. Hook shot = the most striking REAL image of the subject + ≤6-word claim, not a drawing.
+5. Never send Bidhan the video file (repeat of his standing rule) — text-only summary.
+
 ## Making it NOT boring (quality bar — every video must beat the last)
 1. **Hook in the first 1.5 s**: a bold on-screen claim + matching first spoken line (e.g. "This bridge grows 18 cm every summer"). First frame must already show the subject and hook text (it is the thumbnail).
 2. **Visual change every 2–3 s**: cuts, camera push-ins/pans (animate scale/translate), reveals, x-ray cross-sections, before/after splits, counters ticking up, map zooms.
@@ -89,4 +97,4 @@ What changes (v2, applied from video 002):
 6. **Captions & hashtags** — question-led caption, 5–6 hashtags, searchable titles, an engagement question as first comment.
 7. **Posting time** — 10:00 Sydney adopted. Compare after 7 posts (2026-11-27) using per-post views at 24 h.
 8. **Money plan** — unchanged order; realistic note: no meaningful payout before ~1–3 months. Instagram has no direct payout in Australia → use it for growth and sponsor proof. Start the weekly YouTube long-form compilation once 8 shorts exist (~2026-11-27).
-9. **Style test** — odd = hybrid (real CC/PD imagery + animation), even = pure animation; compare on 2026-12-04.
+9. **Style test** — CANCELLED 2026-11-20 by Bidhan's feedback on 002: real imagery + globe zoom is now the standard for every video (see section above).
