@@ -34,7 +34,7 @@ Video 002 (pure animation) "doesn't sound interesting and doesn't have any stock
 5. Hook shot = the most striking image of the subject (real photo if available) + ≤6-word claim.
 6. Never send Bidhan the video file — text-only summary.
 7. **Channel badge v2** (Bidhan: "make the How On Earth icon more attractive"): use `badge(c, t)` from engine.py (glossy navy pill, gold rim, spinning mini-globe with orbit, HOW ON white + EARTH? gold, light sweep every 4 s; pass the global time so it animates) and `end_card_logo()` for the end card (pulsing halo + rotating gold arcs). Keep improving it if it still looks plain.
-Reference build: `pipeline/render_002b.py` (Hoover Dam remake: real aerials + NARA/USBR archival photos with sepia/grain, globe zoom, thermal-camera tint on photos, globe route SF→NY).
+Reference builds: `pipeline/render_003.py` (Old Faithful: real footage via `clips.py`, photos via `photo.py`, animated cross-section, two-host speaker captions, `source_tag`, audio2 args `pad transpose bpm`); `pipeline/render_002b.py` (Hoover Dam remake: real aerials + NARA/USBR archival photos with sepia/grain, globe zoom, thermal-camera tint on photos, globe route SF→NY).
 
 ## Making it NOT boring (quality bar — every video must beat the last)
 1. **Hook in the first 1.5 s**: a bold on-screen claim + matching first spoken line (e.g. "This bridge grows 18 cm every summer"). First frame must already show the subject and hook text (it is the thumbnail).
@@ -109,5 +109,5 @@ What changes (v2, applied from video 002):
 - Rotate voices, music key/tempo, colour accents and opening shot type; never reuse a sentence or hook phrasing from LOG.md.
 - Only 1 video per day maximum. Quality over quantity — skip a day rather than post something weak or unverified.
 - Prefer real imagery (public domain / CC) plus our own diagrams over purely synthetic visuals; never generate fake "realistic" footage of real places or events.
-- Keep AI-content labels on; honesty is safer than being caught undisclosed.
+- AI-content labels: OFF per Bidhan's 2026-11-20 decision (see Respect & policy) — never depict real people or fake realistic events, so nothing needs a synthetic-media label.
 - If Bidhan records his own voiceover for a script, always prefer his voice over TTS.
