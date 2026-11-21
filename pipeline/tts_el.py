@@ -7,7 +7,7 @@ Same script format as tts2.py: {"lines": [[spoken, caption, speaker "M"/"F", emo
    audio2.py with pad 0.
 API key: env ELEVENLABS_API_KEY or /home/claude/.elevenlabs_key (NEVER commit the key: this repo is public).
 Falls back with exit code 2 if the API fails or credits are too low -> then use tts2.py (kokoro).
-usage: python tts_el.py script.json"""
+usage: python tts_el.py script.json [--reuse]   (--reuse re-cuts the saved dialogue.json without spending credits)"""
 import json, sys, os, base64, subprocess, numpy as np, soundfile as sf
 
 VOICES = {"M": "iP95p4xoKVk53GoZ742B",   # Chris — Charming, Down-to-Earth (male, American)
@@ -33,6 +33,24 @@ def call(path, body=None, out=None):
     return json.loads(data)
 
 
+def tighten(x, sr, max_gap=0.32, tail=0.22, thr=0.006):
+    """shorten silences inside a line to max_gap and the trailing pause to tail (v3 tends to leave long gaps)"""
+    win = int(0.02 * sr); n = len(x) // win
+    if n < 3: return x
+    e = np.sqrt((x[:n * win].reshape(n, win) ** 2).mean(1)); loud = e > thr
+    out = []; i = 0
+    while i < n:
+        j = i
+        while j < n and loud[j] == loud[i]: j += 1
+        chunk = x[i * win:j * win]
+        if not loud[i]:
+            keep = int((tail if j == n else max_gap) * sr)
+            if i == 0: keep = min(keep, int(0.05 * sr))
+            if len(chunk) > keep: chunk = np.concatenate([chunk[:keep // 2], chunk[-(keep - keep // 2):]]) if keep > 0 else chunk[:0]
+        out.append(chunk); i = j
+    out.append(x[n * win:]); return np.concatenate(out)
+
+
 def credits_left():
     s = call("/user/subscription"); return s["character_limit"] - s["character_count"]
 
@@ -45,10 +63,14 @@ if __name__ == "__main__":
         spoken, spk = line[0], line[2]; emo = line[3] if len(line) > 3 else "neutral"
         tag = TAGS.get(emo, "") if isinstance(emo, str) else ""
         inputs.append({"text": spoken if spoken.lstrip().startswith("[") or not tag else f"{tag} {spoken}", "voice_id": V[spk]})
-    need = sum(len(i["text"]) for i in inputs); left = credits_left()
-    print("characters", need, "credits left", left)
-    if left < need + 500: print("not enough ElevenLabs credits", file=sys.stderr); sys.exit(2)
-    d = call("/text-to-dialogue/with-timestamps?output_format=mp3_44100_128", {"model_id": "eleven_v3", "inputs": inputs})
+    need = sum(len(i["text"]) for i in inputs)
+    if "--reuse" not in sys.argv:
+        left = credits_left(); print("characters", need, "credits left", left)
+        if left < need + 500: print("not enough ElevenLabs credits", file=sys.stderr); sys.exit(2)
+    if os.path.exists("dialogue.json") and "--reuse" in sys.argv: d = json.load(open("dialogue.json"))
+    else:
+        d = call("/text-to-dialogue/with-timestamps?output_format=mp3_44100_128", {"model_id": "eleven_v3", "inputs": inputs})
+        json.dump(d, open("dialogue.json", "w"))
     open("dialogue.mp3", "wb").write(base64.b64decode(d["audio_base64"]))
     subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "dialogue.mp3", "-ac", "1", "-ar", "44100", "dialogue.wav"])
     a, sr = sf.read("dialogue.wav")
@@ -63,8 +85,7 @@ if __name__ == "__main__":
     meta = []
     for i, line in enumerate(S["lines"]):
         x = a[int(starts[i] * sr):int(ends[i] * sr)]
-        if i == 0:  # hook starts at 0.0 s
-            nz = np.where(np.abs(x) > 0.01)[0]; x = x[max(0, nz[0] - 200):] if len(nz) else x
+        x = tighten(x, sr)
         sf.write(f"l{i}.wav", x, sr)
         meta.append({"text": line[0], "cap": line[1], "dur": len(x) / sr, "sr": sr, "speaker": line[2],
                      "emotion": line[3] if len(line) > 3 else "neutral", "speech_end": seg[i][1] - starts[i]})
