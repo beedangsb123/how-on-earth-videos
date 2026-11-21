@@ -54,6 +54,20 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
    ("Wait — a CAVE?!"), line 3 opens the loop. The hook frame shows the shocking thing itself (photo + drawn overlay,
    e.g. an x-ray cut-away revealing the cave), with ≤6 words of on-screen text.
 
+## VOICES = ElevenLabs (Bidhan 2026-11-21, Starter plan, 40,000 characters/month ≈ 1 video/day)
+- Default engine: `pipeline/tts_el.py` (ElevenLabs Text-to-Dialogue, model eleven_v3) — the whole conversation in ONE call,
+  so turn-taking and question intonation sound natural. Pair A chosen by Bidhan: **M = Chris** (iP95p4xoKVk53GoZ742B,
+  charming, down-to-earth) and **F = Jessica** (cgSgspJ2msm6clMCkdW9, playful, bright, warm). Same script JSON as tts2;
+  the emotion preset becomes a v3 audio tag ([excited], [curious], [surprised], [amazed], [playful]); you may also
+  put tags inside the text ("[laughs]", "[whispers]") — sparingly, max ~4 per video.
+- tts_el.py cuts the dialogue into l{i}.wav WITH the natural pause after each line, so render with PAD = 0 and run
+  `audio2.py 0 <transpose> <bpm>`.
+- Keep each script ≤ ~1,100 characters (credits). tts_el.py checks credits first; if the API fails or credits are
+  low (exit code 2), fall back to tts2.py (kokoro) and tell Bidhan.
+- The API key is in the daily task's private instructions → write it to /home/claude/.elevenlabs_key (chmod 600).
+  NEVER commit it, print it, or put it in any file in this repo (the repo is public).
+- api.elevenlabs.io is on the network allowlist (added by Bidhan 2026-11-21).
+
 ## Bidhan's review of the 003 remake (2026-11-21) — mandatory
 1. **Questions must SOUND like questions.** kokoro reads "A cave?" flat, like a statement. Until a better voice engine
    is in place: keep questions very short, start them with a question word or "wait/so/really", and in tts2.py raise
