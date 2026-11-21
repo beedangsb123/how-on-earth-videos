@@ -74,6 +74,19 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
   NEVER commit it, print it, or put it in any file in this repo (the repo is public).
 - api.elevenlabs.io is on the network allowlist (added by Bidhan 2026-11-21).
 
+## Emotion must FIT the line (Bidhan 2026-11-22)
+Bidhan likes the dramatic ElevenLabs v3 tone (his reference: the "new Bidhan voice test" clip) but NOT drama
+pasted onto ordinary facts — e.g. "a cave the size of a car" was delivered like a shocking/trolling reveal, which it
+isn't. Rules:
+- Choose each line's emotion from what it actually says. Plain information → `neutral`, `matter_of_fact`, `warm` or
+  `intrigued` (a hint of wonder). Questions → `curious`. Save `excited` / `surprised` / `awe` for 2–3 genuinely
+  surprising beats per video (the biggest reveal, the twist, the payoff) — never on every line, never on the hook by
+  default.
+- The hook should sound intriguing and confident ("here's something you didn't know"), not shouted.
+- Reactions from the other host carry most of the surprise; the explainer stays relaxed and sure of himself.
+- Avoid exclamation marks on lines that aren't truly exciting (v3 exaggerates them).
+- Keep the v3 conversation mode and default settings (Bidhan liked them); no speed-up of his voice.
+
 ## Bidhan's review of the 003 remake (2026-11-21) — mandatory
 1. **Questions must SOUND like questions.** kokoro reads "A cave?" flat, like a statement. Until a better voice engine
    is in place: keep questions very short, start them with a question word or "wait/so/really", and in tts2.py raise

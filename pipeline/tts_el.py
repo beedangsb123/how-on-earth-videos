@@ -13,7 +13,9 @@ import json, sys, os, base64, subprocess, numpy as np, soundfile as sf
 VOICES = {"M": "LERny3t2s1OQcjLCatHn",   # "Bidhan" — Bidhan's own voice (replaced 2026-11-22; looked up by name at run time)
           "F": "cgSgspJ2msm6clMCkdW9"}   # Jessica — Playful, Bright, Warm (female, American)
 TAGS = {"urgent": "[excited]", "excited": "[excited]", "surprised": "[surprised]", "curious": "[curious]",
-        "awe": "[amazed]", "playful": "[playful]", "serious": "[serious]", "neutral": ""}
+        "awe": "[amazed]", "playful": "[playful]", "serious": "[serious]", "neutral": "",
+        # calmer, content-fitting options (Bidhan 2026-11-22: drama must fit what is said)
+        "intrigued": "[intrigued]", "matter_of_fact": "[matter-of-fact]", "warm": "[warmly]", "thoughtful": "[thoughtfully]"}
 API = "https://api.elevenlabs.io/v1"
 
 
