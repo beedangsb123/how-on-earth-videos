@@ -29,12 +29,30 @@ If a topic fails any one of these, pick another. Note in LOG.md for each video o
 Video 002 (pure animation) "doesn't sound interesting and doesn't have any stock images or real-world videos". Do better.
 1. **Real photos/footage are the PREFERENCE (not mandatory).** Where good free-licence material exists, make it the main visual (Ken Burns motion) with our animated labels, arrows, counters, cross-sections and x-rays on top; use animation for what no photo can show (inside a structure, deep time, processes). Find media with `pipeline/fetch_media.py` (Wikimedia Commons PD/CC0/CC BY/CC BY-SA + NASA). US-government archives (NARA, USBR, NPS, NASA) are public domain and full of construction photos. Avoid close-up faces, logos and Indigenous sacred-site close-ups. Credit CC BY/BY-SA authors in the caption.
 2. **Globe zoom = a suggestion, not a rule.** Use `pipeline/globe.py` (spin + zoom from space, `handoff()` iris into a real aerial photo, `project()`-style lat/lon overlays for routes/comparisons) when it looks cool and helps show WHERE or HOW BIG — skip it when it doesn't.
-3. **Voices: a MAN and a WOMAN in every video, as a conversation** (Bidhan 2026-11-21; replaces "one voice, alternating"). Two hosts trading lines: one asks/reacts ("Wait — a hundred and twenty-five years?"), the other explains; quick back-and-forth in the hook and at the reveals, longer explaining lines in between. Natural, lively, friendly — like two curious friends, not a lecture. Alternate who opens the video each day. Use `tts2.py` two-voice mode ("voices": {"M": …, "F": …} + speaker per line). Defaults: man am_michael (or am_fenrir/am_puck if livelier), woman af_heart (or af_bella). Captions: tint or tag per speaker (e.g. woman's lines with a small gold dot, man's with a blue dot) so viewers can follow. Keep gaps between speakers short (0.1–0.2 s) so it feels like a real conversation.
+3. **Voices: a MAN and a WOMAN in every video, as a conversation** (Bidhan 2026-11-21; replaces "one voice, alternating"). Two hosts trading lines: one asks/reacts ("Wait — a hundred and twenty-five years?"), the other explains; quick back-and-forth in the hook and at the reveals, longer explaining lines in between. Natural, lively, friendly — like two curious friends, not a lecture. Alternate who opens the video each day. Use `tts2.py` two-voice mode ("voices": {"M": …, "F": …} + speaker per line + an emotion preset per line). Defaults: man am_michael (or am_fenrir/am_puck if livelier), woman af_heart (or af_bella). Captions: tint or tag per speaker (e.g. woman's lines with a small gold dot, man's with a blue dot) so viewers can follow. Keep gaps between speakers short (0.1–0.2 s) so it feels like a real conversation.
 4. **Sound interesting**: script as a story — shock-number hook → the PROBLEM (stakes) → why it seemed impossible → the clever HOW → payoff twist → loop line. Short punchy sentences, "you" framing, vivid comparisons, a "wait, what?" every ~15 s. Cut flat linking lines.
 5. Hook shot = the most striking image of the subject (real photo if available) + ≤6-word claim.
 6. **Send Bidhan the finished video file every run** (SendUserFile, his request 2026-11-21) with the summary. It is for his viewing, not approval: still schedule without waiting.
 7. **Channel badge v2** (Bidhan: "make the How On Earth icon more attractive"): use `badge(c, t)` from engine.py (glossy navy pill, gold rim, spinning mini-globe with orbit, HOW ON white + EARTH? gold, light sweep every 4 s; pass the global time so it animates) and `end_card_logo()` for the end card (pulsing halo + rotating gold arcs). Keep improving it if it still looks plain.
 Reference builds: `pipeline/render_003.py` (Old Faithful: real footage via `clips.py`, photos via `photo.py`, animated cross-section, two-host speaker captions, `source_tag`, audio2 args `pad transpose bpm`); `pipeline/render_002b.py` (Hoover Dam remake: real aerials + NARA/USBR archival photos with sepia/grain, globe zoom, thermal-camera tint on photos, globe route SF→NY).
+
+## Bidhan's feedback on video 003 (2026-11-21) — EMOTION + a stronger HOOK (mandatory from video 004)
+Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook didn't land.
+1. **Voices must show emotion — never a flat read.** Give EVERY script line an emotion preset as its 4th element in
+   script_NNN.json (tts2.py v3): `urgent` (the hook), `surprised` ("Wait — WHAT?!"), `excited`, `curious` (questions),
+   `awe` (slow, low: the big reveal), `playful`, `serious`; or a dict {"speed", "pitch", "gain"}. Never more than 2
+   `neutral` lines in a row. Write for emotion too: real reactions and interjections ("No way.", "Hold on —",
+   "That's insane!", "Okay, that's actually terrifying"), exclamation marks, a laugh-line or banter once per video, the
+   asker genuinely stunned at each reveal, the explainer clearly loving the topic. Try livelier voices (am_puck,
+   am_fenrir, af_bella, af_nicole) and pick by listening-proxy: the one whose test lines differ most in pace and pitch.
+2. **Hook = the most shocking concrete thing, instantly visual, no context needed.** A myth/negation ("X has never
+   done Y") needs the viewer to already care, so it is weak. Instead lead with a surprising physical fact, number or
+   danger the first frame can SHOW, with stakes or a "you" angle, e.g. "There's a car-sized cave under this geyser."
+   / "This bridge grows 18 cm every summer." / "You could stand inside this pipe — it carries a whole river."
+   Process every run: write 5 candidate hooks, score each 1–5 on (surprise, visual on frame 1, curiosity gap, ≤9
+   words), use the best, and note the runner-up in LOG.md. Line 2 = the other host's emotional reaction
+   ("Wait — a CAVE?!"), line 3 opens the loop. The hook frame shows the shocking thing itself (photo + drawn overlay,
+   e.g. an x-ray cut-away revealing the cave), with ≤6 words of on-screen text.
 
 ## Making it NOT boring (quality bar — every video must beat the last)
 1. **Hook in the first 1.5 s**: a bold on-screen claim + matching first spoken line (e.g. "This bridge grows 18 cm every summer"). First frame must already show the subject and hook text (it is the thumbnail).

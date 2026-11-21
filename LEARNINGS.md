@@ -27,3 +27,6 @@ Add a dated entry each run after checking Metricool analytics for recent posts: 
   - Do more: question-led captions and a share-worthy myth/number (Instagram shares 0 → 6). Skip rate (33%) is the next lever → 003 opens on the brightest real photo with the hook text already on frame 1, voice at 0.0 s, punch-in + clock at 1.2 s.
   - Video 003 (Old Faithful) = first with real moving footage (clips.py), speaker-coloured caption dots, on-screen source lines, new music key (D minor, 92 bpm). AI labels OFF per Bidhan. 70.8 s, edge check PASS (37 frames).
   - Compare at the 2026-11-27 check: 002b (photos only, one voice) vs 003 (photos + footage, two voices) on 3-s view rate and avg watch time.
+- 2026-11-21 (Bidhan reviewed video 003): "fine", but the voices were too neutral and the hook ("Old Faithful has never erupted on the hour") didn't grab him. → PLAYBOOK "Bidhan's feedback on video 003": an emotion preset on every line (tts2.py v3 adds per-line pitch, tempo and gain), interjections and banter in the script, and a concrete visual shock hook chosen from 5 scored candidates. Myth/negation hooks are out.
+- **ACTION FOR THE NEXT RUN (video 004):** apply PLAYBOOK "Bidhan's feedback on video 003" (emotional delivery + shock-visual hook from 5 scored candidates). Mark DONE once 004 is made this way.
+
