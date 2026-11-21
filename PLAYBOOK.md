@@ -54,6 +54,21 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
    ("Wait — a CAVE?!"), line 3 opens the loop. The hook frame shows the shocking thing itself (photo + drawn overlay,
    e.g. an x-ray cut-away revealing the cave), with ≤6 words of on-screen text.
 
+## Make it sound NATURAL (Bidhan 2026-11-21, applies from video 004)
+Script like two friends talking, not presenters reading:
+- Contractions and everyday words ("it's", "gonna", "basically"); short uneven turns (2–12 words for reactions);
+  small fillers sparingly ("okay so", "hang on", "right?", "huh"); the asker sometimes guesses wrong and is corrected;
+  one light joke or tease per video; the explainer says "I know, right?" when the other is amazed.
+- Interruptions: a reaction may start ~0.15 s before the previous line ends (overlap), e.g. "— wait, a CAVE?".
+- Avoid list-like sentences and written-style clauses ("which", "however", "in addition").
+Mix like one room: varied gaps between turns (0.05–0.45 s, shorter for reactions, longer before a reveal), a soft
+breath before longer lines, light shared room reverb + low room tone under both voices, voices panned very slightly
+apart (M −8 %, F +8 %). Read the whole script aloud in your head as a conversation before generating.
+Voice engine: kokoro stays the default (free, fast). If a more natural open model (e.g. Chatterbox / Dia /
+Orpheus — no paid services) can be installed and renders the full script on CPU in under ~10 min, test it on 2
+lines first and use it only if clearly more natural; otherwise fall back to kokoro. Bidhan's own recorded voice
+always wins if he provides it.
+
 ## Making it NOT boring (quality bar — every video must beat the last)
 1. **Hook in the first 1.5 s**: a bold on-screen claim + matching first spoken line (e.g. "This bridge grows 18 cm every summer"). First frame must already show the subject and hook text (it is the thumbnail).
 2. **Visual change every 2–3 s**: cuts, camera push-ins/pans (animate scale/translate), reveals, x-ray cross-sections, before/after splits, counters ticking up, map zooms.
