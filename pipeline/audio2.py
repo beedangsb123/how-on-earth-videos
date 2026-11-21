@@ -38,7 +38,7 @@ for b in range(int(T / bar) + 1):
     for k in range(16):  # sixteenth arpeggio
         s2 = int((b * bar + k * beat / 4) * SR); e2 = min(N, s2 + int(0.14 * SR)); t2 = t[s2:e2] - (b * bar + k * beat / 4)
         n = ch[[1, 2, 3, 4, 3, 2][k % 6]] + 12
-        music[s2:e2] += 0.07 * np.exp(-t2 * 22) * np.sign(np.sin(2 * np.pi * hz(n) * t2)) * 0.5
+        music[s2:e2] += 0.05 * np.exp(-t2 * 22) * np.sin(2 * np.pi * hz(n) * t2)  # sine, not square (less harsh)
     for k in range(4):  # kick on beats
         s2 = int((b * bar + k * beat) * SR); e2 = min(N, s2 + int(0.2 * SR)); t2 = t[s2:e2] - (b * bar + k * beat)
         music[s2:e2] += 0.45 * np.exp(-t2 * 25) * np.sin(2 * np.pi * (50 + 90 * np.exp(-t2 * 40)) * t2)
@@ -59,10 +59,16 @@ def add(at, a):
 def lp(x, k):  # crude low-pass
     return np.convolve(x, np.ones(k) / k, mode="same")
 L = lambda d: np.arange(int(d * SR)) / SR
-for kind, at in ev["events"]:
+# Bidhan 2026-11-21: the "cshhhh cshhhh" noise SFX were irritating -> noise-based SFX are now rare, quiet and dark:
+# whooshes at most one per 2.5 s, low-passed and ~1/3 the old level; "hiss" is a soft low rumble, max one per 8 s.
+_last = {"whoosh": -9.0, "hiss": -99.0}; _gap = {"whoosh": 2.5, "hiss": 8.0}
+for kind, at in sorted(ev["events"], key=lambda e: e[1]):
+    if kind in _last:
+        if at - _last[kind] < _gap[kind]: continue
+        _last[kind] = at
     if kind == "whoosh":
-        tt = L(0.45); n = rng.standard_normal(len(tt))
-        x = lp(n, 6) - lp(n, 40); add(at - 0.1, 0.35 * x * np.sin(np.pi * tt / 0.45) ** 2)
+        tt = L(0.5); n = rng.standard_normal(len(tt))
+        x = lp(n, 18) - lp(n, 90); add(at - 0.1, 0.12 * x * np.sin(np.pi * tt / 0.5) ** 2)
     elif kind == "boom":
         tt = L(1.4); add(at, 0.9 * np.exp(-tt * 3.5) * np.sin(2 * np.pi * (38 + 60 * np.exp(-tt * 12)) * tt) + 0.1 * lp(rng.standard_normal(len(tt)), 60) * np.exp(-tt * 6))
     elif kind == "tick":
@@ -71,21 +77,21 @@ for kind, at in ev["events"]:
         tt = L(0.18); add(at, 0.35 * np.exp(-tt * 30) * np.sin(2 * np.pi * (120 + 80 * np.exp(-tt * 50)) * tt) + 0.08 * lp(rng.standard_normal(len(tt)), 8) * np.exp(-tt * 60))
     elif kind == "crack":
         tt = L(0.6); n = rng.standard_normal(len(tt)) * (rng.random(len(tt)) > 0.97)
-        add(at, 0.7 * lp(n, 3) * np.exp(-tt * 6))
+        add(at, 0.35 * lp(n, 8) * np.exp(-tt * 8))
     elif kind == "pop":
         tt = L(0.12); add(at, 0.25 * np.exp(-tt * 40) * np.sin(2 * np.pi * (600 + 900 * tt) * tt))
     elif kind == "drill":
         tt = L(2.6); add(at, 0.07 * np.sign(np.sin(2 * np.pi * 55 * tt)) * lp(rng.standard_normal(len(tt)), 4) * np.clip(tt / 0.2, 0, 1) * np.clip((2.6 - tt) / 0.3, 0, 1))
     elif kind == "hiss":  # steam roar: band-passed noise swelling over 2.5 s
-        tt = L(2.5); n = rng.standard_normal(len(tt)); x = lp(n, 3) - lp(n, 30)
-        add(at, 0.22 * x * np.clip(tt / 0.3, 0, 1) * np.clip((2.5 - tt) / 1.2, 0, 1))
+        tt = L(2.0); n = rng.standard_normal(len(tt)); x = lp(n, 40) - lp(n, 200)
+        add(at, 0.07 * x * np.clip(tt / 0.4, 0, 1) * np.clip((2.0 - tt) / 1.0, 0, 1))
     elif kind == "bubble":
         for j in range(7):
             tt = L(0.07); f = 500 + 120 * j + rng.random() * 80
             add(at + j * 0.09, 0.12 * np.exp(-tt * 50) * np.sin(2 * np.pi * (f + 2500 * tt) * tt))
     elif kind == "splash":
-        tt = L(0.7); n = rng.standard_normal(len(tt)); add(at, 0.3 * (lp(n, 2) - lp(n, 12)) * np.exp(-tt * 6))
-mix = voice + music + 0.8 * sfx
+        tt = L(0.5); n = rng.standard_normal(len(tt)); add(at, 0.1 * (lp(n, 10) - lp(n, 60)) * np.exp(-tt * 8))
+mix = voice + music + 0.6 * sfx
 mix = mix[:int(T * SR)]
 mix = mix / np.max(np.abs(mix)) * 0.95
 sf.write("mix.wav", np.stack([mix, mix], 1), SR)

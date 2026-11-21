@@ -59,7 +59,7 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
 2. **Visual change every 2–3 s**: cuts, camera push-ins/pans (animate scale/translate), reveals, x-ray cross-sections, before/after splits, counters ticking up, map zooms.
 3. **Rich colour and depth**: gradients, glow, parallax layers (foreground/mid/background moving at different speeds), particles (dust, rain, sparks, water), soft shadows. Avoid flat empty frames.
 4. **Kinetic captions**: 1–3 words at a time, pop-in scale, key word highlighted gold.
-5. **Sound design**: whoosh on transitions, low boom on big reveals, subtle ticks on counters (synthesise with numpy — no copyrighted SFX).
+5. **Sound design**: low boom on big reveals, subtle ticks on counters, soft pops (synthesise with numpy — no copyrighted SFX). **No harsh noise (Bidhan 2026-11-21: the "cshhhh cshhhh" was irritating):** noise-based SFX (whoosh, hiss, splash, crack) are rare, quiet and low-passed — audio2.py enforces max one whoosh per 2.5 s and one hiss per 8 s; never put a whoosh on every cut. After mixing, check the >4 kHz energy share of mix.wav stays under ~0.03 (video 003 was 0.07).
 6. **Open loops**: tease the payoff early ("…and the last part is the craziest"), deliver it near the end.
 7. **Numbers people repeat**: heights, ages, weights, comparisons to familiar things ("taller than 3 Harbour Bridges stacked").
 8. **Loop-friendly ending**: final line connects back to the hook so replays feel seamless; then a 2–3 s end card.
