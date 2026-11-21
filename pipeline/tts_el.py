@@ -10,7 +10,7 @@ Falls back with exit code 2 if the API fails or credits are too low -> then use 
 usage: python tts_el.py script.json [--reuse]   (--reuse re-cuts the saved dialogue.json without spending credits)"""
 import json, sys, os, base64, subprocess, numpy as np, soundfile as sf
 
-VOICES = {"M": "S0sURe3dhGFFKV1mpq1C",   # Bidhan Dahal — Bidhan's own cloned voice (2026-11-21); was Chris iP95p4xoKVk53GoZ742B
+VOICES = {"M": "LERny3t2s1OQcjLCatHn",   # "Bidhan" — Bidhan's own voice (replaced 2026-11-22; looked up by name at run time)
           "F": "cgSgspJ2msm6clMCkdW9"}   # Jessica — Playful, Bright, Warm (female, American)
 TAGS = {"urgent": "[excited]", "excited": "[excited]", "surprised": "[surprised]", "curious": "[curious]",
         "awe": "[amazed]", "playful": "[playful]", "serious": "[serious]", "neutral": ""}
@@ -72,12 +72,25 @@ def words_from_alignment(al):
     return out
 
 
+def resolve_bidhan(default):
+    """Bidhan may retrain/replace his voice: use the newest personal voice whose name starts with 'Bidhan'.
+    Falls back to the stored id, then to Chris (iP95p4xoKVk53GoZ742B) if neither exists."""
+    try:
+        vs = call("/../v2/voices?voice_type=personal&page_size=50").get("voices", [])
+        mine = sorted([v for v in vs if v["name"].lower().startswith("bidhan")], key=lambda v: v.get("created_at_unix") or 0)
+        if mine: return mine[-1]["voice_id"]
+        return default if any(v["voice_id"] == default for v in vs) else "iP95p4xoKVk53GoZ742B"
+    except SystemExit:
+        return default
+
+
 def credits_left():
     s = call("/user/subscription"); return s["character_limit"] - s["character_count"]
 
 
 if __name__ == "__main__":
     S = json.load(open(sys.argv[1] if len(sys.argv) > 1 else "script.json"))
+    if "--reuse" not in sys.argv: VOICES["M"] = resolve_bidhan(VOICES["M"]); print("male voice", VOICES["M"])
     V = {**VOICES, **{k: v["el"] for k, v in S.get("voices", {}).items() if isinstance(v, dict) and "el" in v}}
     inputs = []
     for line in S["lines"]:

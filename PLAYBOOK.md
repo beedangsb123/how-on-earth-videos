@@ -56,7 +56,8 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
 
 ## VOICES = ElevenLabs (Bidhan 2026-11-21, Starter plan, 40,000 characters/month ≈ 1 video/day)
 - Default engine: `pipeline/tts_el.py` (ElevenLabs Text-to-Dialogue, model eleven_v3) — the whole conversation in ONE call,
-  so turn-taking and question intonation sound natural. **M = Bidhan's own cloned voice "Bidhan Dahal"** (S0sURe3dhGFFKV1mpq1C, from 2026-11-21; Chris
+  so turn-taking and question intonation sound natural. **M = Bidhan's own voice "Bidhan"** (LERny3t2s1OQcjLCatHn since 2026-11-22; tts_el.py picks the newest
+  personal voice named "Bidhan…" automatically, so retrained versions are used without code changes; Chris
   iP95p4xoKVk53GoZ742B is the backup) and **F = Jessica** (cgSgspJ2msm6clMCkdW9, playful, bright, warm). Same script JSON as tts2;
   the emotion preset becomes a v3 audio tag ([excited], [curious], [surprised], [amazed], [playful]); you may also
   put tags inside the text ("[laughs]", "[whispers]") — sparingly, max ~4 per video.
