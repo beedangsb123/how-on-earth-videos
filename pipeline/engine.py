@@ -244,7 +244,7 @@ SPK_COL = {"M": hexc("6FB7FF"), "F": GOLD}          # speaker dot colours (man b
 SPK_TXT = {"M": (0.90, 0.95, 1.0), "F": (1.0, 0.95, 0.88), None: WHITE}  # subtle per-speaker tint of plain words
 
 
-def captions(c, cap, dur, t, y=1440, speaker=None):
+def captions(c, cap, dur, t, y=1440, speaker=None, dot=False):
     """kinetic captions; speaker 'M'/'F' adds a glowing coloured dot + tints plain words (two-host format)"""
     ch = chunks(cap, dur)
     for i, (a, b, ws) in enumerate(ch):
@@ -257,7 +257,7 @@ def captions(c, cap, dur, t, y=1440, speaker=None):
             if tw > 880: size *= 880 / tw; tw = 880
             c.save(); c.translate(W / 2, y); c.scale(0.8 + 0.2 * k, 0.8 + 0.2 * k)
             x = -tw / 2
-            if speaker in SPK_COL:
+            if dot and speaker in SPK_COL:  # off by default (Bidhan: dots looked like bullets)
                 dc = SPK_COL[speaker]; dx = x - 44; dy = -size * 0.33
                 c.set_source_rgba(*dc, 0.3); c.arc(dx, dy, 24, 0, 2 * math.pi); c.fill()
                 c.set_source_rgba(0, 0, 0, 0.8); c.arc(dx, dy, 15, 0, 2 * math.pi); c.fill()

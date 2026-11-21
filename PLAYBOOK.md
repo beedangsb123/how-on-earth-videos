@@ -54,6 +54,22 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
    ("Wait — a CAVE?!"), line 3 opens the loop. The hook frame shows the shocking thing itself (photo + drawn overlay,
    e.g. an x-ray cut-away revealing the cave), with ≤6 words of on-screen text.
 
+## Bidhan's review of the 003 remake (2026-11-21) — mandatory
+1. **Questions must SOUND like questions.** kokoro reads "A cave?" flat, like a statement. Until a better voice engine
+   is in place: keep questions very short, start them with a question word or "wait/so/really", and in tts2.py raise
+   the pitch over the last ~0.4 s of every line ending in "?" (+2 to +3 semitones, smooth ramp). Check by ear-proxy:
+   compare pitch of the last 0.4 s vs the rest (should be clearly higher).
+2. **No speaker dots in captions** (they looked like bullet points mid-sentence). captions() now defaults to no dot;
+   speaker is shown only by a subtle text tint.
+3. **No meta lines that echo our jargon** ("I'm hooked", "the hook", "stick with me, the trick is genius").
+   Hosts talk about the subject, not about the video.
+4. **Smoother map zoom:** no iris/ring handoff. One continuous camera move: globe → regional satellite view →
+   the real aerial photo, crossfading at matched centre and scale with slight motion blur, constant zoom speed.
+5. **For non-science people:** plain words (say "hot rock deep underground", not "magma chamber"; "pressure" only with
+   an everyday image like a shaken soda bottle or a pressure cooker). Max ~3 numbers per video, and only ones
+   ordinary people find fun; turn the rest into everyday comparisons (the car-sized cave worked — Bidhan loved it).
+   No dates or depths in feet unless they're the wow moment.
+
 ## Make it sound NATURAL (Bidhan 2026-11-21, applies from video 004)
 Script like two friends talking, not presenters reading:
 - Contractions and everyday words ("it's", "gonna", "basically"); short uneven turns (2–12 words for reactions);
