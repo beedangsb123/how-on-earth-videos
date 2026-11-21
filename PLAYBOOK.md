@@ -65,10 +65,13 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
    Hosts talk about the subject, not about the video.
 4. **Smoother map zoom:** no iris/ring handoff. One continuous camera move: globe → regional satellite view →
    the real aerial photo, crossfading at matched centre and scale with slight motion blur, constant zoom speed.
-5. **For non-science people:** plain words (say "hot rock deep underground", not "magma chamber"; "pressure" only with
-   an everyday image like a shaken soda bottle or a pressure cooker). Max ~3 numbers per video, and only ones
-   ordinary people find fun; turn the rest into everyday comparisons (the car-sized cave worked — Bidhan loved it).
-   No dates or depths in feet unless they're the wow moment.
+5. **For non-science people (clarified by Bidhan 2026-11-21):** real terms like "magma", "pressure" and some
+   numbers with units (feet, minutes) are FINE. What to avoid is an outburst of numbers and fast, science-y delivery.
+   - Never more than one number per sentence, and never two number-lines back to back; give each number a beat to land
+     (a short pause, a reaction, or an everyday comparison: the car-sized cave worked, Bidhan loved it).
+   - Briefly explain a term the first time in plain words ("magma, melted rock").
+   - Slower, relaxed pace for explaining lines (voice speed ~1.0, not 1.1+); quick pace only for reactions.
+   - Every fact must connect to the story (why it matters), not be listed.
 
 ## Make it sound NATURAL (Bidhan 2026-11-21, applies from video 004)
 Script like two friends talking, not presenters reading:
