@@ -244,28 +244,47 @@ SPK_COL = {"M": hexc("6FB7FF"), "F": GOLD}          # speaker dot colours (man b
 SPK_TXT = {"M": (0.90, 0.95, 1.0), "F": (1.0, 0.95, 0.88), None: WHITE}  # subtle per-speaker tint of plain words
 
 
-def captions(c, cap, dur, t, y=1440, speaker=None, dot=False):
-    """kinetic captions; speaker 'M'/'F' adds a glowing coloured dot + tints plain words (two-host format)"""
-    ch = chunks(cap, dur)
+def word_chunks(cap, words):
+    """caption chunks timed to the real spoken words (ElevenLabs timestamps). Caption words map 1:1 to spoken
+    words when the counts match (write scripts so they do: "fifteen-storey" <-> "15-STOREY"), else by position."""
+    cw = cap.split(); n, m = len(cw), len(words)
+    tms = [words[i][1] if n == m else words[min(m - 1, int(i * m / n))][1] for i in range(n)]
+    groups = []; cur = []
+    for k, w in enumerate(cw):
+        cur.append(k)
+        if len(cur) >= 3 or w[-1] in ".,?!" or (len(cur) >= 2 and len(" ".join(cw[j] for j in cur)) > 16):
+            groups.append(cur); cur = []
+    if cur: groups.append(cur)
+    res = []
+    for gi, g in enumerate(groups):
+        a = max(0.0, tms[g[0]] - 0.06)                        # appear a hair BEFORE the word is heard
+        b = (tms[groups[gi + 1][0]] - 0.06) if gi + 1 < len(groups) else 1e9
+        res.append((a, b, [cw[j] for j in g]))
+    return res
+
+
+def captions(c, cap, dur, t, y=1440, speaker=None, dot=False, words=None):
+    """kinetic captions. With words=[[word, start, end], ...] (tts_el.py) every chunk is synced to the voice;
+    otherwise chunks are spread over the line by length (old behaviour, can lag)."""
+    ch = word_chunks(cap, words) if words else chunks(cap, dur)
     for i, (a, b, ws) in enumerate(ch):
         if a <= t < b or (t >= b and i == len(ch) - 1):
-            k = back((t - a) / 0.18)
+            k = back((t - a) / 0.1)
             size = 84
-            words = [w if is_key(w) else w for w in ws]
-            full = " ".join(words)
+            words_ = list(ws)
+            full = " ".join(words_)
             tw = text_w(c, full, size)
             if tw > 880: size *= 880 / tw; tw = 880
-            c.save(); c.translate(W / 2, y); c.scale(0.8 + 0.2 * k, 0.8 + 0.2 * k)
+            c.save(); c.translate(W / 2, y); s_ = 0.9 + 0.1 * k; c.scale(s_, s_)
             x = -tw / 2
             if dot and speaker in SPK_COL:  # off by default (Bidhan: dots looked like bullets)
                 dc = SPK_COL[speaker]; dx = x - 44; dy = -size * 0.33
                 c.set_source_rgba(*dc, 0.3); c.arc(dx, dy, 24, 0, 2 * math.pi); c.fill()
                 c.set_source_rgba(0, 0, 0, 0.8); c.arc(dx, dy, 15, 0, 2 * math.pi); c.fill()
                 c.set_source_rgba(*dc, 1); c.arc(dx, dy, 12, 0, 2 * math.pi); c.fill()
-            for w in words:
+            for w in words_:
                 col = GOLD if is_key(w) else SPK_TXT.get(speaker, WHITE)
-                disp = w
-                adv = text(c, disp, x, 0, size, col=col, align="left", stroke=16)
+                adv = text(c, w, x, 0, size, col=col, align="left", stroke=16)
                 x += adv + text_w(c, " ", size)
             c.restore(); return
 

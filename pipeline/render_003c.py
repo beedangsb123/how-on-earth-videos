@@ -326,13 +326,14 @@ def s3(c, t, d):
 _AERIAL = {}
 def s4(c, t, d):  # globe zoom -> SMOOTH continuous zoom into the aerial photo -> real eruption vs a 15-storey building
     gt = STARTS[4] + t; k = globe_k(gt)
-    if t < 1.6:
+    if t < 1.2:
         a, R = GLOBE.frame(k, *LOC, R0=430, R1=5200)
-        to_ctx(c, a); x, y = W / 2, H * 0.47
-        pin(c, x, y, t - 0.3)
-        label(c, "YELLOWSTONE, USA", y + 40, t - 0.4, size=46, bg=WHITE)
-    elif t < 4.0:
-        tt = t - 1.6; kz = min(1.0, tt / 1.2); e = ease(kz)
+        to_ctx(c, finish(a.astype(np.float32), t, vign=0.5)); x, y = W / 2, H * 0.47   # vignette = edge detail
+        P1.dust(c, t + 3, col=(0.85, 0.92, 1), alpha=0.35, speed=25, size=3)   # drifting haze specks: no flat edge bands
+        pin(c, x, y, t - 0.2)
+        label(c, "YELLOWSTONE, USA", y + 40, t - 0.25, size=46, bg=WHITE)
+    elif t < 2.6:
+        tt = t - 1.2; kz = min(1.0, tt / 1.0); e = ease(kz)
         ph = finish(AER.kb(tt / 2.4, 1.0, 1.1, (0.45, 0.5), (0.45, 0.5)), tt)
         if kz < 1:
             R = 5200 * (1 + 0.45 * eout(kz))         # the globe keeps zooming a little (texture limit) while the photo takes over
@@ -352,14 +353,13 @@ def s4(c, t, d):  # globe zoom -> SMOOTH continuous zoom into the aerial photo -
         else:
             to_ctx(c, ph)
         P2.steam(c, tt, 100, 900, 1100, rise=500, alpha=0.12 * e)
-        pop_text(c, "~HALF", W / 2, 420, 170, tt - 0.3, col=GOLD, stroke=18)
-        text(c, "OF ALL GEYSERS ON EARTH", W / 2, 520, 60, col=WHITE, stroke=12, alpha=ease((tt - 0.6) / 0.3))
-        source_tag(c, "Source: USGS Yellowstone Volcano Observatory", tt - 0.3)
+        pop_text(c, "YELLOWSTONE", W / 2, 420, 130, tt - 0.2, col=GOLD, stroke=18)
+        text(c, "NATIONAL PARK, USA", W / 2, 510, 60, col=WHITE, stroke=12, alpha=ease((tt - 0.4) / 0.3))
     else:
-        tt = t - 4.0
+        tt = t - 2.6
         to_ctx(c, finish(CB.at(tt).astype(np.float32), tt, vign=0.25))
         # a 15-storey building grows floor by floor beside the plume
-        n = int(min(15, max(0, (tt - 0.5) / 1.6 * 15)))
+        n = int(min(15, max(0, (tt - 0.4) / 1.6 * 15)))
         bx, base, fh = 770, 1180, 34
         if n > 0:
             c.set_source_rgba(0.08, 0.12, 0.25, 0.85); c.rectangle(bx, base - n * fh, 130, n * fh); c.fill()
@@ -386,16 +386,16 @@ def s5(c, t, d):  # F: "what's down there?" x-ray dive
 def s6(c, t, d):  # camera survey down the vent
     z = lerp(1.0, 1.12, ease(t / d)); c.save(); cam(c, z, W / 2, 820)
     section(c, t, cav=0.0)
-    yprobe = lerp(VY - 120, dy(22) - 20, ease((t - 1.2) / 4.2))
+    yprobe = lerp(VY - 120, dy(22) - 20, ease((t - 1.0) / 3.8))
     camera_probe(c, yprobe, t)
-    if t > 5.6: squeeze_arrows(c, dy(22), t)
+    if t > 5.0: squeeze_arrows(c, dy(22), t)
     c.restore()
     depth_ruler(c, t, max(0, (yprobe - VY) / PXFT))
     label(c, "A CAMERA DOWN THE HOLE", 300, t - 0.3, size=46, bg=WHITE)
     if t > 1.2:
         ft = int(max(0, min(20, (yprobe - VY + 20) / PXFT)))
         pop_text(c, f"{ft} FT", 830, 760, 90, t - 1.2, col=GOLD, stroke=14, maxw=220)
-    if t > 5.8: label(c, "JUST A FEW INCHES", dy(22) + 70, t - 5.8, x=W / 2, size=48)
+    if t > 5.2: label(c, "JUST A FEW INCHES", dy(22) + 70, t - 5.2, x=W / 2, size=48)
     source_tag(c, "Source: NPS · Hutchinson et al., Geology 1997", t - 0.5, y=410)
 
 
@@ -419,43 +419,43 @@ def s8(c, t, d):  # cavern the size of a car
 
 def s9(c, t, d):  # pressure cooker
     rain = ease((t - 2.0) / 0.5) * (1 - ease((t - 5.6) / 0.6))
-    glow = ease((t - 4.0) / 0.8); water = ease((t - 2.2) / 2.0); heat = ease((t - 5.0) / 2.0)
+    glow = ease((t - 4.8) / 0.8); water = ease((t - 2.2) / 2.0); heat = ease((t - 6.0) / 2.0)
     c.save(); cam(c, lerp(0.98, 1.06, t / d), W / 2, 1000)
     section(c, t, water=water, heat=heat, glow=glow, rain=rain)
-    if t > 4.2:  # heat arrows rising from magma
+    if t > 5.0:  # heat arrows rising from magma
         for j in range(5):
             x = 200 + j * 170; k = ((t * 0.8 + j * 0.23) % 1.0); y = lerp(1850, 1500, k)
             c.set_source_rgba(1, 0.6, 0.2, 0.8 * (1 - k) * glow); c.move_to(x, y); c.line_to(x - 22, y + 36); c.line_to(x + 22, y + 36); c.close_path(); c.fill()
-    if t > 8.6:  # weight of the water column pressing down
+    if t > 9.3:  # weight of the water column pressing down
         for j in range(3):
-            y = VY - 40 + j * 110 + 20 * math.sin(t * 6); k = back((t - 8.6 - j * 0.1) / 0.3)
+            y = VY - 40 + j * 110 + 20 * math.sin(t * 6); k = back((t - 9.3 - j * 0.1) / 0.3)
             if k <= 0: continue
             c.save(); c.translate(W / 2 + 160, y); c.scale(k, k); c.set_source_rgb(*GOLD)
             c.move_to(-16, -40); c.line_to(16, -40); c.line_to(16, 0); c.line_to(34, 0); c.line_to(0, 40); c.line_to(-34, 0); c.line_to(-16, 0); c.close_path(); c.fill(); c.restore()
     c.restore()
     pop_text(c, "PRESSURE COOKER", W / 2, 400, 110, t - 0.05, col=GOLD, stroke=16)
     if 2.0 < t < 5.6: label(c, "RAIN + SNOW SOAK IN", 480, t - 2.0, size=42, bg=WHITE)
-    if t > 4.2: label(c, "MAGMA = MELTED ROCK", 1230, t - 4.2, size=42, bg=ORANGE, fg=WHITE) if t < 8.6 else None
-    if t > 5.0: thermo(c, t, min(0.9, 0.2 + 0.7 * ease((t - 5.0) / 1.6)), x=110, y0=1150, y1=820)
-    if t > 6.2: label(c, "WAY PAST BOILING", 500, t - 6.2, size=46) if t < 8.6 else label(c, "WATER ON TOP HOLDS IT DOWN", 500, t - 8.6, size=40, bg=RED, fg=WHITE)
+    if t > 5.0: label(c, "MAGMA = MELTED ROCK", 1230, t - 5.0, size=42, bg=ORANGE, fg=WHITE) if t < 9.3 else None
+    if t > 6.0: thermo(c, t, min(0.9, 0.2 + 0.7 * ease((t - 6.0) / 1.6)), x=110, y0=1150, y1=820)
+    if t > 7.5: label(c, "WAY PAST BOILING", 500, t - 7.5, size=46) if t < 9.3 else label(c, "WATER ON TOP HOLDS IT DOWN", 500, t - 9.3, size=40, bg=RED, fg=WHITE)
 
 
 def s10(c, t, d):  # spill -> pressure drop -> flash to steam -> real eruption
-    if t < 3.0:
-        sh = 6 * math.sin(t * 60) * ease((t - 1.6) / 0.3)
+    if t < 4.2:
+        sh = 6 * math.sin(t * 60) * ease((t - 3.0) / 0.3)
         c.save(); c.translate(sh, 0); cam(c, 1.04)
-        section(c, STARTS[10] + t, water=1.0, heat=1.0, glow=1.0, steam=ease((t - 1.5) / 0.5))
-        if t > 0.3:  # spill at the vent
+        section(c, STARTS[10] + t, water=1.0, heat=1.0, glow=1.0, steam=ease((t - 2.8) / 0.5))
+        if t > 1.6:  # spill at the vent
             for a, b, s, ph in P2.p[:40]:
-                life = ((t - 0.3) * 1.4 + ph) % 1.0; ang = math.pi * (0.15 + 0.7 * a)
+                life = ((t - 1.6) * 1.4 + ph) % 1.0; ang = math.pi * (0.15 + 0.7 * a)
                 x = W / 2 - math.cos(ang) * life * 260; y = VY - 60 - math.sin(ang) * life * 180 + life * life * 260
                 c.set_source_rgba(0.75, 0.92, 1, 0.9 * (1 - life)); c.arc(x, y, 6 + 6 * s, 0, 2 * math.pi); c.fill()
         c.restore()
-        gauge(c, 800, 900, 105, 1 - ease((t - 0.7) / 1.0), t)
-        if t < 1.5: pop_text(c, "SPILL", W / 2, 400, 150, t - 0.2, col=GOLD, stroke=18)
-        else: pop_text(c, "ALL STEAM AT ONCE", W / 2, 400, 110, t - 1.5, col=GOLD, stroke=16)
+        gauge(c, 800, 900, 105, 1 - ease((t - 2.0) / 1.0), t)
+        if t < 2.8: pop_text(c, "SPILL", W / 2, 400, 150, t - 1.5, col=GOLD, stroke=18)
+        else: pop_text(c, "ALL STEAM AT ONCE", W / 2, 400, 110, t - 2.8, col=GOLD, stroke=16)
     else:
-        tt = t - 3.0
+        tt = t - 4.2
         to_ctx(c, finish(CC.at(tt).astype(np.float32), tt, vign=0.25))
         P2.steam(c, tt, 300, 760, 1100, rise=700, alpha=0.2)
         pop_text(c, "BOOM!", W / 2, 420, 170, tt - 0.05, col=GOLD, stroke=18)
@@ -488,7 +488,7 @@ def s12(c, t, d):  # time it: short eruption -> shorter wait, long eruption -> l
             c.move_to(360, y + 30); c.line_to(360 + 110 * ar, y + 30); c.stroke()
             if u > 0.5: pop_text(c, res, 680, y + 60, 76, u - 0.5, col=col, stroke=12, maxw=420)
         row(640, "SHORT ERUPTION", 110, "SHORT WAIT", 0.0, GOLD)
-        row(1020, "LONG ERUPTION", 220, "LONG WAIT", 2.4, ORANGE)
+        row(1020, "LONG ERUPTION", 220, "LONG WAIT", 3.0, ORANGE)
         source_tag(c, "Source: NPS Yellowstone geyser predictions", tt - 0.3)
 
 
@@ -539,7 +539,7 @@ def frame(c, gt):
     SCENES[i](c, t, d)
     c.restore()
     if i < len(SCENES) - 1:
-        badge(c, gt); captions(c, meta[i]["cap"], meta[i]["dur"], t, speaker=meta[i].get("speaker"))
+        badge(c, gt); captions(c, meta[i]["cap"], meta[i]["dur"], t, speaker=meta[i].get("speaker"), words=meta[i].get("words"))
     if i > 0 and i != 4: wipe(c, t, col=GOLD if i % 2 else ORANGE)
 
 
@@ -547,14 +547,14 @@ def events():
     s = STARTS
     ev = [("boom", 0.0), ("pop", 1.2)] + [("whoosh", x - 0.05) for x in s[1:]]
     ev += [("pop", s[2] + 0.6)] + [("tick", s[2] + 1.4 + k * 0.3) for k in range(6)] + [("pop", s[2] + 2.6)]
-    ev += [("pop", s[4] + 0.3), ("whoosh", s[4] + 1.6), ("pop", s[4] + 1.9), ("boom", s[4] + 4.0), ("hiss", s[4] + 4.0)]
-    ev += [("thunk", s[4] + 4.5 + k * 0.107) for k in range(15)]
-    ev += [("drill", s[6] + 1.2), ("pop", s[6] + 0.3), ("thunk", s[6] + 5.6), ("pop", s[6] + 5.8)]
+    ev += [("pop", s[4] + 0.3), ("whoosh", s[4] + 1.2), ("pop", s[4] + 1.4), ("boom", s[4] + 2.6), ("hiss", s[4] + 2.6)]
+    ev += [("thunk", s[4] + 3.0 + k * 0.107) for k in range(15)]
+    ev += [("drill", s[6] + 1.2), ("pop", s[6] + 0.3), ("thunk", s[6] + 5.0), ("pop", s[6] + 5.2)]
     ev += [("boom", s[8] + 0.5), ("pop", s[8] + 1.0)]
-    ev += [("pop", s[9] + 0.1), ("splash", s[9] + 2.2), ("pop", s[9] + 4.2), ("bubble", s[9] + 5.2), ("pop", s[9] + 6.2), ("thunk", s[9] + 8.6), ("thunk", s[9] + 8.7), ("thunk", s[9] + 8.8)]
-    ev += [("splash", s[10] + 0.3), ("bubble", s[10] + 1.5), ("bubble", s[10] + 2.0), ("boom", s[10] + 3.0), ("hiss", s[10] + 3.0)]
+    ev += [("pop", s[9] + 0.1), ("splash", s[9] + 2.3), ("pop", s[9] + 5.0), ("bubble", s[9] + 6.0), ("pop", s[9] + 7.5), ("thunk", s[9] + 9.3), ("thunk", s[9] + 9.4), ("thunk", s[9] + 9.5)]
+    ev += [("splash", s[10] + 1.6), ("bubble", s[10] + 2.8), ("bubble", s[10] + 3.3), ("boom", s[10] + 4.2), ("hiss", s[10] + 4.2)]
     ev += [("tick", s[11] + 0.4 + k * 0.3) for k in range(5)] + [("tick", s[12] + k * 0.3) for k in range(4)]
-    ev += [("pop", s[12] + 1.8), ("pop", s[12] + 4.2), ("boom", s[13] + 0.1)]
+    ev += [("pop", s[12] + 1.8), ("pop", s[12] + 4.8), ("boom", s[13] + 0.1)]
     ev += [("pop", s[14] + 0.15 + i * 0.12) for i in range(10)] + [("whoosh", s[14] + 2.85), ("pop", s[15])]
     return ev
 

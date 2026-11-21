@@ -10,7 +10,7 @@ Falls back with exit code 2 if the API fails or credits are too low -> then use 
 usage: python tts_el.py script.json [--reuse]   (--reuse re-cuts the saved dialogue.json without spending credits)"""
 import json, sys, os, base64, subprocess, numpy as np, soundfile as sf
 
-VOICES = {"M": "iP95p4xoKVk53GoZ742B",   # Chris — Charming, Down-to-Earth (male, American)
+VOICES = {"M": "S0sURe3dhGFFKV1mpq1C",   # Bidhan Dahal — Bidhan's own cloned voice (2026-11-21); was Chris iP95p4xoKVk53GoZ742B
           "F": "cgSgspJ2msm6clMCkdW9"}   # Jessica — Playful, Bright, Warm (female, American)
 TAGS = {"urgent": "[excited]", "excited": "[excited]", "surprised": "[surprised]", "curious": "[curious]",
         "awe": "[amazed]", "playful": "[playful]", "serious": "[serious]", "neutral": ""}
@@ -33,22 +33,43 @@ def call(path, body=None, out=None):
     return json.loads(data)
 
 
-def tighten(x, sr, max_gap=0.32, tail=0.22, thr=0.006):
-    """shorten silences inside a line to max_gap and the trailing pause to tail (v3 tends to leave long gaps)"""
+def tighten(x, sr, max_gap=0.25, tail=0.08, thr=0.006, with_map=False, lead=0.1):
+    """shorten silences inside a line to max_gap and the trailing pause to tail (v3 tends to leave long gaps).
+    with_map=True also returns (orig_times, new_times) breakpoints so word timestamps can be moved with the audio."""
     win = int(0.02 * sr); n = len(x) // win
-    if n < 3: return x
+    if n < 3: return (x, ([0, len(x) / sr], [0, len(x) / sr])) if with_map else x
     e = np.sqrt((x[:n * win].reshape(n, win) ** 2).mean(1)); loud = e > thr
-    out = []; i = 0
+    out = []; i = 0; po, pn = [0.0], [0.0]; newlen = 0
     while i < n:
         j = i
         while j < n and loud[j] == loud[i]: j += 1
         chunk = x[i * win:j * win]
         if not loud[i]:
             keep = int((tail if j == n else max_gap) * sr)
-            if i == 0: keep = min(keep, int(0.05 * sr))
+            if i == 0: keep = min(keep, int(lead * sr))
             if len(chunk) > keep: chunk = np.concatenate([chunk[:keep // 2], chunk[-(keep - keep // 2):]]) if keep > 0 else chunk[:0]
-        out.append(chunk); i = j
-    out.append(x[n * win:]); return np.concatenate(out)
+        out.append(chunk); newlen += len(chunk); po.append(j * win / sr); pn.append(newlen / sr); i = j
+    out.append(x[n * win:]); y = np.concatenate(out)
+    po.append(len(x) / sr); pn.append(len(y) / sr)
+    return (y, (po, pn)) if with_map else y
+
+
+def words_from_alignment(al):
+    """[(word, start, end)] from ElevenLabs character alignment, skipping [audio tags]"""
+    ch, st, en = al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]
+    out, cur, t0, t1, tag = [], "", None, None, False
+    for c, a_, b_ in zip(ch, st, en):
+        if c == "[": tag = True
+        if tag:
+            if c == "]": tag = False
+            continue
+        if c.isspace():
+            if cur: out.append((cur, t0, t1)); cur = ""
+            continue
+        if not cur: t0 = a_
+        cur += c; t1 = b_
+    if cur: out.append((cur, t0, t1))
+    return out
 
 
 def credits_left():
@@ -82,12 +103,16 @@ if __name__ == "__main__":
     n = len(inputs); assert len(seg) == n, f"timestamps for {len(seg)}/{n} lines"
     starts = [0.0] + [seg[i][0] for i in range(1, n)]
     ends = starts[1:] + [min(len(a) / sr, seg[n - 1][1] + 0.25)]
+    al = d.get("alignment") or d.get("normalized_alignment")
+    WORDS = words_from_alignment(al) if al else []
     meta = []
     for i, line in enumerate(S["lines"]):
         x = a[int(starts[i] * sr):int(ends[i] * sr)]
-        x = tighten(x, sr)
+        x, (po, pn) = tighten(x, sr, with_map=True)
         sf.write(f"l{i}.wav", x, sr)
+        ws = [[w, float(np.interp(t0 - starts[i], po, pn)), float(np.interp(t1 - starts[i], po, pn))]
+              for w, t0, t1 in WORDS if starts[i] - 0.05 <= t0 < ends[i] - 0.02]
         meta.append({"text": line[0], "cap": line[1], "dur": len(x) / sr, "sr": sr, "speaker": line[2],
-                     "emotion": line[3] if len(line) > 3 else "neutral", "speech_end": seg[i][1] - starts[i]})
+                     "emotion": line[3] if len(line) > 3 else "neutral", "speech_end": seg[i][1] - starts[i], "words": ws})
     json.dump(meta, open("meta.json", "w"), indent=1)
     print("total", round(sum(m["dur"] for m in meta), 2), [round(m["dur"], 2) for m in meta])
