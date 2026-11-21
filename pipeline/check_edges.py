@@ -4,7 +4,7 @@ usage: python check_edges.py video.mp4"""
 import subprocess, sys, json, numpy as np
 f = sys.argv[1]
 dur = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f]))
-times = [0.0] + list(np.arange(2, dur - 0.1, 2.0)) + [dur - 0.05]
+times = [0.0] + list(np.arange(2, dur - 0.1, 2.0)) + [dur - 0.15]
 bad = 0
 for t in times:
     raw = subprocess.check_output(["ffmpeg", "-v", "error", "-ss", f"{t:.2f}", "-i", f, "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", "-"])

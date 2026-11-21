@@ -1,9 +1,13 @@
 """Audio v2: voice lines placed on the timeline + original synth music (driving pulse, ducked
 under the voice) + synthesised SFX (whoosh, boom, tick, thunk, crack, pop, drill).
-usage (in work dir with meta.json, l*.wav, events.json): python audio2.py [pad]  -> mix.wav"""
+usage (in work dir with meta.json, l*.wav, events.json): python audio2.py [pad] [transpose] [bpm]  -> mix.wav
+Rotate transpose (semitones from A minor) and bpm every video (anti-slop rule). 003: +5 (D minor), 92 bpm.
+SFX kinds: whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash."""
 import json, sys, numpy as np, soundfile as sf
 SR = 44100
 PAD = float(sys.argv[1]) if len(sys.argv) > 1 else 0.25
+TR = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+BPM = float(sys.argv[3]) if len(sys.argv) > 3 else 100
 meta = json.load(open("meta.json")); ev = json.load(open("events.json"))
 T = ev["total"]; N = int(T * SR) + SR
 t = np.arange(N) / SR
@@ -19,8 +23,8 @@ for i, m in enumerate(meta):
 voice = voice / (np.max(np.abs(voice)) + 1e-9) * 0.92
 
 # ---- music: A minor driving pulse, 100 bpm ----
-def hz(n): return 440 * 2 ** ((n - 69) / 12)
-beat = 0.6; music = np.zeros(N)
+def hz(n): return 440 * 2 ** ((n + TR - 69) / 12)
+beat = 60.0 / BPM; music = np.zeros(N)
 prog = [[45, 52, 57, 60, 64], [41, 48, 53, 57, 60], [48, 55, 60, 64, 67], [43, 50, 55, 59, 62]]
 bar = beat * 4
 for b in range(int(T / bar) + 1):
@@ -72,6 +76,15 @@ for kind, at in ev["events"]:
         tt = L(0.12); add(at, 0.25 * np.exp(-tt * 40) * np.sin(2 * np.pi * (600 + 900 * tt) * tt))
     elif kind == "drill":
         tt = L(2.6); add(at, 0.07 * np.sign(np.sin(2 * np.pi * 55 * tt)) * lp(rng.standard_normal(len(tt)), 4) * np.clip(tt / 0.2, 0, 1) * np.clip((2.6 - tt) / 0.3, 0, 1))
+    elif kind == "hiss":  # steam roar: band-passed noise swelling over 2.5 s
+        tt = L(2.5); n = rng.standard_normal(len(tt)); x = lp(n, 3) - lp(n, 30)
+        add(at, 0.22 * x * np.clip(tt / 0.3, 0, 1) * np.clip((2.5 - tt) / 1.2, 0, 1))
+    elif kind == "bubble":
+        for j in range(7):
+            tt = L(0.07); f = 500 + 120 * j + rng.random() * 80
+            add(at + j * 0.09, 0.12 * np.exp(-tt * 50) * np.sin(2 * np.pi * (f + 2500 * tt) * tt))
+    elif kind == "splash":
+        tt = L(0.7); n = rng.standard_normal(len(tt)); add(at, 0.3 * (lp(n, 2) - lp(n, 12)) * np.exp(-tt * 6))
 mix = voice + music + 0.8 * sfx
 mix = mix[:int(T * SR)]
 mix = mix / np.max(np.abs(mix)) * 0.95

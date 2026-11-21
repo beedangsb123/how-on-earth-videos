@@ -240,7 +240,12 @@ def is_key(w):
     return (core.isupper() and len(core) > 1) or any(ch.isdigit() for ch in core)
 
 
-def captions(c, cap, dur, t, y=1440):
+SPK_COL = {"M": hexc("6FB7FF"), "F": GOLD}          # speaker dot colours (man blue, woman gold)
+SPK_TXT = {"M": (0.90, 0.95, 1.0), "F": (1.0, 0.95, 0.88), None: WHITE}  # subtle per-speaker tint of plain words
+
+
+def captions(c, cap, dur, t, y=1440, speaker=None):
+    """kinetic captions; speaker 'M'/'F' adds a glowing coloured dot + tints plain words (two-host format)"""
     ch = chunks(cap, dur)
     for i, (a, b, ws) in enumerate(ch):
         if a <= t < b or (t >= b and i == len(ch) - 1):
@@ -252,8 +257,13 @@ def captions(c, cap, dur, t, y=1440):
             if tw > 880: size *= 880 / tw; tw = 880
             c.save(); c.translate(W / 2, y); c.scale(0.8 + 0.2 * k, 0.8 + 0.2 * k)
             x = -tw / 2
+            if speaker in SPK_COL:
+                dc = SPK_COL[speaker]; dx = x - 44; dy = -size * 0.33
+                c.set_source_rgba(*dc, 0.3); c.arc(dx, dy, 24, 0, 2 * math.pi); c.fill()
+                c.set_source_rgba(0, 0, 0, 0.8); c.arc(dx, dy, 15, 0, 2 * math.pi); c.fill()
+                c.set_source_rgba(*dc, 1); c.arc(dx, dy, 12, 0, 2 * math.pi); c.fill()
             for w in words:
-                col = GOLD if is_key(w) else WHITE
+                col = GOLD if is_key(w) else SPK_TXT.get(speaker, WHITE)
                 disp = w
                 adv = text(c, disp, x, 0, size, col=col, align="left", stroke=16)
                 x += adv + text_w(c, " ", size)
@@ -309,3 +319,53 @@ def thermal_rgb(h):
     for (p0, c0), (p1, c1) in zip(stops, stops[1:]):
         if h <= p1: return lerpc(c0, c1, (h - p0) / (p1 - p0))
     return stops[-1][1]
+
+
+def source_tag(c, s, t, y=1262, x=70, size=24):
+    """small on-screen source / credit line (anti-slop rule: show a checkable source), above the caption zone"""
+    if t <= 0: return
+    a = min(1, t / 0.3); c.save()
+    c.select_font_face("Poppins", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD); c.set_font_size(size)
+    w = c.text_extents(s).x_advance + 36
+    c.set_source_rgba(0.04, 0.06, 0.15, 0.55 * a); rrect(c, x, y - size - 10, w, size + 24, (size + 24) / 2); c.fill()
+    c.set_source_rgba(*GOLD, 0.95 * a); c.arc(x + 16, y - size * 0.35 + 2, 5, 0, 2 * math.pi); c.fill()
+    c.move_to(x + 28, y); c.set_source_rgba(1, 1, 1, 0.92 * a); c.show_text(s); c.restore()
+
+
+def clock(c, cx, cy, r, t, strike=0.0, spin=1.0):
+    """wall clock icon with spinning hands; strike 0..1 draws a red slash (\"never on the hour\")"""
+    c.save()
+    c.set_source_rgba(0, 0, 0, 0.35); c.arc(cx + 6, cy + 10, r, 0, 2 * math.pi); c.fill()
+    g = cairo.RadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.1, cx, cy, r)
+    g.add_color_stop_rgb(0, 1, 1, 1); g.add_color_stop_rgb(1, 0.85, 0.88, 0.95)
+    c.arc(cx, cy, r, 0, 2 * math.pi); c.set_source(g); c.fill()
+    c.set_source_rgb(*NAVY); c.set_line_width(r * 0.09); c.arc(cx, cy, r, 0, 2 * math.pi); c.stroke()
+    for k in range(12):
+        a = k * math.pi / 6; r0 = r * (0.78 if k % 3 else 0.7)
+        c.move_to(cx + math.cos(a) * r0, cy + math.sin(a) * r0); c.line_to(cx + math.cos(a) * r * 0.88, cy + math.sin(a) * r * 0.88)
+        c.set_line_width(r * (0.05 if k % 3 else 0.08)); c.stroke()
+    c.set_line_cap(cairo.LINE_CAP_ROUND)
+    for ln, wd, sp in ((0.5, 0.08, 1.0), (0.75, 0.05, 12.0)):
+        a = -math.pi / 2 + t * spin * sp * 0.9
+        c.move_to(cx, cy); c.line_to(cx + math.cos(a) * r * ln, cy + math.sin(a) * r * ln); c.set_line_width(r * wd); c.stroke()
+    c.set_source_rgb(*ORANGE); c.arc(cx, cy, r * 0.07, 0, 2 * math.pi); c.fill()
+    if strike > 0:
+        k = eout(strike); x0, y0 = cx - r * 1.05, cy - r * 1.05
+        c.move_to(x0, y0); c.line_to(x0 + 2.1 * r * k, y0 + 2.1 * r * k)
+        c.set_source_rgba(0, 0, 0, 0.6); c.set_line_width(r * 0.26); c.stroke()
+        c.move_to(x0, y0); c.line_to(x0 + 2.1 * r * k, y0 + 2.1 * r * k)
+        c.set_source_rgb(0.92, 0.18, 0.2); c.set_line_width(r * 0.17); c.stroke()
+    c.restore()
+
+
+def stopwatch(c, cx, cy, r, t, run=True, col=None):
+    """stopwatch icon; hand sweeps while run"""
+    col = col or GOLD
+    c.save()
+    c.set_source_rgb(*col); rrect(c, cx - r * 0.18, cy - r * 1.32, r * 0.36, r * 0.22, r * 0.06); c.fill()
+    c.rectangle(cx - r * 0.07, cy - r * 1.12, r * 0.14, r * 0.16); c.fill()
+    clock(c, cx, cy, r, 0, spin=0)
+    a = -math.pi / 2 + (t * 2 * math.pi / 3 if run else 0)
+    c.set_line_cap(cairo.LINE_CAP_ROUND); c.set_source_rgb(0.9, 0.2, 0.2)
+    c.move_to(cx, cy); c.line_to(cx + math.cos(a) * r * 0.8, cy + math.sin(a) * r * 0.8); c.set_line_width(r * 0.06); c.stroke()
+    c.restore()
