@@ -17,6 +17,7 @@ TAGS = {"urgent": "[excited]", "excited": "[excited]", "surprised": "[surprised]
         # calmer, content-fitting options (Bidhan 2026-11-22: drama must fit what is said)
         "intrigued": "[intrigued]", "matter_of_fact": "[matter-of-fact]", "warm": "[warmly]", "thoughtful": "[thoughtfully]"}
 API = "https://api.elevenlabs.io/v1"
+LEAD = 0.10   # max silence kept before each line's first word (reactions feel snappier)
 
 
 def key():
@@ -127,6 +128,13 @@ if __name__ == "__main__":
         sf.write(f"l{i}.wav", x, sr)
         ws = [[w, float(np.interp(t0 - starts[i], po, pn)), float(np.interp(t1 - starts[i], po, pn))]
               for w, t0, t1 in WORDS if starts[i] - 0.05 <= t0 < ends[i] - 0.02]
+        # 2026-11-22 (video 004): v3 leaves ~0.3 s of breath/silence before every line -> slow turn-taking and +3 s
+        # total. Trim the lead to LEAD (line 0: voice at ~0.0 s for the hook) and shift the word times with it.
+        if ws:
+            cut = max(0.0, ws[0][1] - (0.03 if i == 0 else LEAD))
+            x = x[int(cut * sr):]; ws = [[w, max(0.0, a_ - cut), max(0.0, b_ - cut)] for w, a_, b_ in ws]
+            fade = int(0.012 * sr); x[:fade] *= np.linspace(0, 1, fade)
+            sf.write(f"l{i}.wav", x, sr)
         meta.append({"text": line[0], "cap": line[1], "dur": len(x) / sr, "sr": sr, "speaker": line[2],
                      "emotion": line[3] if len(line) > 3 else "neutral", "speech_end": seg[i][1] - starts[i], "words": ws})
     json.dump(meta, open("meta.json", "w"), indent=1)

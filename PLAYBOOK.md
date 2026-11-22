@@ -173,6 +173,7 @@ always wins if he provides it.
   - Keep the brightest/most colourful part of the scene reaching the edges; avoid near-black (#000–#151515) areas larger than ~10% of the frame near the edges.
   - No fade from/to black at the start or end — start on a full, bright, busy frame; use cross-cuts or colour wipes between scenes.
   - After rendering, check: for the first, middle and last frame, measure the mean brightness and variance of the top 150 px and bottom 150 px strips (e.g. with numpy/PIL); if a strip is near-uniform (std dev < 6) or very dark (mean < 25), fix the scene before posting.
+- **Edge haze (2026-11-22):** flat skies, grey water and blurred backgrounds fail the check. Wrap every photo/clip frame with `photo.haze(a, t)` (soft drifting fbm mist strongest at the edges, zero in the centre — see render_004.py `finish` wrapper and `bg()`); give drawn full-height bands texture (seams, rivets, dimples). Also check every special glyph exists in Poppins (e.g. → is missing; ≈ … · are fine).
 - Facebook also showed "Low 20-second view rate" on video 001: the first 3 seconds must show the most striking image + a bold claim, with the first visual change within 1.5 s.
 
 ## Strategy review 2026-11-20 (first analytics, video 001 at ~18 h)

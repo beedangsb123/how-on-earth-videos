@@ -55,3 +55,24 @@ def to_ctx(c, a):
 
 def blur(a, r=12, dim=0.7):
     return (np.asarray(Image.fromarray(a).filter(ImageFilter.GaussianBlur(r)), np.float32) * dim).astype(np.uint8)
+
+
+# ---------------- edge haze (added 2026-11-22, video 004) ----------------
+# Flat skies, grey water and blurred backgrounds failed the Facebook edge-band check (std < 6 in the outer strips).
+# haze() adds soft drifting cloud/mist (low-frequency fbm) that is strongest near the frame edges and fades to zero in
+# the centre, so the subject is untouched and the edges get natural texture (looks like atmosphere, not a border).
+_HZ = {}
+
+
+def haze(a, t, amt=24.0, drift=(14, -6)):
+    if "n" not in _HZ:
+        n = fbm(H + 400, W + 400, octaves=5, seed=11, base=3)
+        _HZ["n"] = (n - n.mean()) / (n.std() + 1e-6)
+        yy = np.linspace(-1, 1, H)[:, None]; xx = np.linspace(-1, 1, W)[None, :]
+        d = np.minimum(np.minimum(1 - abs(xx), 1 - abs(yy)) * np.array([[1.0]]), 1)
+        e = np.minimum((1 - abs(xx)) * W, (1 - abs(yy)) * H) / 2          # px distance to nearest edge
+        _HZ["m"] = np.clip(1 - e / 420, 0, 1) ** 1.3
+    ox = int(200 + 180 * math.sin(t * drift[0] / 180)); oy = int(200 + 180 * math.sin(t * drift[1] / 180 + 1))
+    n = _HZ["n"][oy:oy + H, ox:ox + W]
+    lift = (n * amt + abs(n) * amt * 0.6) * _HZ["m"]
+    return np.clip(a.astype(np.float32) + lift[..., None] * np.array([0.95, 1.0, 1.05]), 0, 255)

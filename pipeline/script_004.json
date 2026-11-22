@@ -1,0 +1,112 @@
+{
+"lines": [
+[
+"The Statue of Liberty's copper skin is only as thick as two pennies.",
+"The Statue of Liberty's COPPER skin is only as thick as TWO PENNIES.",
+"F",
+"intrigued"
+],
+[
+"Hang on. Two pennies? On something that big?",
+"Hang on. TWO PENNIES? On something that BIG?",
+"M",
+"surprised"
+],
+[
+"So how does she survive the wind? The secret's hidden inside, built by a very famous name.",
+"So how does she survive the WIND? The secret's HIDDEN inside, built by a very FAMOUS name.",
+"F",
+"intrigued"
+],
+[
+"Okay, tell me.",
+"Okay, TELL me.",
+"M",
+"curious"
+],
+[
+"First, the skin. Workers in Paris hammered three hundred copper sheets by hand.",
+"First, the SKIN. Workers in PARIS hammered THREE HUNDRED copper sheets by HAND.",
+"F",
+"warm"
+],
+[
+"With actual hammers?",
+"With actual HAMMERS?",
+"M",
+"curious"
+],
+[
+"But a shell that thin would fold like a soda can. So inside, there's an iron skeleton.",
+"But a shell that THIN would fold like a SODA CAN. So inside, there's an IRON SKELETON.",
+"F",
+"matter_of_fact"
+],
+[
+"A tower in the middle, and over thirteen hundred iron bars reaching out to the skin.",
+"A TOWER in the middle, and over THIRTEEN HUNDRED iron BARS reaching out to the skin.",
+"F",
+"intrigued"
+],
+[
+"So the skin's bolted onto the bars?",
+"So the skin's BOLTED onto the bars?",
+"M",
+"curious"
+],
+[
+"Nope, that's the genius part. The bars sit in copper clips, so the skin can slide.",
+"NOPE, that's the GENIUS part. The bars sit in copper CLIPS, so the skin can SLIDE.",
+"F",
+"intrigued"
+],
+[
+"Why would you want it loose?",
+"Why would you want it LOOSE?",
+"M",
+"curious"
+],
+[
+"Heat and cold. Copper and iron grow by different amounts. Lock them together, and the skin tears.",
+"HEAT and COLD. Copper and iron grow by DIFFERENT amounts. Lock them together, and the skin TEARS.",
+"F",
+"matter_of_fact"
+],
+[
+"And in strong wind, she sways about three inches. She bends, so she doesn't break.",
+"And in STRONG WIND, she SWAYS about 3 INCHES. She BENDS, so she doesn't BREAK.",
+"F",
+"warm"
+],
+[
+"That's brilliant. So who designed it?",
+"That's BRILLIANT. So WHO designed it?",
+"M",
+"curious"
+],
+[
+"Gustave Eiffel. A few years later, he built the Eiffel Tower.",
+"Gustave EIFFEL. A few years later, he built the EIFFEL TOWER.",
+"F",
+"excited"
+],
+[
+"No way! A little Eiffel Tower inside Lady Liberty?",
+"No WAY! A little EIFFEL TOWER inside LADY LIBERTY?",
+"M",
+"surprised"
+],
+[
+"Pretty much. Holding up a skin as thin as two pennies.",
+"Pretty much. Holding up a skin as thin as TWO PENNIES.",
+"F",
+"playful"
+],
+[
+"Follow for a new wonder every day!",
+"FOLLOW for a new wonder every day!",
+"M",
+"warm"
+]
+]
+}

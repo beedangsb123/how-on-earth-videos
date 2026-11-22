@@ -46,7 +46,8 @@ def download(title, outdir):
     src = ii["url"] if ii["mime"].startswith("video") else (ii.get("thumburl") or ii["url"]).split("?")[0].replace("thumb.wikimedia.org", "upload.wikimedia.org")
     fn = os.path.join(outdir, re.sub(r"[^A-Za-z0-9._-]", "_", title.split(":", 1)[1]))
     open(fn, "wb").write(get(src))
-    art = re.sub("<[^>]+>", "", html.unescape(m.get("Artist", {}).get("value", "")))[:80].strip()
+    art = re.sub("<[^>]+>", "", html.unescape(m.get("Artist", {}).get("value", "")))
+    art = re.split(r"\s*Related names", " ".join(art.split()))[0][:80].strip()   # HAER/LoC pages add multi-line "Related names"
     credit = f"{title.split(':',1)[1]}: {art} / {lic} via Wikimedia Commons"
     open(os.path.join(outdir, "credits.txt"), "a").write(credit + "\n"); print(fn); print(credit)
 
