@@ -40,6 +40,12 @@ default for US and small-population topics) and do NOT send the file; just end w
    - **Tuesdays: "How On Earth Weather"** — American weather presenter (e.g. Eric / Roger / Brian) giving an absurd-but-
      true "forecast" for a wonder (e.g. "Antarctica: 100% chance of ice, for the next 30 million years").
    - Other days: the rotating structures, voices per the daily rotation.
+4b. **Avatars (Bidhan 2026-11-23: "keep the avatars if they are free … you're the manager now")**: our own cartoon
+   hosts from pipeline/avatar.py are free and may be used whenever they help — the manager (each run) decides. Never
+   paid or realistic AI avatars. Give them a setting that fits the format: a news desk for the News anchor, a
+   reporter with a microphone on location, a weather map for the Weather presenter, hard hats on a construction site
+   for mega-builds, field gear at a natural wonder. Keep them small (corner or lower third) so the real footage stays
+   the star; vary their look and the cast every video (new CAST entries are fine), matching the day's voices.
 5. **Accent follows the country of the topic** (real native-accent voices, never a put-on accent): Australia/NZ →
    Australian (premade Charlie IKne3meq5aSn9XLyUdCD; shared library e.g. Emma 56bWURjYFHyYyVf490Dp / Arabella
    aEO01A4wXwd1O8GPgGlF), India → Indian (shared e.g. Ruhaan siw1N9V8LmYeEWKyWBxv, Monika Sogam 2zRM7PkgwBPiau2jvVXc,
