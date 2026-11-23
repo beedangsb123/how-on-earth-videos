@@ -12,8 +12,8 @@ Bidhan is a civil engineer who has always been fascinated by how things work —
 If a topic fails any one of these, pick another. Note in LOG.md for each video one line on why it passed.
 
 ## Accounts
-- Metricool brand: blogId `8221611`, timezone Australia/Sydney. Connected: facebook (How On Earth Page), instagram (@thehowonearth), tiktok (@how.on.earth7, display name How On Earth 🌍, personal account — keep personal for Creator Rewards), youtube.
-- Public profile links: TikTok https://www.tiktok.com/@how.on.earth7 · Instagram https://www.instagram.com/thehowonearth/ · Facebook https://www.facebook.com/1474038465792135 · YouTube https://www.youtube.com/@thehowonearth (handle @thehowonearth)
+- Metricool brand: blogId `8221611`, timezone Australia/Sydney. Connected: facebook (How On Earth Page), instagram (@thehowonearth), tiktok (@the.how.on.earth — handle changed from @how.on.earth7, confirmed by Bidhan's screenshot 2026-11-23; display name How On Earth 🌍, personal account — keep personal for Creator Rewards), youtube.
+- Public profile links: TikTok https://www.tiktok.com/@the.how.on.earth · Instagram https://www.instagram.com/thehowonearth/ · Facebook https://www.facebook.com/1474038465792135 · YouTube https://www.youtube.com/@thehowonearth (handle @thehowonearth)
 - Video hosting: this repo. Public raw URL pattern:
   `https://raw.githubusercontent.com/beedangsb123/how-on-earth-videos/main/videos/<file>.mp4`
 - Log of every video: `LOG.md`. Lessons from analytics: `LEARNINGS.md`.
