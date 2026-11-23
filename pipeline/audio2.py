@@ -14,7 +14,7 @@ t = np.arange(N) / SR
 rng = np.random.default_rng(4)
 
 # ---- voice ----
-voice = np.zeros(N); pos = 0.0
+voice = np.zeros(N); pos = float(ev.get("voice_offset", 0.0))   # e.g. a news ident before the first line
 for i, m in enumerate(meta):
     a, sr = sf.read(f"l{i}.wav")
     if a.ndim > 1: a = a.mean(1)
@@ -94,7 +94,31 @@ for kind, at in sorted(ev["events"], key=lambda e: e[1]):
         x /= np.max(np.abs(x)) + 1e-9; add(at, 0.10 * x * np.clip(tt / 0.5, 0, 1) * np.clip((3.0 - tt) / 1.0, 0, 1))
     elif kind == "splash":
         tt = L(0.5); n = rng.standard_normal(len(tt)); add(at, 0.1 * (lp(n, 10) - lp(n, 60)) * np.exp(-tt * 8))
-mix = voice + music + 0.6 * sfx
+# ---- news ident (added 2026-11-23 for the "How On Earth News" format): original synth sting, NOT a real broadcaster's
+# theme. "news_open" = timpani roll + brass-like stabs + rising 16th pulse (~3.2 s); "news_close" = shorter button (~2.4 s).
+def brass(f, d, a=0.25):
+    tt = L(d); x = sum(np.sin(2 * np.pi * f * h * tt) / h ** 1.3 for h in range(1, 7))     # bright but band-limited
+    return a * x * np.clip(tt / 0.02, 0, 1) * np.exp(-tt * 2.2)
+def timp(f, d=0.9, a=0.6):
+    tt = L(d); return a * np.exp(-tt * 4) * np.sin(2 * np.pi * (f + 30 * np.exp(-tt * 20)) * tt)
+news = np.zeros(N)
+def addn(at, x):
+    s0 = int(at * SR); e = min(N, s0 + len(x))
+    if 0 <= s0 < N: news[s0:e] += x[:e - s0]
+for kind, at in ev["events"]:
+    if kind == "news_open":
+        for k in range(10): addn(at + k * 0.06, timp(55, 0.5, 0.18 + 0.03 * k))           # timpani roll
+        for k in range(16): addn(at + 0.6 + k * 0.125, 0.09 * np.exp(-L(0.06) * 60) * np.sin(2 * np.pi * 1320 * L(0.06)))  # pulse
+        for j, (tt_, ch) in enumerate(((0.6, (196, 247, 294)), (1.35, (220, 277, 330)), (2.1, (262, 330, 392)), (2.6, (294, 370, 440)))):
+            for f in ch: addn(at + tt_, brass(f, 0.9 if j < 3 else 1.6, 0.11))
+            addn(at + tt_, timp(49 if j < 3 else 41, 1.0, 0.5))
+    elif kind == "news_close":
+        for k in range(8): addn(at + k * 0.11, 0.08 * np.exp(-L(0.06) * 60) * np.sin(2 * np.pi * 1320 * L(0.06)))
+        for tt_, ch in ((0.0, (262, 330, 392)), (0.45, (294, 370, 440)), (0.9, (196, 247, 294, 392))):
+            for f in ch: addn(at + tt_, brass(f, 1.5 if tt_ > 0.8 else 0.6, 0.11))
+            addn(at + tt_, timp(45, 1.2, 0.55))
+if np.any(news): news = news / (np.max(np.abs(news)) + 1e-9) * 0.75
+mix = voice + music + 0.6 * sfx + news
 mix = mix[:int(T * SR)]
 mix = mix / np.max(np.abs(mix)) * 0.95
 sf.write("mix.wav", np.stack([mix, mix], 1), SR)
