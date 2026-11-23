@@ -87,6 +87,33 @@ def resolve_bidhan(default):
         return default
 
 
+def per_line(S, V, gap=0.22):
+    """Added 2026-11-23: eleven_v3 dialogue can drift a voice's accent (British voices came out American-sounding).
+    Script option "model": "per_line" renders each line separately with eleven_multilingual_v2 (keeps the voice's own
+    accent; audio tags are NOT supported, so emotions become voice settings), then joins them into the same
+    dialogue.json structure (audio, voice_segments, alignment) the rest of this script expects."""
+    STY = {"excited": 0.65, "surprised": 0.6, "playful": 0.55, "curious": 0.45, "warm": 0.35, "intrigued": 0.4,
+           "serious": 0.15, "matter_of_fact": 0.1, "neutral": 0.2, "awe": 0.4, "thoughtful": 0.25}
+    parts, segs, chars, st, en = [], [], [], [], []; t0 = 0.0; sr = 44100
+    for i, line in enumerate(S["lines"]):
+        txt = line[0]; emo = line[3] if len(line) > 3 and isinstance(line[3], str) else "neutral"
+        r = call(f"/text-to-speech/{V[line[2]]}/with-timestamps?output_format=mp3_44100_128",
+                 {"text": txt, "model_id": S.get("line_model", "eleven_multilingual_v2"),
+                  "voice_settings": {"stability": 0.45, "similarity_boost": 0.85, "style": STY.get(emo, 0.3), "use_speaker_boost": True}})
+        open("_l.mp3", "wb").write(base64.b64decode(r["audio_base64"]))
+        subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "_l.mp3", "-ac", "1", "-ar", str(sr), "_l.wav"])
+        x, _ = sf.read("_l.wav"); dur = len(x) / sr
+        al = r["alignment"]
+        if i: chars.append(" "); st.append(t0 - gap); en.append(t0 - gap)
+        chars += al["characters"]; st += [t0 + v for v in al["character_start_times_seconds"]]; en += [t0 + v for v in al["character_end_times_seconds"]]
+        segs.append({"dialogue_input_index": i, "start_time_seconds": t0, "end_time_seconds": t0 + dur})
+        parts.append(np.concatenate([x, np.zeros(int(gap * sr))])); t0 += dur + gap
+    sf.write("_all.wav", np.concatenate(parts), sr)
+    subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "_all.wav", "-b:a", "192k", "_all.mp3"])
+    return {"audio_base64": base64.b64encode(open("_all.mp3", "rb").read()).decode(), "voice_segments": segs,
+            "alignment": {"characters": chars, "character_start_times_seconds": st, "character_end_times_seconds": en}}
+
+
 def credits_left():
     s = call("/user/subscription"); return s["character_limit"] - s["character_count"]
 
@@ -106,7 +133,10 @@ if __name__ == "__main__":
         if left < need + 500: print("not enough ElevenLabs credits", file=sys.stderr); sys.exit(2)
     if os.path.exists("dialogue.json") and "--reuse" in sys.argv: d = json.load(open("dialogue.json"))
     else:
-        d = call("/text-to-dialogue/with-timestamps?output_format=mp3_44100_128", {"model_id": "eleven_v3", "inputs": inputs})
+        if S.get("model") == "per_line":
+            d = per_line(S, V)   # accent-faithful mode (one eleven_multilingual_v2 call per line, no audio tags)
+        else:
+            d = call("/text-to-dialogue/with-timestamps?output_format=mp3_44100_128", {"model_id": "eleven_v3", "inputs": inputs})
         json.dump(d, open("dialogue.json", "w"))
     open("dialogue.mp3", "wb").write(base64.b64decode(d["audio_base64"]))
     subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "dialogue.mp3", "-ac", "1", "-ar", "44100", "dialogue.wav"])
