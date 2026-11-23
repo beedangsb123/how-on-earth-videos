@@ -74,6 +74,26 @@ Video 003 (Old Faithful) was "fine", but the voices sounded neutral and the hook
   NEVER commit it, print it, or put it in any file in this repo (the repo is public).
 - api.elevenlabs.io is on the network allowlist (added by Bidhan 2026-11-21).
 
+## NEW VOICES EVERY DAY + a fresh look (Bidhan 2026-11-23 — overrides "M = Bidhan's own voice" above)
+Bidhan reviewed 005 v1: "the animations don't look great and look the same as the last one", and asked for different
+ElevenLabs characters — the FEMALE is excited and curious (she asks), the MALE answers the questions — and
+"different characters every day".
+- Voices: use a DIFFERENT male + female pair every video (set "voices": {"M": {"el": id}, "F": {"el": id}} in
+  script_NNN.json — tts_el.py uses them). Never repeat the previous video's pair. Rotation (premade, American unless
+  noted), go down the list and log the pair in LOG.md:
+  005 Brian nPczCjzI2devNBz1zQrb + Laura FGY2WhTYpPnrIDTdsKH5 · 006 Eric cjVigY5qzO86Huf0OWal + Jessica cgSgspJ2msm6clMCkdW9 ·
+  007 Liam TX3LPaxmHKxFdv7VOQHJ + Sarah EXAVITQu4vr4xnSDxMaL · 008 Roger CwhRBWXzGAHq8TQ4Fs17 + Matilda XrExE9yKIg1WjnnlVkGX ·
+  009 Will bIHbv24MWmeRgasZH58o + Bella hpp4J3VqNfWAUOO0d1Us · 010 Chris iP95p4xoKVk53GoZ742B + Laura · 011 Bill
+  pqHfZKP75CvOlQylNhV4 + Jessica · 012 Charlie (Australian) IKne3meq5aSn9XLyUdCD + Sarah — then start again. (Bidhan's own
+  cloned voice is no longer the default; use it only if he asks.)
+- Emotion: female lines mostly `excited` / `curious` (genuine, not shouty); male lines `warm`, `matter_of_fact`,
+  `intrigued`, one `playful`. The man usually delivers the hook; she reacts.
+- Look: never reuse the previous video's visual language. Rotate per video: headline style (engine.ribbon vs pop_text
+  vs others), accent colour (engine.CAP_ACCENT), transition (engine.whip vs wipe vs others), and the explainer style.
+  Prefer REAL imagery with annotations on top (satellite/astronaut photos via a Sat-style view + neon_path,
+  ring_marker, leader-line tags) and photo-textured 3-D block diagrams over flat cartoon fills. Reference:
+  pipeline/render_005.py (look v3: NASA globe -> ASTER -> ISS continuous zoom, cyan ribbons, whip-pans).
+
 ## Emotion must FIT the line (Bidhan 2026-11-22)
 Bidhan likes the dramatic ElevenLabs v3 tone (his reference: the "new Bidhan voice test" clip) but NOT drama
 pasted onto ordinary facts — e.g. "a cave the size of a car" was delivered like a shocking/trolling reveal, which it

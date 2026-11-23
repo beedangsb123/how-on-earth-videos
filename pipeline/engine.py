@@ -235,6 +235,9 @@ def chunks(cap, dur):
     return res
 
 
+CAP_ACCENT = GOLD   # keyword colour in captions; a render may set engine.CAP_ACCENT per video (look rotation)
+
+
 def is_key(w):
     core = w.strip(".,?!'\"")
     return (core.isupper() and len(core) > 1) or any(ch.isdigit() for ch in core)
@@ -283,7 +286,7 @@ def captions(c, cap, dur, t, y=1440, speaker=None, dot=False, words=None):
                 c.set_source_rgba(0, 0, 0, 0.8); c.arc(dx, dy, 15, 0, 2 * math.pi); c.fill()
                 c.set_source_rgba(*dc, 1); c.arc(dx, dy, 12, 0, 2 * math.pi); c.fill()
             for w in words_:
-                col = GOLD if is_key(w) else SPK_TXT.get(speaker, WHITE)
+                col = CAP_ACCENT if is_key(w) else SPK_TXT.get(speaker, WHITE)
                 adv = text(c, w, x, 0, size, col=col, align="left", stroke=16)
                 x += adv + text_w(c, " ", size)
             c.restore(); return
@@ -388,3 +391,75 @@ def stopwatch(c, cx, cy, r, t, run=True, col=None):
     c.set_line_cap(cairo.LINE_CAP_ROUND); c.set_source_rgb(0.9, 0.2, 0.2)
     c.move_to(cx, cy); c.line_to(cx + math.cos(a) * r * 0.8, cy + math.sin(a) * r * 0.8); c.set_line_width(r * 0.06); c.stroke()
     c.restore()
+
+
+# ---------------- look v3 (added 2026-11-23, video 005 remake: "animations look the same") ----------------
+def ribbon(c, s, x, y, size, t, bg=(0.25, 0.82, 1.0), fg=NAVY, angle=-0.035, maxw=940, sub=None):
+    """headline in a tilted colour block that slides in from the left with a light sweep (replaces gold pop_text)"""
+    if t <= 0: return
+    w = text_w(c, s, size)
+    if w > maxw - 80: size *= (maxw - 80) / w; w = maxw - 80
+    k = eout(t / 0.32); bw, bh = w + 80, size * 1.35
+    c.save(); c.translate(x + (1 - k) * -W, y); c.rotate(angle)
+    c.set_source_rgba(0, 0, 0, 0.45); c.rectangle(-bw / 2 + 12, -bh / 2 + 14, bw, bh); c.fill()
+    c.set_source_rgb(*bg); c.rectangle(-bw / 2, -bh / 2, bw, bh); c.fill()
+    sw = (t * 0.9) % 2.5
+    if sw < 1:  # light sweep
+        g = cairo.LinearGradient(-bw / 2 + sw * bw * 1.4 - 200, 0, -bw / 2 + sw * bw * 1.4, 0)
+        g.add_color_stop_rgba(0, 1, 1, 1, 0); g.add_color_stop_rgba(0.5, 1, 1, 1, 0.35); g.add_color_stop_rgba(1, 1, 1, 1, 0)
+        c.rectangle(-bw / 2, -bh / 2, bw, bh); c.set_source(g); c.fill()
+    text(c, s, 0, size * 0.36, size, col=fg)
+    c.restore()
+    if sub and t > 0.25:
+        a = ease((t - 0.25) / 0.25)
+        c.save(); c.translate(x, y + bh / 2 + 50); c.rotate(angle)
+        sz = 46; sw2 = text_w(c, sub, sz) + 40
+        c.set_source_rgba(0.04, 0.06, 0.15, 0.85 * a); c.rectangle(-sw2 / 2, -sz * 0.75, sw2, sz * 1.25); c.fill()
+        text(c, sub, 0, sz * 0.25, sz, col=WHITE, alpha=a); c.restore()
+
+
+def neon_path(c, pts, k, col=(0.25, 0.82, 1.0), width=10, t=0.0, dash=True):
+    """glowing polyline drawn up to fraction k (0..1) of its length, with travelling light dashes"""
+    if k <= 0 or len(pts) < 2: return
+    segs = [math.dist(a, b) for a, b in zip(pts, pts[1:])]; L = sum(segs) * min(1, k)
+    out = [pts[0]]; acc = 0
+    for (a, b), sl in zip(zip(pts, pts[1:]), segs):
+        if acc + sl >= L:
+            u = (L - acc) / sl if sl else 0; out.append((lerp(a[0], b[0], u), lerp(a[1], b[1], u))); break
+        out.append(b); acc += sl
+    def path():
+        c.move_to(*out[0]); [c.line_to(*p) for p in out[1:]]
+    c.save(); c.set_line_cap(cairo.LINE_CAP_ROUND); c.set_line_join(cairo.LINE_JOIN_ROUND)
+    for wmul, a in ((4.0, 0.12), (2.4, 0.22), (1.4, 0.5)):
+        path(); c.set_source_rgba(*col, a); c.set_line_width(width * wmul); c.stroke()
+    path(); c.set_source_rgba(1, 1, 1, 0.95); c.set_line_width(width * 0.55); c.stroke()
+    if dash:
+        path(); c.set_dash([18, 60], -t * 160); c.set_source_rgba(1, 1, 1, 0.9); c.set_line_width(width * 0.9); c.stroke(); c.set_dash([])
+    c.restore()
+    return out[-1]
+
+
+def ring_marker(c, x, y, t, col=(0.25, 0.82, 1.0), r=26):
+    """pulsing target ring (radar ping) marking a spot on a satellite image"""
+    if t <= 0: return
+    k = back(t / 0.35)
+    for j in range(2):
+        ph = (t * 0.9 + j * 0.5) % 1.0
+        c.set_source_rgba(*col, 0.7 * (1 - ph)); c.set_line_width(5); c.arc(x, y, r + 70 * ph, 0, 2 * math.pi); c.stroke()
+    c.set_source_rgba(0, 0, 0, 0.5); c.arc(x, y, r * k + 6, 0, 2 * math.pi); c.fill()
+    c.set_source_rgba(*col, 1); c.arc(x, y, r * k, 0, 2 * math.pi); c.fill()
+    c.set_source_rgba(1, 1, 1, 1); c.arc(x, y, r * k * 0.4, 0, 2 * math.pi); c.fill()
+
+
+def whip(surf, t, dur=0.24, direction=1, maxpx=150):
+    """whip-pan transition: horizontal motion smear on the finished frame for the first `dur` s of a scene
+    (replaces the gold diagonal wipe). Works in place on an RGB24/ARGB32 cairo surface."""
+    if t >= dur: return
+    surf.flush()
+    a = np.ndarray((H, surf.get_stride() // 4, 4), np.uint8, surf.get_data())[:, :W, :3]
+    amt = int(maxpx * (1 - eout(t / dur)))
+    if amt < 4: return
+    src = a.astype(np.float32); acc = np.zeros_like(src); n = 7
+    for i in range(n):
+        acc += np.roll(src, direction * int(amt * (i / (n - 1) - 0.5)), axis=1)
+    a[...] = (acc / n).astype(np.uint8); surf.mark_dirty()
