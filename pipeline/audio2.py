@@ -2,7 +2,7 @@
 under the voice) + synthesised SFX (whoosh, boom, tick, thunk, crack, pop, drill).
 usage (in work dir with meta.json, l*.wav, events.json): python audio2.py [pad] [transpose] [bpm]  -> mix.wav
 Rotate transpose (semitones from A minor) and bpm every video (anti-slop rule). 003: +5 (D minor), 92 bpm.
-SFX kinds: whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash."""
+SFX kinds: whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
 import json, sys, numpy as np, soundfile as sf
 SR = 44100
 PAD = float(sys.argv[1]) if len(sys.argv) > 1 else 0.25
@@ -89,6 +89,9 @@ for kind, at in sorted(ev["events"], key=lambda e: e[1]):
         for j in range(7):
             tt = L(0.07); f = 500 + 120 * j + rng.random() * 80
             add(at + j * 0.09, 0.12 * np.exp(-tt * 50) * np.sin(2 * np.pi * (f + 2500 * tt) * tt))
+    elif kind == "roar":  # waterfall bed (video 005): deep brown-noise rumble, low-passed twice -> no hiss, 3 s swell
+        tt = L(3.0); n = np.cumsum(rng.standard_normal(len(tt))); n -= lp(n, 4000); x = lp(lp(n, 30), 30)
+        x /= np.max(np.abs(x)) + 1e-9; add(at, 0.10 * x * np.clip(tt / 0.5, 0, 1) * np.clip((3.0 - tt) / 1.0, 0, 1))
     elif kind == "splash":
         tt = L(0.5); n = rng.standard_normal(len(tt)); add(at, 0.1 * (lp(n, 10) - lp(n, 60)) * np.exp(-tt * 8))
 mix = voice + music + 0.6 * sfx

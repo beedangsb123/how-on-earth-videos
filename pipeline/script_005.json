@@ -1,0 +1,107 @@
+{
+ "lines": [
+  [
+   "In 1969, engineers switched off Niagara Falls.",
+   "In 1969, engineers SWITCHED OFF Niagara Falls.",
+   "M",
+   "intrigued"
+  ],
+  [
+   "Wait, you can switch off a waterfall?",
+   "Wait, you can SWITCH OFF a waterfall?",
+   "F",
+   "surprised"
+  ],
+  [
+   "Well, the American side. And what they found underneath explains why the whole falls is moving.",
+   "Well, the AMERICAN side. And what they found UNDERNEATH explains why the whole falls is MOVING.",
+   "M",
+   "intrigued"
+  ],
+  [
+   "Okay, so they built a dam of rock across their side of the river. About 28,000 tons of it.",
+   "Okay, so they built a DAM of ROCK across their side of the river. About 28,000 TONS of it.",
+   "M",
+   "warm"
+  ],
+  [
+   "And the falls just went dry?",
+   "And the falls just went DRY?",
+   "F",
+   "curious"
+  ],
+  [
+   "For five months. And at the bottom, they found a huge pile of fallen rock.",
+   "For FIVE MONTHS. And at the bottom, they found a HUGE pile of fallen ROCK.",
+   "M",
+   "matter_of_fact"
+  ],
+  [
+   "Where did all that rock come from?",
+   "Where did all that ROCK come from?",
+   "F",
+   "curious"
+  ],
+  [
+   "The cliff itself. The top layer is hard rock, but underneath, it's soft shale. Basically, packed mud.",
+   "The CLIFF itself. The top layer is HARD rock, but underneath, it's SOFT shale. Basically, packed MUD.",
+   "M",
+   "intrigued"
+  ],
+  [
+   "Water eats the soft layer away, the hard edge hangs out, and then it snaps off.",
+   "Water EATS the soft layer away, the hard edge HANGS out, and then it SNAPS off.",
+   "M",
+   "matter_of_fact"
+  ],
+  [
+   "So the waterfall breaks itself?",
+   "So the waterfall BREAKS itself?",
+   "F",
+   "curious"
+  ],
+  [
+   "Again and again. 12,000 years ago, it started seven miles downstream.",
+   "Again and AGAIN. 12,000 years ago, it started SEVEN MILES downstream.",
+   "M",
+   "intrigued"
+  ],
+  [
+   "Seven miles? It's been walking backwards this whole time?",
+   "SEVEN MILES? It's been walking BACKWARDS this whole time?",
+   "F",
+   "surprised"
+  ],
+  [
+   "Yep. But today, it's barely moving.",
+   "Yep. But today, it's BARELY moving.",
+   "M",
+   "warm"
+  ],
+  [
+   "Because we take its water. By day, about half the river goes through tunnels to power stations.",
+   "Because we TAKE its water. By DAY, about HALF the river goes through TUNNELS to POWER stations.",
+   "M",
+   "intrigued"
+  ],
+  [
+   "And at night?",
+   "And at NIGHT?",
+   "F",
+   "curious"
+  ],
+  [
+   "Even more. So in a way, they still switch off Niagara Falls. A little, every single night.",
+   "Even MORE. So in a way, they still SWITCH OFF Niagara Falls. A little, every single NIGHT.",
+   "M",
+   "playful"
+  ],
+  [
+   "Follow for a new wonder every day!",
+   "FOLLOW for a new wonder every day!",
+   "F",
+   "warm"
+  ]
+ ],
+ "note": "Generated with 19 lines; \"Moving? Moving where?\" and \"Wait, why?\" were cut from the audio afterwards to keep the video under 75 s."
+}

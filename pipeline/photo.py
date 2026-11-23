@@ -32,7 +32,11 @@ class Photo:
         return a
 
 
-def finish(a, t, archival=False, heat=0.0, xray=0.0, vign=0.35):
+def finish(a, t, archival=False, heat=0.0, xray=0.0, vign=0.35, night=0.0):
+    if night > 0:  # day -> moonlit night grade (added 2026-11-23, video 005): darker, blue, highlights kept
+        l = a.mean(2, keepdims=True)
+        nt = 0.55 * l * np.array([0.55, 0.72, 1.15]) + 0.35 * (l / 255) ** 2 * 255 * np.array([0.8, 0.9, 1.0]) + np.array([6, 10, 28])
+        a = a * (1 - night) + nt * night
     if heat > 0:
         l = a.mean(2).clip(0, 255).astype(np.uint8)
         th = LUT_THERM[np.clip(l.astype(np.int32) + 40, 0, 255)]
