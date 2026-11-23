@@ -94,6 +94,16 @@ ElevenLabs characters — the FEMALE is excited and curious (she asks), the MALE
   ring_marker, leader-line tags) and photo-textured 3-D block diagrams over flat cartoon fills. Reference:
   pipeline/render_005.py (look v3: NASA globe -> ASTER -> ISS continuous zoom, cyan ribbons, whip-pans).
 
+## No formula scripts (Bidhan 2026-11-23: "why does she have to say wait every time", "same script in every file")
+- BANNED as a reaction opener: "Wait", "Hang on", "Hold on", "No way", "Okay, tell me", "Wait, what?". Never reuse a
+  reaction phrase used in the last 3 videos (check script_NNN.json files before writing).
+- Change the STRUCTURE every video, not just the topic. Rotate: two-host Q&A · one narrator + one interrupting
+  sceptic · news-desk parody (British anchor + field reporter) · "walk-through" told as a tour on location ·
+  countdown/list · myth-vs-fact quiz where the viewer guesses · first-person story of the place/structure. Never two
+  videos in a row with the same structure, the same hook pattern, or the woman always asking / man always answering.
+- Try a different option every video (voices, structure, look, music) and log which one was used in LOG.md so the
+  analytics can compare them.
+
 ## Emotion must FIT the line (Bidhan 2026-11-22)
 Bidhan likes the dramatic ElevenLabs v3 tone (his reference: the "new Bidhan voice test" clip) but NOT drama
 pasted onto ordinary facts — e.g. "a cave the size of a car" was delivered like a shocking/trolling reveal, which it
