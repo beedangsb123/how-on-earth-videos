@@ -40,6 +40,14 @@ default for US and small-population topics) and do NOT send the file; just end w
    - **Tuesdays: "How On Earth Weather"** — American weather presenter (e.g. Eric / Roger / Brian) giving an absurd-but-
      true "forecast" for a wonder (e.g. "Antarctica: 100% chance of ice, for the next 30 million years").
    - Other days: the rotating structures, voices per the daily rotation.
+4a. **Creative freedom (Bidhan 2026-11-23: "countless opportunities and room for creativity… you're the manager
+   now")**: keep inventing formats and test them against the analytics. Ideas in the pool: **stand-up comedy set**
+   (a comedian character on a small stage with a mic and spotlight, doing a tight bit about a wonder — real facts as
+   the punchlines, light "audience" reactions synthesised in audio2, no canned laugh-track recordings), nature-doc
+   parody narrator, tour guide who keeps getting the scale wrong, "the wonder reviews itself" (first person), game
+   show / quiz, courtroom ("the case of the shrinking glacier"), cooking-show recipe for a canyon, sports commentary of
+   a slow geological race. Same rules apply: real sourced facts, brand-safe, jokes about places and physics only, and
+   log the format in LOG.md so its numbers can be compared.
 4b. **Avatars (Bidhan 2026-11-23: "keep the avatars if they are free … you're the manager now")**: our own cartoon
    hosts from pipeline/avatar.py are free and may be used whenever they help — the manager (each run) decides. Never
    paid or realistic AI avatars. Give them a setting that fits the format: a news desk for the News anchor, a
