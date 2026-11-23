@@ -8,6 +8,10 @@ Bidhan will not review or add anything until 2027: no drafts, no approval, the c
 (Starter, 40,000 chars/month, resets ~21st) are reserved for the videos — keep each script ≤ ~1,200 characters incl.
 tags; never generate samples or extra tests. Only push-notify him when something is broken or needs his account.
 Theme stays: natural wonders and man-made wonders — the HOW.
+**Note for the daily task:** Bidhan edited its opening line on 2026-11-23 to "follow PLAYBOOK AUTOPILOT MODE: no
+files, notify only on problems". So where the task's later steps still say "10:00 am" (step 7) or "send Bidhan the
+finished video with SendUserFile" (step 9), use the country-based posting time in rule 7 below (10:00 am stays the
+default for US and small-population topics) and do NOT send the file; just end with the short summary message.
 
 1. **Funny + relatable is now part of every video** ("everyone would love a good smile or a laugh"). At least two
    genuine laughs or relatable comparisons per video (dry understatement, absurd-but-true framing, everyday
