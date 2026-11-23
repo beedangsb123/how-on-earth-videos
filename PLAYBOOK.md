@@ -46,7 +46,9 @@ default for US and small-population topics) and do NOT send the file; just end w
    the punchlines, light "audience" reactions synthesised in audio2, no canned laugh-track recordings), nature-doc
    parody narrator, tour guide who keeps getting the scale wrong, "the wonder reviews itself" (first person), game
    show / quiz, courtroom ("the case of the shrinking glacier"), cooking-show recipe for a canyon, sports commentary of
-   a slow geological race. Same rules apply: real sourced facts, brand-safe, jokes about places and physics only, and
+   a slow geological race. Also **"Press the button"** (from a reference video Bidhan liked, 2026-11-23): a big red button
+   "Press to run the world without <the Panama Canal / the Suez Canal / Hoover Dam / bees / the Gulf Stream>" and a
+   quick-fire chain of real consequences, shown with real footage + our graphics (never realistic AI people). Same rules apply: real sourced facts, brand-safe, jokes about places and physics only, and
    log the format in LOG.md so its numbers can be compared.
 4b. **Avatars (Bidhan 2026-11-23: "keep the avatars if they are free … you're the manager now")**: our own cartoon
    hosts from pipeline/avatar.py are free and may be used whenever they help — the manager (each run) decides. Never
