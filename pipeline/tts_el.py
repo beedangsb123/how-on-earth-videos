@@ -99,7 +99,8 @@ def per_line(S, V, gap=0.22):
         txt = line[0]; emo = line[3] if len(line) > 3 and isinstance(line[3], str) else "neutral"
         r = call(f"/text-to-speech/{V[line[2]]}/with-timestamps?output_format=mp3_44100_128",
                  {"text": txt, "model_id": S.get("line_model", "eleven_multilingual_v2"),
-                  "voice_settings": {"stability": 0.45, "similarity_boost": 0.85, "style": STY.get(emo, 0.3), "use_speaker_boost": True}})
+                  "voice_settings": {"stability": 0.45, "similarity_boost": 0.85, "style": STY.get(emo, 0.3), "use_speaker_boost": True,
+                                    "speed": S.get("speed", 1.0)}})   # Bidhan 2026-11-23: news bulletins at ~0.9
         open("_l.mp3", "wb").write(base64.b64decode(r["audio_base64"]))
         subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "_l.mp3", "-ac", "1", "-ar", str(sr), "_l.wav"])
         x, _ = sf.read("_l.wav"); dur = len(x) / sr

@@ -3,6 +3,56 @@
 Faceless short-video channel: **natural wonders and mega-builds, and how they came to be.**
 Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Facebook, YouTube.
 
+## AUTOPILOT MODE — Bidhan 2026-11-23, valid until 2027 (READ FIRST; overrides older rules where they clash)
+Bidhan will not review or add anything until 2027: no drafts, no approval, the channel runs itself. ElevenLabs credits
+(Starter, 40,000 chars/month, resets ~21st) are reserved for the videos — keep each script ≤ ~1,200 characters incl.
+tags; never generate samples or extra tests. Only push-notify him when something is broken or needs his account.
+Theme stays: natural wonders and man-made wonders — the HOW.
+
+1. **Funny + relatable is now part of every video** ("everyone would love a good smile or a laugh"). At least two
+   genuine laughs or relatable comparisons per video (dry understatement, absurd-but-true framing, everyday
+   comparisons), always built on a REAL, sourced fact. Family-friendly; joke about the place/structure/physics, never
+   about people, cultures, religions or accents; no stereotypes; no real public figures.
+2. **Research the day first** (every run, before picking the topic): what is trending yesterday/today (news, Google
+   Trends-style searches, YouTube/TikTok trending in the niche), and which occasions/festivals are coming in the next
+   1-10 days. Tie the topic to them when it fits naturally, e.g. Christmas → Christmas Island's red crab migration /
+   Rockefeller tree; New Year → Sydney Harbour Bridge fireworks engineering; Thanksgiving → Plymouth Rock?; Diwali →
+   Golden Temple/Jaipur; Chinese New Year (6 Feb 2027) → Great Wall; Australia Day / India Republic Day (26 Jan);
+   Ramadan/Eid → Sheikh Zayed Mosque/Petra; Valentine's → Taj Mahal; Holi; Easter → Easter Island. Avoid tragedies
+   and political news even if trending. Note in LOG.md which trend/occasion (if any) the topic used.
+3. **Watch what works on big channels**: once a week skim what popular Shorts channels in the niche post (format,
+   hook, length, humour, posting cadence) and what stalls; write 3 bullets in LEARNINGS.md. Research 2026-11-23
+   (vidIQ, Metricool 2026 study of 799,718 videos): the Shorts feed gives >61% of views; the "viewed vs swiped away"
+   ratio on the seed audience decides promotion; average Shorts view duration fell to ~16 s, so the payoff must be
+   promised in frame 1 (3-7 word on-screen hook + 5-10 word spoken hook, one promise); 13 s and ~60 s Shorts
+   performed best; curiosity / "did you know" / comparison / revelation hooks; 1-5 relevant hashtags.
+4. **Formats rotate (see "No formula scripts")**, plus two WEEKLY shows:
+   - **Fridays: "How On Earth News"** — deadpan British newsreader (ElevenLabs Daniel onwK4e9ZLuTAKqWW03F9) + British
+     field reporter (Alice Xb7hH8MSUJpSbSDYk0k2, or George / Lily), slightly QUIRKIER and SLOWER: tts_el.py
+     "model": "per_line" (keeps the accent) + "speed": 0.9. News ident at start and end (audio2 events news_open /
+     news_close, voice_offset 1.4 s), music_style "news", broadcast graphics (bug, LIVE, fact ticker with sources,
+     BREAKING lower thirds, name straps), sign-off "This is <reporter>, for How On Earth News, <place>". Reference:
+     pipeline/sample_newsdesk_v3.py (Bidhan approved this sample). Our own invented brand — no BBC name/logo/look.
+   - **Tuesdays: "How On Earth Weather"** — American weather presenter (e.g. Eric / Roger / Brian) giving an absurd-but-
+     true "forecast" for a wonder (e.g. "Antarctica: 100% chance of ice, for the next 30 million years").
+   - Other days: the rotating structures, voices per the daily rotation.
+5. **Accent follows the country of the topic** (real native-accent voices, never a put-on accent): Australia/NZ →
+   Australian (premade Charlie IKne3meq5aSn9XLyUdCD; shared library e.g. Emma 56bWURjYFHyYyVf490Dp / Arabella
+   aEO01A4wXwd1O8GPgGlF), India → Indian (shared e.g. Ruhaan siw1N9V8LmYeEWKyWBxv, Monika Sogam 2zRM7PkgwBPiau2jvVXc,
+   Ranbir 2iAXJEMO2o0PqUHzvZwQ), UK → British (Daniel, George, Alice, Lily), USA → American. Shared voices must be
+   added first (POST /v1/voices/add/{public_owner_id}/{voice_id}, free; 10 slots, 1 used on 2026-11-23); find them
+   with GET /v1/shared-voices?accent=<x>&language=en. Use "model": "per_line" for accented voices.
+6. **Music follows the place** (audio2.py events.json "music_style", all original synthesis): India / Taj Mahal /
+   Central Asia → "sufi" (drone + raga-style phrases + tabla-like drums); Egypt / Middle East / North Africa →
+   "arabic" (maqam Hijaz phrases + darbuka); news → "news"; Christmas/holidays → "festive"; Latin America → "latin";
+   China/Japan/Korea → "eastasia"; otherwise "default" with a new key/tempo.
+7. **Posting time follows the country's evening** (main post; Stories 1-2 min later; still ONE main post per day,
+   never in the past, never two in the same day — check getScheduledPosts):
+   USA/Canada, and any place with a small population or no big home audience → 10:00 Sydney (6 pm ET / 3 pm PT);
+   Australia/NZ → 19:00 Sydney; India/South Asia → 00:30 Sydney (7 pm IST); UK/Europe → 06:00 Sydney (7 pm GMT);
+   Middle East/Egypt → 04:00 Sydney (7 pm Cairo); East Asia → 21:00 Sydney (7 pm Tokyo); Latin America → 09:00 Sydney.
+   (Summer-time shifts: re-check offsets in March/April and October.)
+
 ## Channel mission (Bidhan's own words, 2026-11-20)
 Bidhan is a civil engineer who has always been fascinated by how things work — big designs, big buildings — and equally by geography and geology: how natural landscapes came about. He believes people are more interested in the **HOW** than the what/why. The channel should become a platform for like-minded, curious people. "Nothing fancy" — daily, educational, accurate. Every video must answer a clear "how did this come about / how does this work" question, about either a natural landscape or a great human-made structure. Entertainment hooks serve the education, never replace it.
 **Topic filter (Bidhan, 2026-11-20): a topic is used ONLY if it passes all three:**
@@ -32,7 +82,7 @@ Video 002 (pure animation) "doesn't sound interesting and doesn't have any stock
 3. **Voices: a MAN and a WOMAN in every video, as a conversation** (Bidhan 2026-11-21; replaces "one voice, alternating"). Two hosts trading lines: one asks/reacts ("Wait — a hundred and twenty-five years?"), the other explains; quick back-and-forth in the hook and at the reveals, longer explaining lines in between. Natural, lively, friendly — like two curious friends, not a lecture. Alternate who opens the video each day. Use `tts2.py` two-voice mode ("voices": {"M": …, "F": …} + speaker per line + an emotion preset per line). Defaults: man am_michael (or am_fenrir/am_puck if livelier), woman af_heart (or af_bella). Captions: tint or tag per speaker (e.g. woman's lines with a small gold dot, man's with a blue dot) so viewers can follow. Keep gaps between speakers short (0.1–0.2 s) so it feels like a real conversation.
 4. **Sound interesting**: script as a story — shock-number hook → the PROBLEM (stakes) → why it seemed impossible → the clever HOW → payoff twist → loop line. Short punchy sentences, "you" framing, vivid comparisons, a "wait, what?" every ~15 s. Cut flat linking lines.
 5. Hook shot = the most striking image of the subject (real photo if available) + ≤6-word claim.
-6. **Send Bidhan the finished video file every run** (SendUserFile, his request 2026-11-21) with the summary. It is for his viewing, not approval: still schedule without waiting.
+6. ~~Send Bidhan the finished video file every run~~ — SUPERSEDED 2026-11-23 by AUTOPILOT MODE: no drafts or files needed until 2027; notify only on problems.
 7. **Channel badge v2** (Bidhan: "make the How On Earth icon more attractive"): use `badge(c, t)` from engine.py (glossy navy pill, gold rim, spinning mini-globe with orbit, HOW ON white + EARTH? gold, light sweep every 4 s; pass the global time so it animates) and `end_card_logo()` for the end card (pulsing halo + rotating gold arcs). Keep improving it if it still looks plain.
 Reference builds: `pipeline/render_003.py` (Old Faithful: real footage via `clips.py`, photos via `photo.py`, animated cross-section, two-host speaker captions, `source_tag`, audio2 args `pad transpose bpm`); `pipeline/render_002b.py` (Hoover Dam remake: real aerials + NARA/USBR archival photos with sepia/grain, globe zoom, thermal-camera tint on photos, globe route SF→NY).
 

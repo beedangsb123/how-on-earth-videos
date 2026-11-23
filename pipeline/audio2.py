@@ -42,6 +42,69 @@ for b in range(int(T / bar) + 1):
     for k in range(4):  # kick on beats
         s2 = int((b * bar + k * beat) * SR); e2 = min(N, s2 + int(0.2 * SR)); t2 = t[s2:e2] - (b * bar + k * beat)
         music[s2:e2] += 0.45 * np.exp(-t2 * 25) * np.sin(2 * np.pi * (50 + 90 * np.exp(-t2 * 40)) * t2)
+# ---- regional / occasion music styles (added 2026-11-23, Bidhan: "if it's India give Indian music, the Taj Mahal can
+# evoke Central Asian Sufi music, Egypt can give Arabic music"). All ORIGINAL numpy synthesis, inspired by the scale/
+# rhythm conventions only (no melodies copied). Choose with events.json "music_style": default | news | sufi | arabic |
+# festive | latin | eastasia. TR (transpose) and BPM still apply.
+STYLE = ev.get("music_style", "default")
+_rng2 = np.random.default_rng(11)
+def _pluck(f, d, a, decay=4.0, harm=(1, 0.5, 0.33, 0.2)):
+    tt = L(d); return a * np.exp(-tt * decay) * sum(h * np.sin(2 * np.pi * f * (i + 1) * tt) for i, h in enumerate(harm))
+def _drum(f, d, a, bend=1.6, decay=18):
+    tt = L(d); return a * np.exp(-tt * decay) * np.sin(2 * np.pi * f * (1 + bend * np.exp(-tt * 30)) * tt)
+def _put(buf, at, x):
+    s0 = int(at * SR); e = min(N, s0 + len(x))
+    if 0 <= s0 < N: buf[s0:e] += x[:e - s0]
+def L(d): return np.arange(int(d * SR)) / SR
+if STYLE != "default":
+    music = np.zeros(N); root = hz(50)   # D3 + TR
+    if STYLE == "sufi":       # tanpura-like drone (Sa-Pa-Sa), harmonium-ish raga phrases (Bhairav-type scale), tabla-like dha/tin
+        dr = sum(a_ * np.sin(2 * np.pi * root * m * t * (1 + 0.0007 * np.sin(t * 0.7 * m))) for m, a_ in ((1, .25), (1.5, .15), (2, .18), (3, .06), (4, .04)))
+        music += dr * (0.75 + 0.25 * np.sin(2 * np.pi * t / (beat * 4)) ** 2)
+        scale = [0, 1, 4, 5, 7, 8, 11, 12]; note = 4
+        for k in range(int(T / beat)):
+            if _rng2.random() < 0.55:
+                note = int(np.clip(note + _rng2.choice([-2, -1, 1, 2]), 0, 7))
+                _put(music, k * beat, _pluck(root * 2 * 2 ** (scale[note] / 12), beat * 1.6, 0.10, decay=1.6, harm=(1, .6, .4, .25, .15)))
+            for j, (f, a_) in enumerate(((root * 0.75, .35), (root * 2.4, .12), (root * 2.4, .1), (root * 0.75, .3))):
+                if (k + j) % 2 == 0: _put(music, k * beat + j * beat / 4, _drum(f, 0.25, a_, bend=0.4 if f < root else 0.05, decay=12 if f < root else 30))
+    elif STYLE == "arabic":   # maqam Hijaz phrases on an oud-like pluck, drone, darbuka maqsum (D-T-.-T-D-.-T-.)
+        music += 0.18 * (np.sin(2 * np.pi * root / 2 * t) + 0.5 * np.sin(2 * np.pi * root * 0.75 * t))
+        hij = [0, 1, 4, 5, 7, 8, 10, 12]; note = 3
+        for k in range(int(T / (beat / 2))):
+            if _rng2.random() < 0.6:
+                note = int(np.clip(note + _rng2.choice([-1, 1, 1, -2, 2]), 0, 7))
+                _put(music, k * beat / 2, _pluck(root * 2 * 2 ** (hij[note] / 12), 0.6, 0.12, decay=5, harm=(1, .7, .45, .3, .2, .1)))
+        pat = "DT.TD.T."
+        for k in range(int(T / (beat / 2))):
+            c_ = pat[k % 8]
+            if c_ == "D": _put(music, k * beat / 2, _drum(70, 0.35, 0.45, bend=0.8, decay=10))
+            elif c_ == "T": _put(music, k * beat / 2, _drum(520, 0.08, 0.12, bend=0.1, decay=60))
+    elif STYLE == "news":     # steady news-bed: 16th pulse, held string pad, soft timpani each bar
+        for b in range(int(T / bar) + 1):
+            ch = prog[b % 4]; s0 = int(b * bar * SR); e = min(N, int((b + 1) * bar * SR + 0.3 * SR)); tt = t[s0:e] - b * bar
+            env = np.clip(tt / 0.3, 0, 1) * np.clip((bar + 0.3 - tt) / 0.4, 0, 1)
+            for n in ch[1:]: music[s0:e] += 0.07 * env * np.sin(2 * np.pi * hz(n) * tt)
+            _put(music, b * bar, _drum(hz(ch[0] - 24), 1.0, 0.4, bend=0.3, decay=4))
+            for k in range(16): _put(music, b * bar + k * beat / 4, 0.05 * np.exp(-L(0.05) * 70) * np.sin(2 * np.pi * 1100 * L(0.05)))
+    elif STYLE == "festive":  # major key, pizzicato bass + soft celesta-like bells (sines, no sleigh-bell noise)
+        maj = [[48, 55, 60, 64], [53, 57, 60, 65], [55, 59, 62, 67], [48, 55, 60, 64]]
+        for b in range(int(T / bar) + 1):
+            ch = maj[b % 4]
+            for k in range(4): _put(music, b * bar + k * beat, _pluck(hz(ch[0] - 12), 0.4, 0.3, decay=8))
+            for k in range(8): _put(music, b * bar + k * beat / 2, _pluck(hz(ch[1 + (k % 3)] + 12), 0.8, 0.07, decay=4, harm=(1, .1, .05)))
+    elif STYLE == "latin":    # tresillo bass + nylon-guitar-ish plucks
+        for b in range(int(T / bar) + 1):
+            ch = prog[b % 4]
+            for k in (0, 1.5, 3): _put(music, b * bar + k * beat, _pluck(hz(ch[0] - 12), 0.5, 0.3, decay=6))
+            for k in range(8): _put(music, b * bar + k * beat / 2, _pluck(hz(ch[1 + k % 4]), 0.5, 0.06, decay=6))
+    elif STYLE == "eastasia": # pentatonic plucked-zither phrases over a soft pad
+        pen = [0, 2, 4, 7, 9, 12, 14]; note = 3
+        music += 0.08 * np.sin(2 * np.pi * root * t) * (0.7 + 0.3 * np.sin(t))
+        for k in range(int(T / (beat / 2))):
+            if _rng2.random() < 0.5:
+                note = int(np.clip(note + _rng2.choice([-1, 1, 2, -2]), 0, 6))
+                _put(music, k * beat / 2, _pluck(root * 2 * 2 ** (pen[note] / 12), 1.2, 0.1, decay=3))
 music /= np.max(np.abs(music)) + 1e-9
 # duck under voice
 env = np.convolve(np.abs(voice), np.ones(2205) / 2205, mode="same")
