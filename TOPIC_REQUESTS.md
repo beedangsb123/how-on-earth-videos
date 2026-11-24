@@ -1,6 +1,6 @@
 # Topic requests from viewers
 
-Every comment-reply run adds viewer topic suggestions here (Instagram top-level comments AND replies to our pinned questions; YouTube top-level comments). Video-making runs check this list when picking topics and mark a row DONE when the video is made.
+Every comment-reply run adds viewer topic suggestions here (Instagram and Facebook comments AND replies to our pinned questions; YouTube top-level comments; TikTok not connected to Windsor yet). Video-making runs check this list when picking topics and mark a row DONE when the video is made.
 
 Windsor's YouTube connector does NOT return the text of replies (only comment_reply_count). If one of our YouTube pinned questions shows replies > 0, list it under "Unread YouTube replies" so Bidhan can check it in YouTube Studio; when he reports what it says, move it to the table.
 
