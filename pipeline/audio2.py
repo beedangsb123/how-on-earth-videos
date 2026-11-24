@@ -2,7 +2,7 @@
 under the voice) + synthesised SFX (whoosh, boom, tick, thunk, crack, pop, drill).
 usage (in work dir with meta.json, l*.wav, events.json): python audio2.py [pad] [transpose] [bpm]  -> mix.wav
 Rotate transpose (semitones from A minor) and bpm every video (anti-slop rule). 003: +5 (D minor), 92 bpm.
-SFX kinds: whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
+SFX kinds: clank ding whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
 import json, sys, numpy as np, soundfile as sf
 SR = 44100
 PAD = float(sys.argv[1]) if len(sys.argv) > 1 else 0.25
@@ -45,7 +45,7 @@ for b in range(int(T / bar) + 1):
 # ---- regional / occasion music styles (added 2026-11-23, Bidhan: "if it's India give Indian music, the Taj Mahal can
 # evoke Central Asian Sufi music, Egypt can give Arabic music"). All ORIGINAL numpy synthesis, inspired by the scale/
 # rhythm conventions only (no melodies copied). Choose with events.json "music_style": default | news | sufi | arabic |
-# festive | latin | eastasia. TR (transpose) and BPM still apply.
+# festive | latin | eastasia | swing. TR (transpose) and BPM still apply.
 STYLE = ev.get("music_style", "default")
 _rng2 = np.random.default_rng(11)
 def _pluck(f, d, a, decay=4.0, harm=(1, 0.5, 0.33, 0.2)):
@@ -98,6 +98,20 @@ if STYLE != "default":
             ch = prog[b % 4]
             for k in (0, 1.5, 3): _put(music, b * bar + k * beat, _pluck(hz(ch[0] - 12), 0.5, 0.3, decay=6))
             for k in range(8): _put(music, b * bar + k * beat / 2, _pluck(hz(ch[1 + k % 4]), 0.5, 0.06, decay=6))
+    elif STYLE == "swing":    # added 2026-11-24 (video 006, 1930s New York): original swing feel -- walking upright-bass
+        # plucks on every beat, soft brushed ride with a swung 8th (2/3 split), muted-piano 6th/9th chord stabs on 2 & 4.
+        # No samples, no melody copied; hat is a short high sine burst (not noise) to keep the >4 kHz share low.
+        chords = [[45, 52, 57, 60, 66], [50, 57, 62, 65, 71], [43, 50, 55, 59, 64], [48, 55, 60, 64, 69]]
+        walk = [0, 3, 5, 7]; sw = beat * 2 / 3
+        for b in range(int(T / bar) + 1):
+            ch = chords[b % 4]
+            for k in range(4):
+                _put(music, b * bar + k * beat, _pluck(hz(ch[0] - 12 + walk[k]), beat * 0.95, 0.34, decay=5, harm=(1, .35, .12)))
+                for d_, a_ in ((0, 0.05), (sw, 0.03)):
+                    _put(music, b * bar + k * beat + d_, a_ * np.exp(-L(0.08) * 45) * np.sin(2 * np.pi * 3100 * L(0.08)) * np.sin(2 * np.pi * 37 * L(0.08)))
+                if k in (1, 3):
+                    for n in ch[1:]: _put(music, b * bar + k * beat + 0.02, _pluck(hz(n), 0.35, 0.05, decay=11, harm=(1, .3, .1)))
+            _put(music, b * bar, _drum(52, 0.25, 0.22, bend=0.6, decay=16))
     elif STYLE == "eastasia": # pentatonic plucked-zither phrases over a soft pad
         pen = [0, 2, 4, 7, 9, 12, 14]; note = 3
         music += 0.08 * np.sin(2 * np.pi * root * t) * (0.7 + 0.3 * np.sin(t))
@@ -155,6 +169,10 @@ for kind, at in sorted(ev["events"], key=lambda e: e[1]):
     elif kind == "roar":  # waterfall bed (video 005): deep brown-noise rumble, low-passed twice -> no hiss, 3 s swell
         tt = L(3.0); n = np.cumsum(rng.standard_normal(len(tt))); n -= lp(n, 4000); x = lp(lp(n, 30), 30)
         x /= np.max(np.abs(x)) + 1e-9; add(at, 0.10 * x * np.clip(tt / 0.5, 0, 1) * np.clip((3.0 - tt) / 1.0, 0, 1))
+    elif kind == "clank":  # added 2026-11-24 (video 006): steel beam / rivet hit -- inharmonic metal partials, no noise
+        tt = L(0.7); add(at, 0.16 * sum(np.exp(-tt * d) * np.sin(2 * np.pi * f * tt) for f, d in ((310, 6), (837, 9), (1490, 14), (2210, 20))))
+    elif kind == "ding":   # small bell (counter end / "three minutes")
+        tt = L(1.2); add(at, 0.14 * np.exp(-tt * 3.5) * (np.sin(2 * np.pi * 1568 * tt) + 0.4 * np.sin(2 * np.pi * 3920 * tt) * np.exp(-tt * 6)))
     elif kind == "splash":
         tt = L(0.5); n = rng.standard_normal(len(tt)); add(at, 0.1 * (lp(n, 10) - lp(n, 60)) * np.exp(-tt * 8))
 # ---- news ident (added 2026-11-23 for the "How On Earth News" format): original synth sting, NOT a real broadcaster's

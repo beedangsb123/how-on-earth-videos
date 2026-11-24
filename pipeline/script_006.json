@@ -1,0 +1,121 @@
+{
+"note": "006 Empire State Building, 'built in 410 days'. Structure: narrator (F, Jessica, opens + explains) + interrupting sceptic (M, Eric, hunts for 'the catch', carries the jokes). Voices 006 per rotation: Eric + Jessica.",
+"voices": {
+"M": {
+"el": "cjVigY5qzO86Huf0OWal"
+},
+"F": {
+"el": "cgSgspJ2msm6clMCkdW9"
+}
+},
+"lines": [
+[
+"They built the Empire State Building in 410 days.",
+"They built the EMPIRE STATE BUILDING in 410 DAYS.",
+"F",
+"intrigued"
+],
+[
+"410 days? My phone contract lasts longer than that.",
+"410 DAYS? My PHONE CONTRACT lasts longer than that.",
+"M",
+"playful"
+],
+[
+"102 floors, in just over a year. And the very top was built for something that never worked.",
+"102 FLOORS, in just over a YEAR. And the very TOP was built for something that NEVER worked.",
+"F",
+"warm"
+],
+[
+"Sure. So what's the catch?",
+"Sure. So what's the CATCH?",
+"M",
+"curious"
+],
+[
+"No catch. Just a clever system. The steel arrived cut and labelled, like flat-pack furniture.",
+"No catch. Just a clever SYSTEM. The steel arrived CUT and LABELLED, like FLAT-PACK furniture.",
+"F",
+"matter_of_fact"
+],
+[
+"Flat-pack? Mine always comes with one screw missing.",
+"FLAT-PACK? Mine always comes with ONE SCREW missing.",
+"M",
+"playful"
+],
+[
+"Theirs was 57,000 tons of steel. And little railway carts on every floor zipped it to the crews.",
+"Theirs was 57,000 TONS of steel. And little RAILWAY CARTS on every floor zipped it to the crews.",
+"F",
+"intrigued"
+],
+[
+"Railway carts. Inside a building.",
+"RAILWAY CARTS. Inside a BUILDING.",
+"M",
+"surprised"
+],
+[
+"Over 3,000 workers at the peak.",
+"Over 3,000 WORKERS at the PEAK.",
+"F",
+"matter_of_fact"
+],
+[
+"And the frame climbed four and a half floors a week.",
+"And the frame climbed FOUR AND A HALF FLOORS a WEEK.",
+"F",
+"intrigued"
+],
+[
+"Four and a half floors? I can't answer four and a half emails a week.",
+"FOUR AND A HALF FLOORS? I can't answer FOUR AND A HALF EMAILS a week.",
+"M",
+"playful"
+],
+[
+"Fine, it's impressive. So what never worked?",
+"Fine, it's IMPRESSIVE. So what NEVER worked?",
+"M",
+"curious"
+],
+[
+"The tip. That spire was designed as a parking spot for airships.",
+"The TIP. That SPIRE was designed as a PARKING SPOT for AIRSHIPS.",
+"F",
+"intrigued"
+],
+[
+"Parking. For airships.",
+"PARKING. For AIRSHIPS.",
+"M",
+"surprised"
+],
+[
+"Passengers would step off, over 1,000 feet up. But the wind had other ideas.",
+"Passengers would STEP OFF, over 1,000 FEET up. But the WIND had other ideas.",
+"F",
+"warm"
+],
+[
+"Did anyone ever actually park there?",
+"Did anyone ever actually PARK there?",
+"M",
+"curious"
+],
+[
+"One small airship, in 1931. For about three minutes.",
+"One small AIRSHIP, in 1931. For about THREE MINUTES.",
+"F",
+"playful"
+],
+[
+"[laughs] So, 410 days to build it, and three minutes of parking.",
+"So, 410 DAYS to build it, and THREE MINUTES of parking.",
+"M",
+"excited"
+]
+]
+}
