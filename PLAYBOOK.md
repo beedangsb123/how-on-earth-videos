@@ -84,6 +84,18 @@ default for US and small-population topics) and do NOT send the file; just end w
    Middle East/Egypt → 04:00 Sydney (7 pm Cairo); East Asia → 21:00 Sydney (7 pm Tokyo); Latin America → 09:00 Sydney.
    (Summer-time shifts: re-check offsets in March/April and October.)
 
+## Standing rules from Bidhan, 2026-11-24 (live)
+- **Never wait for Bidhan's go-ahead** on any video: make it, schedule it, log it. **Never send him the video or a draft
+  in the chat** (the GTA 6 draft was a one-off because the topic was new). Notify only on problems.
+- **Hashtags per platform** (whatever works on each, but never unrelated to the video). So the 10:00 "main post" is now
+  FOUR single-network posts at the same time (Metricool has one shared text per post), each with its own caption and tags:
+  - TikTok: short punchy caption + 5–6 tags: 3–4 topic tags + #fyp + #howonearth (add a trend tag like #gta6 when relevant).
+  - Instagram: full caption + credits + 5–6 tags: topic tags + #reels + #howonearth; first comment = engagement question.
+  - Facebook: full caption + credits + 5–6 tags: topic tags + #facebookreels + #howonearth; first comment as IG.
+  - YouTube: #shorts first + 3–4 topic tags + #howonearth in the text; "#shorts" in the title; searchable tags list.
+  The "is a main post already scheduled at 10:00?" check now means: any non-draft Reel/short/TikTok post at that time.
+  Log all four post ids in LOG.md. Stories (IG+FB) stay one post each at 10:01/10:02.
+
 ## Channel mission (Bidhan's own words, 2026-11-20)
 Bidhan is a civil engineer who has always been fascinated by how things work — big designs, big buildings — and equally by geography and geology: how natural landscapes came about. He believes people are more interested in the **HOW** than the what/why. The channel should become a platform for like-minded, curious people. "Nothing fancy" — daily, educational, accurate. Every video must answer a clear "how did this come about / how does this work" question, about either a natural landscape or a great human-made structure. Entertainment hooks serve the education, never replace it.
 **Topic filter (Bidhan, 2026-11-20): a topic is used ONLY if it passes all three:**
