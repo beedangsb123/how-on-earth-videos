@@ -1,0 +1,109 @@
+{
+"note": "008 Strait of Hormuz (Bidhan's decision 2026-11-23): strictly neutral geography + shipping, 'Press the button' what-if (no conflict, no militaries, no blame). Voices 008 rotation: Roger (M, narrator) + Matilda (F, presses the button).",
+"voices": {
+"M": {
+"el": "CwhRBWXzGAHq8TQ4Fs17"
+},
+"F": {
+"el": "XrExE9yKIg1WjnnlVkGX"
+}
+},
+"lines": [
+[
+"This is the busiest oil doorway on Earth. And it's only 21 miles wide.",
+"This is the busiest OIL DOORWAY on Earth. And it's only 21 MILES wide.",
+"M",
+"intrigued"
+],
+[
+"21 miles? That's a commute, not an ocean.",
+"21 MILES? That's a COMMUTE, not an ocean.",
+"F",
+"playful"
+],
+[
+"And the lanes are even tighter. Two miles going in, two miles coming out, and a two-mile gap in between.",
+"And the LANES are even tighter. TWO MILES going in, TWO MILES coming out, and a TWO-MILE gap in between.",
+"M",
+"matter_of_fact"
+],
+[
+"For ships that big?",
+"For ships that BIG?",
+"F",
+"curious"
+],
+[
+"The biggest tankers are about as long as the Eiffel Tower is tall.",
+"The biggest TANKERS are about as long as the EIFFEL TOWER is tall.",
+"M",
+"intrigued"
+],
+[
+"So what does this big red button do?",
+"So what does this BIG RED BUTTON do?",
+"F",
+"curious"
+],
+[
+"It's a what-if. Press it, and for one day, no ship gets through.",
+"It's a WHAT-IF. Press it, and for ONE DAY, NO SHIP gets through.",
+"M",
+"warm"
+],
+[
+"Pressing it.",
+"PRESSING it.",
+"F",
+"playful"
+],
+[
+"Normally, about 20 million barrels of oil pass through here every day.",
+"Normally, about 20 MILLION BARRELS of oil pass through here EVERY DAY.",
+"M",
+"matter_of_fact"
+],
+[
+"Every single day?",
+"Every SINGLE day?",
+"F",
+"surprised"
+],
+[
+"Around a fifth of all the oil the world uses. And there's no other sea road out of the Gulf.",
+"Around a FIFTH of all the oil the WORLD uses. And there's NO OTHER sea road out of the Gulf.",
+"M",
+"intrigued"
+],
+[
+"So just build a pipe around it?",
+"So just build a PIPE around it?",
+"F",
+"curious"
+],
+[
+"They did. Two pipelines skip the strait. But the spare room in them is only about two and a half million barrels a day.",
+"They DID. Two PIPELINES skip the strait. But the SPARE ROOM in them is only about TWO AND A HALF MILLION barrels a day.",
+"M",
+"matter_of_fact"
+],
+[
+"Out of twenty? So the rest just waits?",
+"Out of TWENTY? So the rest just WAITS?",
+"F",
+"surprised"
+],
+[
+"It lines up. Tankers stack up outside, like the world's slowest drive-through.",
+"It LINES UP. Tankers stack up outside, like the world's SLOWEST DRIVE-THROUGH.",
+"M",
+"playful"
+],
+[
+"Unpressing the button. So a 21-mile gap keeps a fifth of the world's oil moving.",
+"UNPRESSING the button. So a 21-MILE gap keeps a FIFTH of the world's oil moving.",
+"F",
+"warm"
+]
+]
+}

@@ -1,0 +1,111 @@
+{
+"note": "009 How On Earth News #1 (Friday show): the Everglades = a 30-mile-wide river (GTA 6 trend tie: Grassrivers look-alike). Daniel (anchor) + Alice (reporter), per_line British voices, speed 0.9. Line 13's last sentence ('The national park has protected the south end since 1947.') was generated but cut from the audio to keep the bulletin under 75 s.",
+"voices": {
+"M": {
+"el": "onwK4e9ZLuTAKqWW03F9"
+},
+"F": {
+"el": "Xb7hH8MSUJpSbSDYk0k2"
+}
+},
+"model": "per_line",
+"speed": 0.9,
+"lines": [
+[
+"Good evening. Breaking news: Florida has a river that's thirty miles wide.",
+"Good evening. BREAKING: Florida has a RIVER that's THIRTY MILES wide.",
+"M",
+"neutral"
+],
+[
+"It has been hiding in plain sight. Our reporter is standing in it. Alice?",
+"It has been HIDING in plain sight. Our reporter is STANDING in it. Alice?",
+"M",
+"neutral"
+],
+[
+"Thank you, Daniel. I'm in the Everglades, and yes, my shoes are in the river.",
+"Thank you, Daniel. I'm in the EVERGLADES, and yes, my SHOES are in the river.",
+"F",
+"playful"
+],
+[
+"It doesn't look like a river, Alice. It looks like a field.",
+"It doesn't LOOK like a river, Alice. It looks like a FIELD.",
+"M",
+"matter_of_fact"
+],
+[
+"That's the trick. The water is shallow and full of sawgrass, so it just looks like grass. The river of grass.",
+"That's the TRICK. The water is SHALLOW and full of SAWGRASS, so it just looks like GRASS. The RIVER OF GRASS.",
+"F",
+"warm"
+],
+[
+"And how fast is this river moving?",
+"And how FAST is this river moving?",
+"M",
+"neutral"
+],
+[
+"In winter, about a hundred feet a day.",
+"In WINTER, about a HUNDRED FEET a day.",
+"F",
+"matter_of_fact"
+],
+[
+"A hundred feet. A day. I have seen faster queues.",
+"A HUNDRED FEET. A DAY. I have seen FASTER QUEUES.",
+"M",
+"matter_of_fact"
+],
+[
+"In summer, it speeds up to about a mile a day. Practically a sprint.",
+"In SUMMER, it speeds up to about a MILE a day. Practically a SPRINT.",
+"F",
+"playful"
+],
+[
+"And what makes it flow at all?",
+"And what makes it FLOW at all?",
+"M",
+"neutral"
+],
+[
+"A slope. The land drops less than two inches every mile, all the way from Lake Okeechobee to Florida Bay.",
+"A SLOPE. The land drops less than TWO INCHES every MILE, all the way from LAKE OKEECHOBEE to FLORIDA BAY.",
+"F",
+"intrigued"
+],
+[
+"Less than two inches a mile. My kitchen floor is steeper.",
+"Less than TWO INCHES a mile. My KITCHEN FLOOR is steeper.",
+"M",
+"matter_of_fact"
+],
+[
+"It used to be twice the size. More than half was drained for farms and towns.",
+"It used to be TWICE the size. More than HALF was DRAINED for farms and towns.",
+"F",
+"warm"
+],
+[
+"And gamers may recognise its look-alike in GTA 6 this week.",
+"And GAMERS may recognise its LOOK-ALIKE in GTA 6 this week.",
+"M",
+"neutral"
+],
+[
+"The real one is slower. Much slower. This is Alice, for How On Earth News, the Everglades.",
+"The REAL one is SLOWER. Much slower. This is ALICE, for HOW ON EARTH NEWS, the Everglades.",
+"F",
+"playful"
+],
+[
+"And that is the news. Slowly.",
+"And that is the NEWS. SLOWLY.",
+"M",
+"matter_of_fact"
+]
+]
+}
