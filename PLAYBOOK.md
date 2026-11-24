@@ -24,6 +24,17 @@ default for US and small-population topics) and do NOT send the file; just end w
    Golden Temple/Jaipur; Chinese New Year (6 Feb 2027) → Great Wall; Australia Day / India Republic Day (26 Jan);
    Ramadan/Eid → Sheikh Zayed Mosque/Petra; Valentine's → Taj Mahal; Holi; Easter → Easter Island. Avoid tragedies
    and political news even if trending. Note in LOG.md which trend/occasion (if any) the topic used.
+2a. **TREND RADAR — be proactive (Bidhan 2026-11-24: "No GTA reference videos yet???? be more proactive with finding out
+   what's trendy")**. EVERY run, before anything else, scan pop culture, not just news/holidays: big game launches
+   (GTA 6 launched 19 Nov 2026 with a record $3.79B day one), movies/trailers, streaming shows, sports finals, viral
+   searches, space launches, and what Shorts/TikTok creators in the niche are posting this week (search e.g. "trending
+   this week", "biggest launch this week", "<month> releases"). Ask: is there a REAL wonder/structure/place behind it?
+   (game/movie locations -> the real place; e.g. GTA 6 Leonida = Florida: Bahia Honda/Seven Mile Bridge, Everglades,
+   Miami's man-made islands, Florida Keys reef.) **48-hour rule:** when a big trend fits, make it NOW: it bumps the
+   planned topic (even an already-scheduled post; move that one to the next free day and log it). Never use game/movie
+   footage, logos, fonts, characters or look-alike art; only real imagery of the real place + our own graphics; the
+   title may name the game/show (nominative, e.g. "the real bridge from GTA 6"). Keep the video about the HOW. Note the
+   trend in LOG.md and how the post did in LEARNINGS.md so we learn whether trend videos beat evergreen ones.
 3. **Watch what works on big channels**: once a week skim what popular Shorts channels in the niche post (format,
    hook, length, humour, posting cadence) and what stalls; write 3 bullets in LEARNINGS.md. Research 2026-11-23
    (vidIQ, Metricool 2026 study of 799,718 videos): the Shorts feed gives >61% of views; the "viewed vs swiped away"
