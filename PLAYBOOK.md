@@ -294,6 +294,13 @@ always wins if he provides it.
 - firstCommentText (Instagram/Facebook): one engagement question, e.g. "Which mega-build should we explain next? 👇" — comment topics feed LOG/topic ideas.
 - ~~Stories = the video split into two parts~~ REPLACED 2026-11-25 by Bidhan ("having a long video 2 part, I don't like that"): see "EXTRAS BEYOND THE VIDEO" below.
 
+## MEMES INSIDE THE VIDEO (Bidhan 2026-11-25)
+Where it genuinely fits the beat, cut to a quick meme moment inside the main video (1–2 s): a stock photo/clip reaction
+shot (animals, objects, places — never real people's faces, never famous meme templates or film/TV stills), our own
+meme caption format ("Nobody: / the river:", "Expectation vs reality", "POV:"), a record-scratch / crowd "ooh" / sad
+trombone from FREE stock audio (realistic, credited). Max ~2 per video, only on a real joke or reveal. If it doesn't
+make sense for the topic or would undercut a serious moment, leave it out — never force it.
+
 ## EXTRAS BEYOND THE VIDEO (Bidhan 2026-11-25 — standing strategy; every daily run)
 Goal: more monetisable posts per day WITHOUT posting the video twice and WITHOUT spending ElevenLabs credits (extras
 never use voices). Keep them cheap to make (one script, reused assets from the day's research). Funny/meme-like is
