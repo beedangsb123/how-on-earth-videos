@@ -64,24 +64,42 @@ def tighten(x, sr, max_gap=0.25, tail=0.08, thr=0.006, with_map=False, lead=0.1)
 
 
 def words_from_alignment(al):
-    """[(word, start, end)] from ElevenLabs character alignment, skipping [audio tags]"""
+    """[(word, start, end, char_index)] from ElevenLabs character alignment, skipping [audio tags]"""
     ch, st, en = al["characters"], al["character_start_times_seconds"], al["character_end_times_seconds"]
-    out, cur, t0, t1, tag = [], "", None, None, False
-    for c, a_, b_ in zip(ch, st, en):
+    out, cur, t0, t1, tag, ci = [], "", None, None, False, 0
+    for k, (c, a_, b_) in enumerate(zip(ch, st, en)):
         if c == "[": tag = True
         if tag:
             if c == "]": tag = False
             continue
         if c.isspace():
-            if cur: out.append((cur, t0, t1)); cur = ""
+            if cur: out.append((cur, t0, t1, ci)); cur = ""
             continue
         # 2026-11-25: v3 dialogue alignment can join two lines with NO space ("snacks.No") -> the next line's first word
         # was glued to the previous line's last word (wrong caption timing). Split at [.?!…] + capital/digit.
         if cur and cur[-1] in ".?!…" and (c.isupper() or c.isdigit()):
-            out.append((cur, t0, t1)); cur = ""
-        if not cur: t0 = a_
+            out.append((cur, t0, t1, ci)); cur = ""
+        if not cur: t0 = a_; ci = k
         cur += c; t1 = b_
-    if cur: out.append((cur, t0, t1))
+    if cur: out.append((cur, t0, t1, ci))
+    return out
+
+
+def refine_words(x, sr, ws, thr=0.012, look=0.45):
+    """2026-11-25: v3 word timestamps are sometimes up to ~0.4 s EARLY (caption shows before the word is heard).
+    If there is no voice energy at a word's start, move the start forward to the first voiced 10 ms window (within
+    `look` s, never past the word's end / next word)."""
+    w = int(0.01 * sr); n = len(x) // w
+    if n == 0: return ws
+    r = np.sqrt((x[:n * w].reshape(n, w) ** 2).mean(1))
+    out = []
+    for j, (wd, a_, b_) in enumerate(ws):
+        q = int(a_ * 100)
+        if q < n and r[q:q + 8].mean() < thr:
+            lim = min(n, int((a_ + look) * 100), int(((ws[j + 1][1] if j + 1 < len(ws) else b_ + look)) * 100))
+            for k in range(q, lim):
+                if r[k] > thr: a_ = k / 100; break
+        out.append([wd, a_, max(b_, a_ + 0.05)])
     return out
 
 
@@ -138,6 +156,10 @@ if __name__ == "__main__":
         spoken, spk = line[0], line[2]; emo = line[3] if len(line) > 3 else "neutral"
         tag = TAGS.get(emo, "") if isinstance(emo, str) else ""
         inputs.append({"text": spoken if spoken.lstrip().startswith("[") or not tag else f"{tag} {spoken}", "voice_id": V[spk]})
+    # 2026-11-25: eleven_v3 dialogue twice cut the LAST line off mid-word (audio ends at full volume). A short throwaway
+    # last input absorbs that truncation; it is never used in the edit. Disable with "pad_last": false.
+    NL = len(S["lines"]); PAD_LAST = S.get("pad_last", True) and S.get("model") != "per_line"
+    if PAD_LAST: inputs.append({"text": "[laughs] Mm-hm.", "voice_id": V[S["lines"][-1][2]]})
     need = sum(len(i["text"]) for i in inputs)
     if "--reuse" not in sys.argv:
         left = credits_left(); print("characters", need, "credits left", left)
@@ -154,44 +176,65 @@ if __name__ == "__main__":
     open("dialogue.mp3", "wb").write(base64.b64decode(d["audio_base64"]))
     subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "dialogue.mp3", "-ac", "1", "-ar", "44100", "dialogue.wav"])
     a, sr = sf.read("dialogue.wav")
-    # line boundaries from voice_segments (dialogue_input_index); merge segments of the same input
-    seg = {}
-    for s in d.get("voice_segments", []):
-        i = s["dialogue_input_index"]; st, en = s["start_time_seconds"], s["end_time_seconds"]
-        seg[i] = (min(st, seg.get(i, (st, en))[0]), max(en, seg.get(i, (st, en))[1]))
-    n = len(inputs); assert len(seg) == n, f"timestamps for {len(seg)}/{n} lines"
-    starts = [0.0] + [seg[i][0] for i in range(1, n)]
-    ends = starts[1:] + [min(len(a) / sr, seg[n - 1][1] + 0.25)]
+    # ---- cut the dialogue into lines (REWRITTEN 2026-11-25 after Bidhan: "missing words", "subtitles do not sync") ----
+    # Old method shortened every pause inside a line (tighten(), RMS < 0.006 = "silence") -> quiet/deadpan words were
+    # squashed or cut, and word times were remapped through that edit -> captions drifted. New method:
+    #  * words are assigned to lines by CHARACTER index (voice_segments character ranges), never by time;
+    #  * NO edits inside a line: only the silence before the first word (energy onset) and after the last word are trimmed,
+    #    so word timestamps just shift by one constant and stay exactly on the voice.
+    segs = {}
+    for v in d.get("voice_segments", []):
+        i = v["dialogue_input_index"]; r = segs.setdefault(i, [1e9, 0, 1e9, 0])
+        r[0] = min(r[0], v["start_time_seconds"]); r[1] = max(r[1], v["end_time_seconds"])
+        r[2] = min(r[2], v.get("character_start_index", 1e9)); r[3] = max(r[3], v.get("character_end_index", 0))
+    n = len(segs); assert n >= NL, f"timestamps for {n}/{NL} lines"
     al = d.get("alignment") or d.get("normalized_alignment")
     WORDS = words_from_alignment(al) if al else []
-    meta = []
+    TAIL = S.get("tail", 0.28)        # pause kept after each line's last word (turn-taking gap)
+    meta = []; dur_a = len(a) / sr
+    # v3's segment boundaries / last-character times end ~0.1-0.3 s BEFORE the voice really stops -> cutting there clipped
+    # the end of the last word of many lines ("missing words"). Move each boundary forward to the first real silence
+    # (>= 80 ms below -40 dB-ish) within 0.8 s, else to the quietest point in that range.
+    W10 = int(0.01 * sr); NW = len(a) // W10
+    R = np.sqrt((a[:NW * W10].reshape(NW, W10) ** 2).mean(1))
+    def split_at(b):
+        q0 = int(b * 100); q1 = min(NW - 8, q0 + 80)
+        for q in range(q0, q1):
+            if (R[q:q + 8] < 0.008).all(): return (q + 4) / 100
+        return (q0 + int(np.argmin(R[q0:q1 + 1]))) / 100 if q1 > q0 else b
+    BOUND = [0.0] + [split_at(segs[k][0]) for k in range(1, NL)] + [split_at(segs[NL][0]) if n > NL else dur_a]
     for i, line in enumerate(S["lines"]):
-        x = a[int(starts[i] * sr):int(ends[i] * sr)]
-        # keep comic beats: lines with "..." / "—" or a [sighs]/[pause] tag may hold up to 0.6 s inside (was 0.25 s for all)
-        beat = any(k in line[0] for k in ("...", "…", "—", "[sighs]", "[pause]"))
-        x, (po, pn) = tighten(x, sr, max_gap=S.get("beat_gap", 0.6) if beat else 0.3, with_map=True)
+        cs, ce = segs[i][2], segs[i][3]
+        ws = [[w, t0, t1] for w, t0, t1, ci in WORDS if cs <= ci < ce]
+        if not ws: ws = [[w, t0, t1] for w, t0, t1, ci in WORDS if segs[i][0] <= t0 < segs[i][1]]
+        w0, w1 = BOUND[i], BOUND[i + 1]
+        x = a[int(w0 * sr):int(w1 * sr)].copy()
+        win = int(0.01 * sr); nw = len(x) // win
+        rms = np.sqrt((x[:nw * win].reshape(nw, win) ** 2).mean(1)) if nw else np.zeros(1)
+        thr = max(0.006, 0.05 * rms.max())
+        # onset: first sustained voice after a 60 ms guard, but never after the first word's END
+        on = 0.0
+        for q in range(6, max(7, nw - 6)):
+            if rms[q] > thr and rms[q:q + 6].mean() > thr: on = q * win / sr; break
+        if ws: on = min(on, ws[0][2] - w0 - 0.08)
+        lead = 0.03 if i == 0 else LEAD
+        if S.get("tag_lead") is not None and ws and (ws[0][1] - w0) - on > S["tag_lead"]: on = ws[0][1] - w0 - S["tag_lead"]
+        cut = max(0.0, on - lead)
+        # end: last sustained voice, never before the last word's end
+        last = len(x) / sr
+        for q in range(nw - 1, 0, -1):
+            if rms[q] > thr: last = (q + 1) * win / sr; break
+        if ws: last = max(last, ws[-1][1] - w0 + 0.25)      # v3 stretches the last word's END over the pause: trust energy
+        if ws: ws[0][1] = max(ws[0][1], w0 + on - 0.02)      # ...and the first word's START over the lead-in silence
+        if ws: ws[-1][2] = min(ws[-1][2], w0 + last)
+        x = x[int(cut * sr):int(min(len(x) / sr, last + TAIL) * sr)]
+        fade = int(0.012 * sr); x[:fade] *= np.linspace(0, 1, fade); x[-fade:] *= np.linspace(1, 0, fade)
+        ws = [[w, max(0.0, t0 - w0 - cut), max(0.0, t1 - w0 - cut)] for w, t0, t1 in ws]
+        if i == NL - 1 and len(x) > sr // 10 and np.sqrt((x[-int(0.05 * sr):] ** 2).mean()) > 0.02:
+            print(f"WARNING: line {i} ends while the voice is still loud (dialogue audio may be truncated)", file=sys.stderr)
         sf.write(f"l{i}.wav", x, sr)
-        ws = [[w, float(np.interp(t0 - starts[i], po, pn)), float(np.interp(t1 - starts[i], po, pn))]
-              for w, t0, t1 in WORDS if starts[i] - 0.05 <= t0 < ends[i] - 0.02]
-        # 2026-11-22 (video 004): v3 leaves ~0.3 s of breath/silence before every line -> slow turn-taking and +3 s
-        # total. Trim the lead to LEAD (line 0: voice at ~0.0 s for the hook) and shift the word times with it.
-        if ws:
-            # 2026-11-25: the first word's alignment start can include the silence before it (v3 joined lines without a
-            # space) -> find the real voice onset by energy and trim to that instead.
-            win = int(0.01 * sr); nw = len(x) // win
-            rms = np.sqrt((x[:nw * win].reshape(nw, win) ** 2).mean(1)) if nw else np.zeros(1)
-            thr = max(0.01, 0.08 * rms.max()); on = 0.0
-            for q in range(8, max(9, nw - 10)):      # skip the first 80 ms (tail click of the previous line); need 0.1 s sustained
-                if rms[q] > thr and rms[q:q + 10].mean() > thr: on = q * win / sr; break
-            cut = max(0.0, on - (0.03 if i == 0 else LEAD))
-            # optional "tag_lead": max seconds of tag sound (laugh/exhale) kept before the first word
-            if S.get("tag_lead") is not None and ws[0][1] - cut > S["tag_lead"] + LEAD: cut = ws[0][1] - S["tag_lead"]
-            ws[0][1] = max(ws[0][1], on - 0.02)
-            x = x[int(cut * sr):]; ws = [[w, max(0.0, a_ - cut), max(0.0, b_ - cut)] for w, a_, b_ in ws]
-            fade = int(0.012 * sr); x[:fade] *= np.linspace(0, 1, fade)
-            sf.write(f"l{i}.wav", x, sr)
         meta.append({"text": line[0], "cap": line[1], "dur": len(x) / sr, "sr": sr, "speaker": line[2],
-                     "emotion": line[3] if len(line) > 3 else "neutral", "speech_end": seg[i][1] - starts[i], "words": ws})
+                     "emotion": line[3] if len(line) > 3 else "neutral", "words": ws})
     if S.get("drop"):   # line indices generated but cut from the final edit; renumber l*.wav to stay contiguous
         keep = [j for j in range(len(meta)) if j not in S["drop"]]
         wavs = [sf.read(f"l{j}.wav")[0] for j in keep]
@@ -199,5 +242,13 @@ if __name__ == "__main__":
             if os.path.exists(f"l{k}.wav"): os.remove(f"l{k}.wav")
         for k, wv in enumerate(wavs): sf.write(f"l{k}.wav", wv, sr)
         meta = [meta[j] for j in keep]
+    if S.get("tempo", 1.0) != 1.0:   # optional pitch-preserving speed-up (atempo), e.g. 1.05 to land under 75 s; word times scaled
+        k = float(S["tempo"])
+        for i, z in enumerate(meta):
+            subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", f"l{i}.wav", "-filter:a", f"atempo={k:.4f}", "-ar", str(sr), "_t.wav"])
+            y, _ = sf.read("_t.wav"); sf.write(f"l{i}.wav", y, sr)
+            z["dur"] = len(y) / sr; z["words"] = [[w, a_ / k, b_ / k] for w, a_, b_ in z["words"]]
+    for i, z in enumerate(meta):   # snap early word starts onto the voice
+        z["words"] = refine_words(sf.read(f"l{i}.wav")[0], sr, z["words"])
     json.dump(meta, open("meta.json", "w"), indent=1)
     print("total", round(sum(m["dur"] for m in meta), 2), [round(m["dur"], 2) for m in meta])

@@ -208,6 +208,26 @@ Causes found in our pipeline and the fixes (apply from the next video):
   lCfIptVKzlPoj4vLmTLz (deadpan, sarcasm) + Hazel YyqkX0AHv8W5D1vxG9lR (warm, natural humour); C Riley
   99Hm6N8psCBzc1JwEVR2 (polished anchor) + Drew. Use Bidhan's pick for the News; rotate the rest in daily videos.
 
+## FUN FIRST + CLEAN AUDIO (Bidhan 2026-11-25 on 010 v1: "missing words", "not excited at all, boring", "subtitles do not
+sync", "there is no fun in this video, not in the content, not in expression")
+- **Fun is the content, not decoration.** Every video needs a running comic engine: one character who reacts BIG (laughs,
+  disbelief, sarcasm) and gets the punchlines, roughly one laugh line every ~8-10 s, and a callback at the end (010 v3:
+  "spare noses?", "Dynamited out of the group photo. That's cold.", "Gold? Please say gold.", "So the treasure... is
+  homework."). Give the reactor at least 5 lines; don't let one host explain for 4 lines in a row. Facts can be delivered
+  INSIDE a joke or a shocked reaction ("You blasted ninety percent of a face... with dynamite?!").
+- **Voices with energy:** pick lively voices (Laura, Jessica, Chris, Liam…), avoid deadpan-only pairs (Drew + Hazel sounded
+  flat to Bidhan). Use real v3 tags where they fit: [laughs] [excited] [surprised] [sarcastic] [whispers] [sighs]
+  [mischievously]; exclamation marks on genuinely fun lines. stability 0.0 (Creative).
+- **Audio cutting (tts_el.py rewritten 2026-11-25):** words are assigned to lines by character index; no edits inside a
+  line; boundaries move to the first real silence after v3's (early) segment end — this fixed clipped line endings
+  ("missing words") and caption drift. A throwaway last input absorbs v3's habit of truncating the final line. If the
+  run prints "line N ends while the voice is still loud", regenerate that line alone (TTS eleven_v3) before rendering.
+  Use "tempo" (≤ 1.08, atempo) only to land under 75 s.
+- **Visual beats follow the voice:** in renders use wt(line, "word") (render_010.py) for every reveal, stamp, blast and
+  counter instead of hard-coded seconds.
+- **Check before posting:** words-vs-energy check (every caption word has voice under it), no line ending loud, then
+  send Bidhan the video.
+
 ## No formula scripts (Bidhan 2026-11-23: "why does she have to say wait every time", "same script in every file")
 - BANNED as a reaction opener: "Wait", "Hang on", "Hold on", "No way", "Okay, tell me", "Wait, what?". Never reuse a
   reaction phrase used in the last 3 videos (check script_NNN.json files before writing).

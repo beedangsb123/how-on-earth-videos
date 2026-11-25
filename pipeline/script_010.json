@@ -1,32 +1,33 @@
 {
- "note": "010 Mount Rushmore (viewer request): the secret Hall of Records behind the faces + how the faces were carved. Format NEW: 'guided tour' \u2014 Hazel = enthusiastic tour guide (opens, explains), Drew = deadpan tourist (jokes). Shared-library voices Drew + Hazel (American), v3 Creative (stability 0). Real v3 tags only, inline, many lines untagged. Lines 5 ('Ah, yes. The delicate art tool.') and 11 ('Fine. The secret room.') were generated but cut from the edit to stay under 75 s.",
+ "note": "010 Mount Rushmore v3 (2026-11-25, Bidhan: 'no fun at all, not in the content, not in expression'). Funnier script: tourist (Chris) carries punchlines (spare noses, group photo, 'please say gold', homework), guide (Laura) excited + playful. Voices Chris + Laura, eleven_v3 Creative stability 0. Visual beats follow word timestamps (render_010 wt()).",
  "voices": {
   "M": {
-   "el": "lCfIptVKzlPoj4vLmTLz"
+   "el": "iP95p4xoKVk53GoZ742B"
   },
   "F": {
-   "el": "YyqkX0AHv8W5D1vxG9lR"
+   "el": "FGY2WhTYpPnrIDTdsKH5"
   }
  },
  "settings": {
   "stability": 0.0
  },
+ "tail": 0.15,
  "lines": [
   [
-   "There's a secret room hidden behind Mount Rushmore's faces.",
-   "There's a SECRET ROOM hidden behind Mount Rushmore's FACES.",
+   "[excited] Okay, there's a secret room hidden behind Mount Rushmore's faces!",
+   "Okay, there's a SECRET ROOM hidden behind Mount Rushmore's FACES!",
    "F",
    "neutral"
   ],
   [
-   "[deadpan] Sure. And the noses are full of snacks.",
-   "Sure. And the NOSES are full of SNACKS.",
+   "[laughs] A secret room? What's in there, the spare noses?",
+   "A SECRET ROOM? What's in there, the SPARE NOSES?",
    "M",
    "neutral"
   ],
   [
-   "No snacks. But the room is real... and something's in it.",
-   "No snacks. But the room is REAL... and something's IN it.",
+   "[laughs] No spare noses! But the room is real... and something is inside.",
+   "No spare noses! But the room is REAL... and something is INSIDE.",
    "F",
    "neutral"
   ],
@@ -37,94 +38,77 @@
    "neutral"
   ],
   [
-   "So how do you carve a face sixty feet tall? [excited] Dynamite.",
-   "So how do you carve a face SIXTY FEET tall? DYNAMITE.",
+   "So how do you carve a face sixty feet tall? [mischievously] Dynamite!",
+   "So how do you carve a face SIXTY FEET tall? DYNAMITE!",
    "F",
    "neutral"
   ],
   [
-   "[sarcastic] Ah, yes. The delicate art tool.",
-   "Ah, yes. The DELICATE art tool.",
+   "[surprised] You blasted ninety percent of a face... with dynamite... to within inches?!",
+   "You blasted NINETY PERCENT of a face... with DYNAMITE... to within INCHES?!",
    "M",
    "neutral"
   ],
   [
-   "About ninety percent was blasted off, to within inches of the face.",
-   "About NINETY PERCENT was blasted off, to within INCHES of the face.",
+   "[laughs] Yep! Then they drilled holes like a honeycomb and chipped the rest off. Very gently.",
+   "Yep! Then they drilled holes like a HONEYCOMB and chipped the rest OFF. Very GENTLY.",
    "F",
    "neutral"
   ],
   [
-   "Then they drilled holes close together, like a honeycomb, and chipped the rest off.",
-   "Then they drilled holes close together, like a HONEYCOMB, and chipped the rest OFF.",
+   "Crews dangled off the cliff on cables, and in fourteen years, not one worker died.",
+   "Crews DANGLED off the cliff on CABLES, and in FOURTEEN YEARS, not one worker died.",
    "F",
    "neutral"
   ],
   [
-   "Crews hung off the cliff to do it. In fourteen years, not one worker died.",
-   "Crews HUNG off the cliff to do it. In FOURTEEN YEARS, not one worker died.",
+   "Fun fact: Jefferson started on Washington's other side. The rock was too cracked... so they blasted him off!",
+   "Fun fact: JEFFERSON started on Washington's OTHER side. The rock was too CRACKED... so they BLASTED him off!",
    "F",
    "neutral"
   ],
   [
-   "Jefferson started on Washington's other side, but the rock was too cracked... so they blasted him off.",
-   "JEFFERSON started on Washington's OTHER side, but the rock was too CRACKED... so they BLASTED him off.",
-   "F",
-   "neutral"
-  ],
-  [
-   "[deadpan] Dynamited out of the group photo. Brutal.",
-   "DYNAMITED out of the GROUP PHOTO. Brutal.",
+   "[laughs] Dynamited out of the group photo. That's cold.",
+   "DYNAMITED out of the GROUP PHOTO. That's COLD.",
    "M",
    "neutral"
   ],
   [
-   "Fine. The secret room.",
-   "Fine. The SECRET ROOM.",
+   "Now, the secret room! They dug a seventy-foot tunnel for a Hall of Records... and then work just... stopped.",
+   "Now, the SECRET ROOM! They dug a SEVENTY-FOOT tunnel for a HALL OF RECORDS... and then work just... STOPPED.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[excited] Until 1998! They sealed a titanium vault in there, under a twelve-hundred-pound granite lid!",
+   "Until 1998! They sealed a TITANIUM VAULT in there, under a 1,200-POUND granite lid!",
+   "F",
+   "neutral"
+  ],
+  [
+   "[whispers] Gold? Please say gold.",
+   "GOLD? Please say GOLD.",
    "M",
    "neutral"
   ],
   [
-   "The sculptor planned a Hall of Records back here. They dug a seventy-foot tunnel... then work stopped.",
-   "The sculptor planned a HALL OF RECORDS back here. They dug a SEVENTY-FOOT tunnel... then work STOPPED.",
+   "Porcelain panels... with the story of the carving and the country!",
+   "PORCELAIN PANELS... with the story of the CARVING and the COUNTRY!",
    "F",
    "neutral"
   ],
   [
-   "In 1998, they sealed a titanium vault inside, under a twelve-hundred-pound granite lid.",
-   "In 1998, they sealed a TITANIUM VAULT inside, under a 1,200-POUND granite lid.",
-   "F",
-   "neutral"
-  ],
-  [
-   "[curious] Treasure?",
-   "TREASURE?",
-   "M",
-   "neutral"
-  ],
-  [
-   "Porcelain panels... with the story of the carving and the country.",
-   "PORCELAIN PANELS... with the story of the CARVING and the COUNTRY.",
-   "F",
-   "neutral"
-  ],
-  [
-   "[deadpan] So the treasure... is homework.",
+   "[sighs] So the treasure... is homework.",
    "So the treasure... is HOMEWORK.",
    "M",
    "neutral"
   ],
   [
-   "[laughs] Basically. And granite wears away an inch every ten thousand years... so that secret room isn't going anywhere.",
-   "Basically. And granite wears away AN INCH every TEN THOUSAND YEARS... so that SECRET ROOM isn't going anywhere.",
+   "[laughs] Basically! And granite wears away an inch every ten thousand years... so that homework isn't going anywhere.",
+   "Basically! And granite wears away AN INCH every TEN THOUSAND YEARS... so that HOMEWORK isn't going anywhere.",
    "F",
    "neutral"
   ]
  ],
- "beat_gap": 0.4,
- "tag_lead": 0.3,
- "drop": [
-  5,
-  11
- ]
+ "tag_lead": 0.4
 }

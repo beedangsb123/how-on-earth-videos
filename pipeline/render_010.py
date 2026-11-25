@@ -35,9 +35,17 @@ meta = json.load(open("meta.json"))
 STARTS = []; _t = 0
 for m in meta: STARTS.append(_t); _t += m["dur"]
 DURS = [m["dur"] for m in meta]
-END = 2.3
+END = 2.1
 STARTS.append(_t); DURS.append(END)
 TOTAL = _t + END
+def wt(i, key, default):
+    """start time (s, within line i) of the first spoken word starting with `key` — visuals follow the VOICE
+    (2026-11-25: hard-coded beat times drifted when the voice was regenerated)"""
+    for w in meta[i]["words"]:
+        if w[0].lower().strip(".,!?'\"").startswith(key.lower()): return w[1]
+    return default
+
+
 LOGO = cairo.ImageSurface.create_from_png(os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo.png"))
 
 
@@ -181,29 +189,29 @@ def xray_room(c, t, k, cx=560, cy=900, label=True):
     if label: text(c, "(illustration)", cx - 55, cy + 175, 26, col=WHITE, stroke=6, alpha=0.8 * a)
 
 
-def honeycomb(c, t, d):
+def honeycomb(c, t, d, tf=2.4):
     """drawn granite block: rows of drill holes appear, then the outer slab cracks off and falls"""
     bg(c, "faces_bg", FACES, t, (0.3, 0.45), dim=0.5, z=1.15)
     x0, y0, bw, bh = 140, 560, 800, 640
     c.save(); rrect(c, x0, y0, bw, bh, 30); c.clip(); tex(c, TX["concrete"], dx=t * 4); c.paint()
-    c.set_source_rgba(0.2, 0.2, 0.25, 0.35); c.paint(); c.restore()
+    c.set_source_rgba(0.16, 0.15, 0.15, 0.5); c.paint(); tex(c, TX["rock"], alpha=0.18); c.paint_with_alpha(0.0); c.restore()
     c.set_source_rgba(0, 0, 0, 0.35); c.set_line_width(4); rrect(c, x0, y0, bw, bh, 30); c.stroke()
     face_x = x0 + 520                                   # the "final surface" line
     c.set_source_rgba(*engine.CAP_ACCENT, 0.9); c.set_line_width(5); c.set_dash([18, 12])
     c.move_to(face_x, y0 - 30); c.line_to(face_x, y0 + bh + 30); c.stroke(); c.set_dash([])
     text(c, "FINAL FACE", face_x, y0 - 50, 36, col=engine.CAP_ACCENT, stroke=8)
     holes = [(face_x + 40 + j * 44, y0 + 50 + i * 48) for i in range(12) for j in range(5)]
-    n = int(len(holes) * ease((t - 0.3) / 1.6))
-    fall = ease((t - 2.4) / 0.9)
+    n = int(len(holes) * ease((t - 0.3) / max(0.6, tf - 0.6)))
+    fall = ease((t - tf) / 0.9)
     c.save(); c.translate(0, 900 * fall * fall); c.rotate(0.08 * fall)
     if fall > 0:   # the slab outside the line breaks away
         c.rectangle(face_x + 8, y0, x0 + bw - face_x - 8, bh); c.set_source_rgba(0.55, 0.53, 0.5, 0.9 * (1 - fall)); c.fill()
     for (hx, hy) in holes[:n]:
         c.set_source_rgba(0.08, 0.07, 0.07, 0.95 * (1 - fall)); c.arc(hx, hy, 12, 0, 2 * math.pi); c.fill()
     c.restore()
-    if 2.3 < t < 3.3: dust_burst(c, t - 2.3, face_x + 140, y0 + bh / 2, dur=1.0, spread=300, seed=4)
+    if tf - 0.1 < t < tf + 0.9: dust_burst(c, t - tf + 0.1, face_x + 140, y0 + bh / 2, dur=1.0, spread=300, seed=4)
     # drill bit
-    if t < 2.3 and n < len(holes):
+    if t < tf - 0.1 and n < len(holes):
         hx, hy = holes[n]; c.set_source_rgba(0.85, 0.85, 0.9, 1); c.set_line_width(10)
         c.move_to(hx + 20, hy); c.line_to(hx + 160, hy); c.stroke()
         c.set_source_rgb(*RED); rrect(c, hx + 150, hy - 26, 120, 52, 10); c.fill()
@@ -252,9 +260,9 @@ def s0(c, t, d):   # F hook
 
 def s1(c, t, d):   # M "Sure. And the noses are full of snacks."
     a = FACES.kb(min(1, t / d), 1.6, 2.0, (0.33, 0.4), (0.33, 0.44)); to_ctx(c, finish(a, t, vign=0.35))
-    plate(c, "SNACKS?", W / 2, 400, 120, t - 0.9)
+    plate(c, "SNACKS?", W / 2, 400, 120, t - wt(1, "snacks", 0.9) + 0.1)
     for j in range(5):   # drawn cookies orbiting the nose (the joke)
-        if t < 1.1 + j * 0.1: continue
+        if t < wt(1, "noses", 1.1) + j * 0.1: continue
         ang = t * 1.6 + j * 2 * math.pi / 5; x = 540 + 260 * math.cos(ang); y = 1000 + 120 * math.sin(ang)
         c.set_source_rgb(*hexc("C68A4A")); c.arc(x, y, 34, 0, 2 * math.pi); c.fill()
         c.set_source_rgb(*hexc("3B2414"))
@@ -264,36 +272,39 @@ def s1(c, t, d):   # M "Sure. And the noses are full of snacks."
 def s2(c, t, d):   # F "No snacks. But the room is real... and something's in it."
     a = hall_grade(HALL.kb(min(1, t / d), 1.0, 1.15, (0.5, 0.5), (0.52, 0.45))); to_ctx(c, finish(a, t, vign=0.4))
     plate(c, "IT'S REAL", W / 2, 400, 130, t - 0.2, rule=GREEN)
-    if t > 2.6: plate(c, "SOMETHING'S INSIDE", W / 2, 580, 70, t - 2.6)
+    T2 = wt(2, "something", 2.6)
+    if t > T2: plate(c, "SOMETHING'S INSIDE", W / 2, 580, 70, t - T2)
     source_tag(c, "Photo: Runner1928 / CC BY-SA 4.0 · the tunnel entrance", t - 0.2, size=22)
 
 
 def s3(c, t, d):   # F Lakota: Six Grandfathers (no joke here)
     a = AERIAL.kb(min(1, t / d), 1.5, 1.6, (0.62, 0.3), (0.6, 0.3)); to_ctx(c, finish(a, t, vign=0.3))
-    plate(c, "THE SIX GRANDFATHERS", W / 2, 400, 80, t - 0.9, rule=engine.CAP_ACCENT, sub="Lakota name for the mountain")
+    plate(c, "THE SIX GRANDFATHERS", W / 2, 400, 80, t - wt(3, "lakota", 0.9), rule=engine.CAP_ACCENT, sub="Lakota name for the mountain")
     source_tag(c, "Photo: Carol M. Highsmith (PD) · Source: Eos / AGU", t - 0.3, size=22)
 
 
 def s4(c, t, d):   # F "So how do you carve a face sixty feet tall? Dynamite."
-    if t < 2.7:
-        a = FACES.kb(min(1, t / 2.7), 1.2, 1.35, (0.36, 0.42), (0.36, 0.42)); to_ctx(c, finish(a, t, vign=0.3))
-        ruler(c, 150, 640, 1240, "60 FT", t - 0.6)
+    TB = wt(4, "dynamite", 2.7) - 0.05
+    if t < TB:
+        a = FACES.kb(min(1, t / TB), 1.2, 1.35, (0.36, 0.42), (0.36, 0.42)); to_ctx(c, finish(a, t, vign=0.3))
+        ruler(c, 150, 640, 1240, "60 FT", t - wt(4, "sixty", 0.6))
         plate(c, "HOW?", W / 2, 400, 140, t - 0.1)
         source_tag(c, "Source: Britannica (each head about 60 ft)", t - 0.3, size=22)
     else:
-        tt = t - 2.7; sh = 14 * (1 - eout(tt / 0.5)) * math.sin(tt * 70)
+        tt = t - TB; sh = 14 * (1 - eout(tt / 0.5)) * math.sin(tt * 70)
         c.save(); c.translate(sh, -sh * 0.6)
-        a = BUILD.kb(min(1, tt / (d - 2.7)), 1.1, 1.2, (0.5, 0.5), (0.5, 0.45)); to_ctx(c, finish(a, tt, archival=True, vign=0.4))
+        a = BUILD.kb(min(1, tt / max(0.5, d - TB)), 1.1, 1.2, (0.5, 0.5), (0.5, 0.45)); to_ctx(c, finish(a, tt, archival=True, vign=0.4))
         c.restore(); flash(c, tt); dust_burst(c, tt, W / 2, 900, dur=0.9, spread=600, seed=1)
         plate(c, "DYNAMITE", W / 2, 420, 140, tt - 0.05)
 
 
 def s5(c, t, d):   # F "About ninety percent was blasted off, to within inches of the face."
     a = BUILD.kb(min(1, t / d), 1.2, 1.32, (0.5, 0.45), (0.45, 0.42)); to_ctx(c, finish(a, t + 3, archival=True, vign=0.4))
-    if t < 3.2:
-        ring_meter(c, W / 2, 900, 200, 0.9, "BLASTED OFF", t - 0.2)
+    T5 = wt(5, "within", 1.8) - 0.1
+    if t < T5:
+        ring_meter(c, W / 2, 900, 200, 0.9, "BLASTED OFF", (t - 0.1) * 1.4)
     else:
-        tt = t - 3.2
+        tt = t - T5
         plate(c, "WITHIN INCHES", W / 2, 400, 110, tt)
         # simple rock profile: blasted line just outside the final face line
         c.save(); c.translate(0, 150)
@@ -312,7 +323,7 @@ def s5(c, t, d):   # F "About ninety percent was blasted off, to within inches o
 
 
 def s6(c, t, d):   # F honeycomb
-    honeycomb(c, t, d)
+    honeycomb(c, t, d, tf=wt(6, "chipped", 2.4))
     plate(c, "HONEYCOMBING", W / 2, 400, 110, t - 0.1)
     source_tag(c, "Diagram (simplified) · Source: NPS, Britannica", t - 0.3, size=22)
 
@@ -321,36 +332,39 @@ WORKERS = [(0.57, 0.62), (0.58, 0.72), (0.56, 0.84)]   # tiny figures on the cab
 
 
 def s7(c, t, d):   # F "Crews hung off the cliff to do it. In fourteen years, not one worker died."
-    if t < 3.0:
-        a = WORK.kb(min(1, t / 3.0), 1.0, 1.15, (0.55, 0.6), (0.57, 0.7)); to_ctx(c, finish(a, t, archival=True, vign=0.4))
+    T7 = wt(7, "fourteen", 3.0) - 0.25
+    if t < T7:
+        a = WORK.kb(min(1, t / T7), 1.0, 1.15, (0.55, 0.6), (0.57, 0.7)); to_ctx(c, finish(a, t, archival=True, vign=0.4))
         plate(c, "HANGING ON CABLES", W / 2, 400, 86, t - 0.2)
     else:
-        tt = t - 3.0
-        a = UNREST.kb(min(1, tt / (d - 3.0)), 1.0, 1.12, (0.5, 0.45), (0.5, 0.4)); to_ctx(c, finish(a, tt, archival=True, vign=0.4))
+        tt = t - T7
+        a = UNREST.kb(min(1, tt / max(0.5, d - T7)), 1.0, 1.12, (0.5, 0.45), (0.5, 0.4)); to_ctx(c, finish(a, tt, archival=True, vign=0.4))
         plate(c, counter(tt - 0.1, 0, 14, 0.7) + " YEARS", W / 2, 400, 130, tt - 0.05)
-        if tt > 1.6: stamp(c, "0 DEATHS", W / 2, 900, tt - 1.6, col=GREEN, size=130)
+        T7b = wt(7, "died", 1.6) - T7
+        if tt > T7b: stamp(c, "0 DEATHS", W / 2, 900, tt - T7b, col=GREEN, size=130)
         source_tag(c, "Photos: Rise Studio (PD) · Source: NPS (no fatalities)", tt - 0.3, size=22)
 
 
 def s8(c, t, d):   # F Jefferson moved
     a = FACES.kb(min(1, t / d), 1.05, 1.12, (0.35, 0.45), (0.33, 0.45)); to_ctx(c, finish(a, t, vign=0.3))
     gx, gy = 190, 900
+    TX8 = wt(8, "cracked", 3.0); TB8 = wt(8, "blasted", 3.9)
     k = ease((t - 0.3) / 0.5)
-    if k > 0 and t < 4.6:
+    if k > 0 and t < TB8 + 0.7:
         c.set_source_rgba(*SKY, 0.9 * k); c.set_line_width(8); c.set_dash([20, 12], -t * 40)
         c.save(); c.translate(gx, gy); c.scale(1, 1.3); c.arc(0, 0, 120, 0, 2 * math.pi); c.restore(); c.stroke(); c.set_dash([])
         text(c, "JEFFERSON v1", gx + 90, gy - 190, 44, col=SKY, stroke=10, alpha=k)
-    if t > 3.0 and t < 4.6:
-        e = ease((t - 3.0) / 0.25); c.set_source_rgba(*RED, e); c.set_line_width(18)
+    if t > TX8 and t < TB8 + 0.7:
+        e = ease((t - TX8) / 0.25); c.set_source_rgba(*RED, e); c.set_line_width(18)
         c.move_to(gx - 110, gy - 140); c.line_to(gx + 110, gy + 140); c.move_to(gx + 110, gy - 140); c.line_to(gx - 110, gy + 140); c.stroke()
-    if t > 3.9: flash(c, t - 3.9); dust_burst(c, t - 3.9, gx + 40, gy, dur=0.9, spread=420, seed=2)
-    if t > 4.6: plate(c, "BLASTED OFF", W / 2, 1150, 100, t - 4.6)
-    plate(c, "ROCK TOO CRACKED", W / 2, 400, 90, t - 1.8)
+    if t > TB8: flash(c, t - TB8); dust_burst(c, t - TB8, gx + 40, gy, dur=0.9, spread=420, seed=2)
+    if t > TB8 + 0.5: plate(c, "BLASTED OFF", W / 2, 1150, 100, t - TB8 - 0.5)
+    plate(c, "ROCK TOO CRACKED", W / 2, 400, 90, t - TX8 + 0.3)
     source_tag(c, "Illustrative position · Sources: Britannica, Eos", t - 0.3, size=22)
 
 
 def s9(c, t, d):   # M "Dynamited out of the group photo. Brutal." — meme: polaroid with an empty slot
-    bg(c, "faces_g", FACES, t, (0.5, 0.42), dim=0.45, z=1.0)
+    bg(c, "faces_g2", FACES, t, (0.5, 0.8), dim=0.5, z=1.0)    # rock (not flat sky) at the top edge -> edge check
     c.save(); c.translate(W / 2, 950); c.rotate(-0.06 + 0.02 * math.sin(t * 2))
     c.set_source_rgba(0, 0, 0, 0.4); c.rectangle(-380 + 14, -330 + 18, 760, 700, ); c.fill()
     c.set_source_rgb(0.97, 0.96, 0.92); c.rectangle(-380, -330, 760, 700); c.fill()
@@ -362,7 +376,8 @@ def s9(c, t, d):   # M "Dynamited out of the group photo. Brutal." — meme: pol
     text(c, "?", -280, -100, 90, col=RED)
     text(c, "GROUP PHOTO, 1930s", 0, 300, 44, col=INK)
     c.restore()
-    if t > 1.2: stamp(c, "BRUTAL.", W / 2, 470, t - 1.2, col=RED, size=120)
+    T9 = wt(9, "brutal", 1.2)
+    if t > T9: stamp(c, "BRUTAL.", W / 2, 470, t - T9, col=RED, size=120)
 
 
 def s10(c, t, d):  # F Hall of Records planned, 70-ft tunnel, work stopped
@@ -370,11 +385,13 @@ def s10(c, t, d):  # F Hall of Records planned, 70-ft tunnel, work stopped
     k = ease((t - 0.4) / 0.6)
     xray_room(c, t, k, cx=600, cy=900)
     plate(c, "HALL OF RECORDS", W / 2, 400, 100, t - 0.1)
-    if t > 3.0:
-        tt = t - 3.0
+    T10 = wt(10, "seventy", 3.0)
+    if t > T10:
+        tt = t - T10
         c.set_source_rgba(*INK, 0.8); rrect(c, 300, 1110, 480, 110, 14); c.fill()
         text(c, counter(tt, 0, 70, 1.2) + "-FT TUNNEL", W / 2, 1185, 60, col=engine.CAP_ACCENT)
-    if t > 5.2: stamp(c, "WORK STOPPED", W / 2, 640, t - 5.2, col=RED, size=96)
+    T10b = wt(10, "stopped", 5.2) - 0.1
+    if t > T10b: stamp(c, "WORK STOPPED", W / 2, 640, t - T10b, col=RED, size=96)
     source_tag(c, "Illustration · Source: NPS 'Hall of Records' (tunnel 1938-39)", t - 0.3, size=22)
 
 
@@ -389,16 +406,17 @@ def s11(c, t, d):  # F 1998: teak box, titanium vault, 1,200-lb granite lid
         for p_, v in ((0, 0.55), (0.45, 0.88), (1, 0.5)): g.add_color_stop_rgba(p_, v, v + 0.02, v + 0.05, kb_)
         c.set_source(g); rrect(c, cx - 230, cy - 150 + (1 - kb_) * 120, 460, 300, 16); c.fill()
         text(c, "TITANIUM VAULT", cx, cy + 40, 46, col=INK, alpha=kb_)
-    lid = ease((t - 2.6) / 0.35)
-    if t > 2.4:
+    TL = wt(11, "under", 2.6); lid = ease((t - TL) / 0.35)
+    if t > TL - 0.2:
         ly = lerp(560, cy - 200, lid)
         c.save(); rrect(c, cx - 270, ly - 50, 540, 100, 10); c.clip(); tex(c, TX["concrete"]); c.paint()
         c.set_source_rgba(0.05, 0.05, 0.07, 0.6); c.paint(); c.restore()
         text(c, "GRANITE LID", cx, ly + 16, 42, col=CREAM)
-        if lid >= 1: dust_burst(c, t - 2.95, cx, cy - 160, dur=0.7, spread=300, seed=6)
-    if t > 3.5:
+        if lid >= 1: dust_burst(c, t - TL - 0.35, cx, cy - 160, dur=0.7, spread=300, seed=6)
+    T11 = wt(11, "twelve", 3.5)
+    if t > T11:
         c.set_source_rgba(*RED, 1); rrect(c, cx - 170, cy + 175, 340, 90, 12); c.fill()
-        text(c, counter(t - 3.5, 0, 1200, 0.8) + " LB", cx, cy + 240, 62, col=CREAM)
+        text(c, counter(t - T11, 0, 1200, 0.8) + " LB", cx, cy + 240, 62, col=CREAM)
     source_tag(c, "Illustration · Sources: NPS, HISTORY (1,200-lb capstone)", t - 0.3, size=22)
 
 
@@ -430,7 +448,7 @@ def meme_split(c, t, show_reality=0.0, reality_t=0.0, homework=0.0):
     if homework > 0: stamp(c, "HOMEWORK", W / 2, 1080, homework, col=RED, size=130, ang=-0.12)
 
 
-def s12(c, t, d):  # M "Treasure?"
+def s12(c, t, d):  # M "Gold? Please say gold."
     meme_split(c, t)
 
 
@@ -440,17 +458,18 @@ def s13(c, t, d):  # F "Porcelain panels... with the story of the carving and th
 
 
 def s14(c, t, d):  # M "So the treasure... is homework."
-    meme_split(c, t + 4.4, show_reality=1, reality_t=4, homework=t - 1.0)
+    meme_split(c, t + 4.4, show_reality=1, reality_t=4, homework=t - wt(14, "homework", 1.0))
 
 
 def s15(c, t, d):  # F erosion + loop back to the hook
-    if t < 4.6:
-        a = NEEDLES.kb(min(1, t / 4.6), 1.0, 1.12, (0.5, 0.45), (0.5, 0.4)); to_ctx(c, finish(a, t, vign=0.3))
-        plate(c, "1 INCH", W / 2, 400, 140, t - 1.0)
-        if t > 1.9: plate(c, "EVERY " + counter(t - 1.9, 0, 10000, 1.0) + " YEARS", W / 2, 580, 76, t - 1.9)
+    TS = wt(15, "so", 4.6) - 0.3; TI = wt(15, "inch", 1.0); TT = wt(15, "ten", 1.9)
+    if t < TS:
+        a = NEEDLES.kb(min(1, t / TS), 1.0, 1.12, (0.5, 0.45), (0.5, 0.4)); to_ctx(c, finish(a, t, vign=0.3))
+        plate(c, "1 INCH", W / 2, 400, 140, t - TI)
+        if t > TT: plate(c, "EVERY " + counter(t - TT, 0, 10000, 1.0) + " YEARS", W / 2, 580, 76, t - TT)
         source_tag(c, "Photo: w_lemay / CC BY-SA 2.0 (Black Hills granite) · Source: Eos", t - 0.3, size=21)
     else:
-        tt = t - 4.6; hook_frame(c, 0.3 + tt * 0.4, xr=1.0)
+        tt = t - TS; hook_frame(c, 0.3 + tt * 0.4, xr=1.0)
         plate(c, "NOT GOING ANYWHERE", W / 2, 1180, 76, tt - 0.6, rule=GREEN)
 
 
@@ -486,17 +505,18 @@ def events():
     s = STARTS
     ev = [("boom", 0.0), ("pop", 0.6), ("bubble", 0.7)]
     ev += [("whoosh", x - 0.05) for k, x in enumerate(s[1:], 1) if k not in NO_DUST]
-    ev += [("pop", s[1] + 1.1), ("pop", s[1] + 1.3), ("pop", s[2] + 0.2), ("pop", s[2] + 2.6), ("pop", s[3] + 0.9)]
-    ev += [("tick", s[4] + 0.6 + k * 0.1) for k in range(5)] + [("boom", s[4] + 2.7), ("crack", s[4] + 2.75)]
-    ev += [("tick", s[5] + 0.2 + k * 0.12) for k in range(9)] + [("pop", s[5] + 3.2)]
-    ev += [("drill", s[6] + 0.3), ("crack", s[6] + 2.4), ("thunk", s[6] + 3.0)]
-    ev += [("pop", s[7] + 0.2), ("tick", s[7] + 3.1), ("tick", s[7] + 3.4), ("ding", s[7] + 4.6)]
-    ev += [("pop", s[8] + 1.8), ("thunk", s[8] + 3.0), ("boom", s[8] + 3.9), ("pop", s[8] + 4.6)]
-    ev += [("scratch", s[9] + 0.05), ("thunk", s[9] + 1.2)]
-    ev += [("pop", s[10] + 0.1), ("drill", s[10] + 3.0), ("thunk", s[10] + 5.2)]
-    ev += [("pop", s[11]), ("clank", s[11] + 0.9), ("thunk", s[11] + 2.95), ("boom", s[11] + 2.95), ("ding", s[11] + 4.3)]
-    ev += [("ding", s[12] + 0.1), ("pop", s[13] + 0.1), ("trombone", s[14] + 0.9), ("thunk", s[14] + 1.0)]
-    ev += [("pop", s[15] + 1.0), ("pop", s[15] + 1.9), ("tick", s[15] + 2.0), ("tick", s[15] + 2.4), ("boom", s[15] + 4.6), ("pop", s[16] + 0.5)]
+    ev += [("pop", s[1] + wt(1, "noses", 1.1)), ("pop", s[1] + wt(1, "snacks", 1.3)), ("pop", s[2] + 0.2), ("pop", s[2] + wt(2, "something", 2.6)), ("pop", s[3] + wt(3, "lakota", 0.9))]
+    ev += [("tick", s[4] + wt(4, "sixty", 0.6) + k * 0.1) for k in range(5)] + [("boom", s[4] + wt(4, "dynamite", 2.7) - 0.05), ("crack", s[4] + wt(4, "dynamite", 2.7))]
+    ev += [("tick", s[5] + 0.1 + k * 0.09) for k in range(9)] + [("pop", s[5] + wt(5, "within", 1.8) - 0.1)]
+    tf = wt(6, "chipped", 2.4); ev += [("drill", s[6] + 0.3), ("crack", s[6] + tf), ("thunk", s[6] + tf + 0.6)]
+    ev += [("pop", s[7] + 0.2), ("tick", s[7] + wt(7, "fourteen", 3.0)), ("tick", s[7] + wt(7, "fourteen", 3.0) + 0.3), ("ding", s[7] + wt(7, "died", 4.6))]
+    ev += [("pop", s[8] + wt(8, "cracked", 3.0) - 0.3), ("thunk", s[8] + wt(8, "cracked", 3.0)), ("boom", s[8] + wt(8, "blasted", 3.9)), ("pop", s[8] + wt(8, "blasted", 3.9) + 0.5)]
+    ev += [("scratch", s[9] + 0.05), ("thunk", s[9] + wt(9, "brutal", 1.2))]
+    ev += [("pop", s[10] + 0.1), ("drill", s[10] + wt(10, "seventy", 3.0)), ("thunk", s[10] + wt(10, "stopped", 5.2) - 0.1)]
+    TL = wt(11, "under", 2.6)
+    ev += [("pop", s[11]), ("clank", s[11] + 0.9), ("thunk", s[11] + TL + 0.35), ("boom", s[11] + TL + 0.35), ("ding", s[11] + wt(11, "twelve", 3.5) + 0.8)]
+    ev += [("ding", s[12] + 0.1), ("pop", s[13] + 0.1), ("trombone", s[14] + wt(14, "homework", 1.0) - 0.1), ("thunk", s[14] + wt(14, "homework", 1.0))]
+    ev += [("pop", s[15] + wt(15, "inch", 1.0)), ("pop", s[15] + wt(15, "ten", 1.9)), ("tick", s[15] + wt(15, "ten", 1.9) + 0.1), ("tick", s[15] + wt(15, "ten", 1.9) + 0.5), ("boom", s[15] + wt(15, "so", 4.6) - 0.3), ("pop", s[16] + 0.5)]
     return ev
 
 
