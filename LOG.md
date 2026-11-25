@@ -55,3 +55,4 @@ EXTRAS (first full day of PLAYBOOK "EXTRAS BEYOND THE VIDEO"; no ElevenLabs; pip
 - Facebook text post Thu 26 07:00 "Guess the wonder" riddle (answer = Sunday's Mount Rushmore video) 441242777.
 - Carousel Fri 27 19:00 "5 things you didn't know about the Everglades" (6 slides): Instagram 441242916 (1080x1350) + TikTok photo mode 441242928 (1080x1920, autoAddMusic).
 - Extras media credits: NARA (PD), ImagePerson CC BY 4.0, Everglades NPS (PD), Eric Kilby CC BY-SA 2.0, Thomas Wolf CC BY-SA 3.0, Runner1928 CC BY-SA 4.0. Audio: original synth (extras.synth_bed).
+- YouTube weekly long-form #1, Sun 29 10:30 (not 10:00, so it never shares the slot with the Short): "9 Wonders Explained in 10 Minutes" (001-009 Shorts, 10:21, 16:9 with blurred side panels + chapter labels, chapters in the description) — videos/extras/2026-11-29-youtube-longform-week1.mp4 (89.8 MB; keep future compilations under ~90 MB: GitHub hard limit 100 MB) — post 441247028.
