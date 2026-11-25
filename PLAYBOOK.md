@@ -273,7 +273,38 @@ always wins if he provides it.
 - **Post time: 10:00 am Australia/Sydney, every day (Bidhan's choice 2026-11-20).** = 6 pm US Eastern / 3 pm US Pacific (prime time in the highest-paying market) and the top hour for TikTok, Instagram and Facebook in Metricool's best-time data; UK/Europe catch it next morning; India (low pay per view) is asleep — accepted trade-off. Re-check weekly with `getBestTimeToPostByNetwork` and the account's own analytics; if the data clearly favours another slot, propose the change to Bidhan in the run message rather than switching silently.
 - Caption: open with a QUESTION or 'guess' line (Instagram comments were the best signal on video 001) + 1 emoji + the key number + 5–6 hashtags (2 broad, 3 specific, always #howonearth). Titles use the searchable phrase people type ("How was Hoover Dam built"), not just a teaser.
 - firstCommentText (Instagram/Facebook): one engagement question, e.g. "Which mega-build should we explain next? 👇" — comment topics feed LOG/topic ideas.
-- **Stories every video (Bidhan 2026-11-22, standing rule):** after scheduling the main post, also schedule the same video to **Instagram + Facebook Stories** (one Metricool post, providers instagram + facebook, instagramData.type STORY, facebookData.type STORY, no text, isAiGenerated false). Stories are capped at 60 s, so split the video at a line boundary near the middle — ideally right after a question/cliffhanger line — into `videos/NNN-story-part1.mp4` and `videos/NNN-story-part2.mp4` (ffmpeg re-encode, -b:v 5200k, 60 ms audio fade at the cut; each part ≤ 59 s). Schedule part 1 at 10:01 and part 2 at 10:02 (Sydney), right after the 10:00 reel. Check both raw URLs return 200 first. Metricool has no TikTok/YouTube story option — skip those. Log both story post ids in LOG.md.
+- ~~Stories = the video split into two parts~~ REPLACED 2026-11-25 by Bidhan ("having a long video 2 part, I don't like that"): see "EXTRAS BEYOND THE VIDEO" below.
+
+## EXTRAS BEYOND THE VIDEO (Bidhan 2026-11-25 — standing strategy; every daily run)
+Goal: more monetisable posts per day WITHOUT posting the video twice and WITHOUT spending ElevenLabs credits (extras
+never use voices). Keep them cheap to make (one script, reused assets from the day's research). Funny/meme-like is
+welcome. Rules: only free-licence stock (Wikimedia Commons PD/CC0/CC BY/BY-SA, NASA, NPS/US-gov) with credits; NEVER
+copyrighted meme templates (no famous meme photos, characters, logos, film/TV stills, real people's faces); our own
+meme FORMATS are fine ("Nobody: / Niagara Falls:", "Expectation vs reality", "POV: you're the river", "Rate this
+wonder", "Real or fake?"). Audio: real free stock audio (Commons CC0/PD sound effects and PD music recordings, credit
+them); our own synth only as a fallback. Facts in extras follow the same sourcing rules as the video.
+1. **Stories (IG + FB), daily at 10:01:** ONE story, 12–20 s (Facebook only pays for content >= 10 s), a photo or a
+   short animation: meme or "did you know" card from the day's topic over a stock photo/clip + realistic stock audio +
+   "new video on our page" teaser. Not a cut of the main video. Metricool: providers instagram + facebook, type STORY.
+2. **Facebook photo post, daily at 23:00 Sydney (≈7 am US Eastern):** a meme or fact card (1080x1350 PNG/JPG) with a
+   question caption — Meta's Content Monetization pays on photos and text posts too (~40% of 2025 payouts went to
+   Stories, photos and text posts; Reels ~60%). Facebook only (type POST). The page must still be invited to the
+   programme (invite-only; Bidhan watches Professional Dashboard > Monetization).
+3. **Facebook text post, 2x a week (Tue/Thu 07:00 Sydney ≈ 3 pm ET previous day):** a one-line "guess the wonder" riddle
+   or would-you-rather (no image needed; answer in the first comment next day). Cheap, drives comments.
+4. **Instagram carousel + TikTok photo carousel, 3x a week (Mon/Wed/Fri at 19:00 Sydney):** 5–7 slides "5 things you
+   didn't know about <topic>" or a meme series, 1080x1350 for Instagram (POST with several images) and the same
+   slides at 1080x1920 for TikTok photo mode (tiktokData.autoAddMusic true = TikTok's own licensed music, allowed).
+   Carousels earn saves/shares (Instagram's growth signal; Instagram has no direct payout in AU = growth + sponsors).
+5. **YouTube weekly long-form, Sundays 10:00 Sydney:** compile the week's Shorts into one 8–12 min 16:9-safe video
+   ("7 Wonders Explained in 10 Minutes") with chapter title cards between them (no new voice) — long-form watch hours
+   count toward the YouTube Partner Program; Shorts views do not. youtubeData type "video", same tags.
+6. **Never more than one main video per day**; extras are separate posts at their own times; check getScheduledPosts so
+   no slot is double-booked. Log every extra (time, post id, format) in LOG.md under the day's video so analytics can
+   compare which extra format works per platform, and add a weekly line to LEARNINGS.md.
+Network note 2026-11-25: Pixabay, Pexels and Freesound are blocked by the session allowlist (Commons + NASA work). If
+Bidhan wants them: add pixabay.com, cdn.pixabay.com, pexels.com, images.pexels.com, videos.pexels.com, freesound.org,
+cdn.freesound.org in claude.ai Settings > Capabilities (their APIs also need a free API key).
 
 ## Money plan (US$500/month target)
 1. **Facebook Content Monetization** (Australia eligible, invite-only) — usually the first real payout for this niche.

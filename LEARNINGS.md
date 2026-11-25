@@ -57,3 +57,8 @@ Add a dated entry each run after checking Metricool analytics for recent posts: 
   - Compare at 24 h: 007 (trend) vs 004/005 (evergreen) on views and 3-s skip rate per platform.
 - 2026-11-24 late (Bidhan, live: "Thursday and Friday???"): made both now so the week is full. 008 Strait of Hormuz (Thu 26, "Press the button", strictly neutral; Roger + Matilda; look v6 logistics infographic: pill headlines, arcade button + "ARE YOU SURE?" gag, schematic lanes/pipelines/queue, zoom-blur cuts; music arabic -2/100; 61.6 s; edge PASS 32 frames). 009 How On Earth News #1 (Fri 27): the Everglades "river of grass", GTA 6 swamp tie-in; Daniel + Alice per_line 0.9x; speedometer, slope profile, kitchen-floor gag, shrink bars; 74.1 s; edge PASS 39 frames; news mix needed treble -2.5 dB @6 kHz (>4 kHz share 0.036 -> 0.025).
   - SCHEDULE IS NOW FULL THROUGH SAT 28 NOV (Wed GTA bridge, Thu Hormuz, Fri News, Sat Empire State). Daily runs: the next free 10:00 slot is Sun 29 Nov (viewer request Mount Rushmore, see TOPIC_REQUESTS.md, deadline 1 Dec). Keep moving forward to the first FREE day; never double-book.
+- **ACTION FOR THE NEXT DAILY RUN (2026-11-25): EXTRAS + replace this week's 2-part Stories.** Bidhan 2026-11-25 dislikes the
+  2-part video Stories. Replace the scheduled 2-part Story posts for Thu 26 (440092501, 440092530), Fri 27 (440093203,
+  440093254) and Sat 28 (440050077, 440050089) with ONE meme/animated Story each at 10:01 (12–20 s, stock photo/clip +
+  free stock audio, per PLAYBOOK "EXTRAS BEYOND THE VIDEO"): update one post of each pair to the new media and set the
+  other to draft (Metricool has no delete). Then start the daily extras (FB photo post 23:00, etc.). Mark DONE.
