@@ -328,9 +328,15 @@ them); our own synth only as a fallback. Facts in extras follow the same sourcin
 6. **Never more than one main video per day**; extras are separate posts at their own times; check getScheduledPosts so
    no slot is double-booked. Log every extra (time, post id, format) in LOG.md under the day's video so analytics can
    compare which extra format works per platform, and add a weekly line to LEARNINGS.md.
-Network note 2026-11-25: Pixabay, Pexels and Freesound are blocked by the session allowlist (Commons + NASA work). If
-Bidhan wants them: add pixabay.com, cdn.pixabay.com, pexels.com, images.pexels.com, videos.pexels.com, freesound.org,
-cdn.freesound.org in claude.ai Settings > Capabilities (their APIs also need a free API key).
+Network note (updated 2026-11-25, Bidhan opened the allowlist live): nps.gov works again (facts + PD photos). Pixabay
+API works with Bidhan's key (photos + videos; free licence, no attribution needed but credit "Pixabay" anyway) — the key
+comes with the daily task's private instructions ("PIXABAY KEY:") -> write it to /home/claude/.pixabay_key with umask
+077, never commit or print it; if absent, skip Pixabay. Pexels: no API key (Bidhan) -> images.pexels.com direct URLs only.
+pixabay.com / pexels.com / zapsplat.com web pages show a Cloudflare bot check (unusable without API). Freesound and
+ZapSplat: not usable -> sound = Commons PD/CC0 audio + our own synth (audio2 / extras.synth_bed).
+Tools: pipeline/extras.py (story / card / slides from a small JSON spec — specs kept in pipeline/extras_specs/),
+pipeline/compile_longform.py (weekly 16:9 compilation). Weekly long-form goes at 10:30 Sydney on Sundays so it never
+shares the 10:00 slot with the day's Short on YouTube.
 
 ## Money plan (US$500/month target)
 1. **Facebook Content Monetization** (Australia eligible, invite-only) — usually the first real payout for this niche.

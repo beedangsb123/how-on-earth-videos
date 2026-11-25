@@ -6,7 +6,7 @@ Windsor's YouTube connector does NOT return the text of replies (only comment_re
 
 | date seen | platform | where (video / comment_id) | request | status |
 |---|---|---|---|---|
-| 2026-11-24 | youtube | QWQ5rHMwGAk, reply to our pinned "Which famous landmark should we look inside next?" (UgzzWys32DW6uvNgHvV4AaABAg) | Mount Rushmore | scheduled 2026-11-28 run (see LEARNINGS) |
+| 2026-11-24 | youtube | QWQ5rHMwGAk, reply to our pinned "Which famous landmark should we look inside next?" (UgzzWys32DW6uvNgHvV4AaABAg) | Mount Rushmore | DONE: video 010, posts Sun 2026-11-29 10:00 |
 
 ## Unread YouTube replies
 (none)
