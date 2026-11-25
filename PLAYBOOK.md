@@ -187,6 +187,25 @@ ElevenLabs characters — the FEMALE is excited and curious (she asks), the MALE
   ring_marker, leader-line tags) and photo-textured 3-D block diagrams over flat cartoon fills. Reference:
   pipeline/render_005.py (look v3: NASA globe -> ASTER -> ISS continuous zoom, cyan ribbons, whip-pans).
 
+## LESS ROBOTIC, DELIBERATELY FUNNY VOICES (Bidhan 2026-11-25 — "some expressions sound so robotic"; loved the news anchor's humour)
+Causes found in our pipeline and the fixes (apply from the next video):
+- **per_line + speed 0.9 (news) = robotic.** Each line was generated alone with eleven_multilingual_v2 (no context,
+  no tags) and slowed down. Use eleven_v3 text-to-dialogue for ALL formats incl. the news, never "speed" < 1.0.
+- **A tag on every line = forced.** Only real v3 tags, only where they fit, max ~1 per line and many lines with none:
+  [deadpan] [sarcastic] [sighs] [laughs] [whispers] [mischievously] [curious] [excited] [surprised]. Avoid invented
+  ones ([matter-of-fact], [warmly], [intrigued]) — they are read literally or ignored.
+- **Pass "settings": {"stability": 0.0} (v3 "Creative")** in the dialogue call for more expressive delivery.
+- **Don't squash timing.** tighten() max_gap 0.25 s kills comic pauses; keep up to ~0.6 s inside lines that have an
+  ellipsis or a [sighs]/[pause] beat. Punctuation is direction: "..." = beat, "—" = cut-off, short sentences.
+- **Write ironic comedy, not facts read aloud:** over-polite understatement, a fake-serious build-up then a flat
+  punchline, the reporter visibly unimpressed, rhetorical questions, the anchor's dry one-word replies ("And?",
+  "Riveting."). Real sourced facts stay the punchlines. Original jokes only (never copy a creator's bits).
+- **Voices:** shared-library voices work directly by voice_id with our key (no need to add them; the key lacks
+  voices_write anyway). Candidates tested 2026-11-25 (samples sent to Bidhan): A British — Stephen Davis
+  F7n0VEnrij6y8mtpFPfu (upbeat, subtly sarcastic) + Beth zH7TN9vEZAsEway9xWev (playful); B American — Drew
+  lCfIptVKzlPoj4vLmTLz (deadpan, sarcasm) + Hazel YyqkX0AHv8W5D1vxG9lR (warm, natural humour); C Riley
+  99Hm6N8psCBzc1JwEVR2 (polished anchor) + Drew. Use Bidhan's pick for the News; rotate the rest in daily videos.
+
 ## No formula scripts (Bidhan 2026-11-23: "why does she have to say wait every time", "same script in every file")
 - BANNED as a reaction opener: "Wait", "Hang on", "Hold on", "No way", "Okay, tell me", "Wait, what?". Never reuse a
   reaction phrase used in the last 3 videos (check script_NNN.json files before writing).
