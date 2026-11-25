@@ -8,10 +8,12 @@ Bidhan will not review or add anything until 2027: no drafts, no approval, the c
 (Starter, 40,000 chars/month, resets ~21st) are reserved for the videos — keep each script ≤ ~1,200 characters incl.
 tags; never generate samples or extra tests. Only push-notify him when something is broken or needs his account.
 Theme stays: natural wonders and man-made wonders — the HOW.
-**Note for the daily task:** Bidhan edited its opening line on 2026-11-23 to "follow PLAYBOOK AUTOPILOT MODE: no
-files, notify only on problems". So where the task's later steps still say "10:00 am" (step 7) or "send Bidhan the
-finished video with SendUserFile" (step 9), use the country-based posting time in rule 7 below (10:00 am stays the
-default for US and small-population topics) and do NOT send the file; just end with the short summary message.
+**SEND THE FILES (Bidhan 2026-11-25, live — overrides "no files" in the task's opening line and the older rules
+below):** every run, after scheduling, send Bidhan the finished main video with SendUserFile (status "proactive",
+display "render", one-line caption: topic + posting time). Still never WAIT for his approval: schedule first, then
+send. Extras (Stories, cards, carousels, long-form) are not sent unless he asks. Where the task still says "10:00 am"
+(step 7), use the country-based posting time in rule 7 below (10:00 am stays the default for US and small-population
+topics).
 
 1. **Funny + relatable is now part of every video** ("everyone would love a good smile or a laugh"). At least two
    genuine laughs or relatable comparisons per video (dry understatement, absurd-but-true framing, everyday
@@ -85,8 +87,8 @@ default for US and small-population topics) and do NOT send the file; just end w
    (Summer-time shifts: re-check offsets in March/April and October.)
 
 ## Standing rules from Bidhan, 2026-11-24 (live)
-- **Never wait for Bidhan's go-ahead** on any video: make it, schedule it, log it. **Never send him the video or a draft
-  in the chat** (the GTA 6 draft was a one-off because the topic was new). Notify only on problems.
+- **Never wait for Bidhan's go-ahead** on any video: make it, schedule it, log it. Then **send him the finished video**
+  with SendUserFile (changed 2026-11-25: he wants to see each video; see AUTOPILOT MODE). Push-notify only on problems.
 - **Hashtags per platform** (whatever works on each, but never unrelated to the video). So the 10:00 "main post" is now
   FOUR single-network posts at the same time (Metricool has one shared text per post), each with its own caption and tags:
   - TikTok: short punchy caption + 5–6 tags: 3–4 topic tags + #fyp + #howonearth (add a trend tag like #gta6 when relevant).
