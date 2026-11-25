@@ -7,15 +7,21 @@ Same script format as tts2.py: {"lines": [[spoken, caption, speaker "M"/"F", emo
    audio2.py with pad 0.
 API key: env ELEVENLABS_API_KEY or /home/claude/.elevenlabs_key (NEVER commit the key: this repo is public).
 Falls back with exit code 2 if the API fails or credits are too low -> then use tts2.py (kokoro).
-usage: python tts_el.py script.json [--reuse]   (--reuse re-cuts the saved dialogue.json without spending credits)"""
+usage: python tts_el.py script.json [--reuse]   (--reuse re-cuts the saved dialogue.json without spending credits)
+Script options (2026-11-25): "settings" (v3 dialogue settings, default stability 0.0), "beat_gap" (max pause kept inside
+lines with "..."/"—"/[sighs], default 0.6), "tag_lead" (max s of a tag's laugh/exhale before the first word), "drop" (line
+indices generated but cut from the edit)."""
 import json, sys, os, base64, subprocess, numpy as np, soundfile as sf
 
 VOICES = {"M": "LERny3t2s1OQcjLCatHn",   # "Bidhan" — Bidhan's own voice (replaced 2026-11-22; looked up by name at run time)
           "F": "cgSgspJ2msm6clMCkdW9"}   # Jessica — Playful, Bright, Warm (female, American)
 TAGS = {"urgent": "[excited]", "excited": "[excited]", "surprised": "[surprised]", "curious": "[curious]",
-        "awe": "[amazed]", "playful": "[playful]", "serious": "[serious]", "neutral": "",
-        # calmer, content-fitting options (Bidhan 2026-11-22: drama must fit what is said)
-        "intrigued": "[intrigued]", "matter_of_fact": "[matter-of-fact]", "warm": "[warmly]", "thoughtful": "[thoughtfully]"}
+        "awe": "[amazed]", "playful": "[playful]", "serious": "", "neutral": "",
+        # 2026-11-25 (Bidhan: "some expressions sound so robotic"): only REAL v3 tags, and calm emotions get NO tag —
+        # invented tags ([matter-of-fact], [warmly], [intrigued]) were read literally or flattened the delivery.
+        "intrigued": "", "matter_of_fact": "", "warm": "", "thoughtful": "",
+        "deadpan": "[deadpan]", "sarcastic": "[sarcastic]", "sighs": "[sighs]", "laughs": "[laughs]",
+        "mischievous": "[mischievously]", "whispers": "[whispers]"}
 API = "https://api.elevenlabs.io/v1"
 LEAD = 0.10   # max silence kept before each line's first word (reactions feel snappier)
 
@@ -69,6 +75,10 @@ def words_from_alignment(al):
         if c.isspace():
             if cur: out.append((cur, t0, t1)); cur = ""
             continue
+        # 2026-11-25: v3 dialogue alignment can join two lines with NO space ("snacks.No") -> the next line's first word
+        # was glued to the previous line's last word (wrong caption timing). Split at [.?!…] + capital/digit.
+        if cur and cur[-1] in ".?!…" and (c.isupper() or c.isdigit()):
+            out.append((cur, t0, t1)); cur = ""
         if not cur: t0 = a_
         cur += c; t1 = b_
     if cur: out.append((cur, t0, t1))
@@ -137,7 +147,9 @@ if __name__ == "__main__":
         if S.get("model") == "per_line":
             d = per_line(S, V)   # accent-faithful mode (one eleven_multilingual_v2 call per line, no audio tags)
         else:
-            d = call("/text-to-dialogue/with-timestamps?output_format=mp3_44100_128", {"model_id": "eleven_v3", "inputs": inputs})
+            # v3 "Creative" (stability 0.0) = most expressive delivery (PLAYBOOK "LESS ROBOTIC", 2026-11-25)
+            d = call("/text-to-dialogue/with-timestamps?output_format=mp3_44100_128",
+                     {"model_id": "eleven_v3", "inputs": inputs, "settings": S.get("settings", {"stability": 0.0})})
         json.dump(d, open("dialogue.json", "w"))
     open("dialogue.mp3", "wb").write(base64.b64decode(d["audio_base64"]))
     subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", "dialogue.mp3", "-ac", "1", "-ar", "44100", "dialogue.wav"])
@@ -155,18 +167,37 @@ if __name__ == "__main__":
     meta = []
     for i, line in enumerate(S["lines"]):
         x = a[int(starts[i] * sr):int(ends[i] * sr)]
-        x, (po, pn) = tighten(x, sr, with_map=True)
+        # keep comic beats: lines with "..." / "—" or a [sighs]/[pause] tag may hold up to 0.6 s inside (was 0.25 s for all)
+        beat = any(k in line[0] for k in ("...", "…", "—", "[sighs]", "[pause]"))
+        x, (po, pn) = tighten(x, sr, max_gap=S.get("beat_gap", 0.6) if beat else 0.3, with_map=True)
         sf.write(f"l{i}.wav", x, sr)
         ws = [[w, float(np.interp(t0 - starts[i], po, pn)), float(np.interp(t1 - starts[i], po, pn))]
               for w, t0, t1 in WORDS if starts[i] - 0.05 <= t0 < ends[i] - 0.02]
         # 2026-11-22 (video 004): v3 leaves ~0.3 s of breath/silence before every line -> slow turn-taking and +3 s
         # total. Trim the lead to LEAD (line 0: voice at ~0.0 s for the hook) and shift the word times with it.
         if ws:
-            cut = max(0.0, ws[0][1] - (0.03 if i == 0 else LEAD))
+            # 2026-11-25: the first word's alignment start can include the silence before it (v3 joined lines without a
+            # space) -> find the real voice onset by energy and trim to that instead.
+            win = int(0.01 * sr); nw = len(x) // win
+            rms = np.sqrt((x[:nw * win].reshape(nw, win) ** 2).mean(1)) if nw else np.zeros(1)
+            thr = max(0.01, 0.08 * rms.max()); on = 0.0
+            for q in range(8, max(9, nw - 10)):      # skip the first 80 ms (tail click of the previous line); need 0.1 s sustained
+                if rms[q] > thr and rms[q:q + 10].mean() > thr: on = q * win / sr; break
+            cut = max(0.0, on - (0.03 if i == 0 else LEAD))
+            # optional "tag_lead": max seconds of tag sound (laugh/exhale) kept before the first word
+            if S.get("tag_lead") is not None and ws[0][1] - cut > S["tag_lead"] + LEAD: cut = ws[0][1] - S["tag_lead"]
+            ws[0][1] = max(ws[0][1], on - 0.02)
             x = x[int(cut * sr):]; ws = [[w, max(0.0, a_ - cut), max(0.0, b_ - cut)] for w, a_, b_ in ws]
             fade = int(0.012 * sr); x[:fade] *= np.linspace(0, 1, fade)
             sf.write(f"l{i}.wav", x, sr)
         meta.append({"text": line[0], "cap": line[1], "dur": len(x) / sr, "sr": sr, "speaker": line[2],
                      "emotion": line[3] if len(line) > 3 else "neutral", "speech_end": seg[i][1] - starts[i], "words": ws})
+    if S.get("drop"):   # line indices generated but cut from the final edit; renumber l*.wav to stay contiguous
+        keep = [j for j in range(len(meta)) if j not in S["drop"]]
+        wavs = [sf.read(f"l{j}.wav")[0] for j in keep]
+        for k in range(len(meta)):
+            if os.path.exists(f"l{k}.wav"): os.remove(f"l{k}.wav")
+        for k, wv in enumerate(wavs): sf.write(f"l{k}.wav", wv, sr)
+        meta = [meta[j] for j in keep]
     json.dump(meta, open("meta.json", "w"), indent=1)
     print("total", round(sum(m["dur"] for m in meta), 2), [round(m["dur"], 2) for m in meta])

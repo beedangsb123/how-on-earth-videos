@@ -2,7 +2,7 @@
 under the voice) + synthesised SFX (whoosh, boom, tick, thunk, crack, pop, drill).
 usage (in work dir with meta.json, l*.wav, events.json): python audio2.py [pad] [transpose] [bpm]  -> mix.wav
 Rotate transpose (semitones from A minor) and bpm every video (anti-slop rule). 003: +5 (D minor), 92 bpm.
-SFX kinds: clank ding whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
+SFX kinds: scratch trombone (meme beats, 2026-11-25) clank ding whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
 import json, sys, numpy as np, soundfile as sf
 SR = 44100
 PAD = float(sys.argv[1]) if len(sys.argv) > 1 else 0.25
@@ -45,7 +45,7 @@ for b in range(int(T / bar) + 1):
 # ---- regional / occasion music styles (added 2026-11-23, Bidhan: "if it's India give Indian music, the Taj Mahal can
 # evoke Central Asian Sufi music, Egypt can give Arabic music"). All ORIGINAL numpy synthesis, inspired by the scale/
 # rhythm conventions only (no melodies copied). Choose with events.json "music_style": default | news | sufi | arabic |
-# festive | latin | eastasia | swing. TR (transpose) and BPM still apply.
+# festive | latin | eastasia | swing | americana. TR (transpose) and BPM still apply.
 STYLE = ev.get("music_style", "default")
 _rng2 = np.random.default_rng(11)
 def _pluck(f, d, a, decay=4.0, harm=(1, 0.5, 0.33, 0.2)):
@@ -112,6 +112,21 @@ if STYLE != "default":
                 if k in (1, 3):
                     for n in ch[1:]: _put(music, b * bar + k * beat + 0.02, _pluck(hz(n), 0.35, 0.05, decay=11, harm=(1, .3, .1)))
             _put(music, b * bar, _drum(52, 0.25, 0.22, bend=0.6, decay=16))
+    elif STYLE == "americana":  # added 2026-11-25 (video 010, South Dakota / Black Hills): original "open road" feel --
+        # fingerpicked acoustic-guitar-like travis pattern (alternating bass + treble plucks), soft held fiddle-ish fifths,
+        # light brushed kick on 1 & 3. Major key, all numpy synthesis, no melody copied.
+        chords = [[43, 55, 59, 62], [48, 55, 60, 64], [50, 57, 62, 66], [43, 55, 59, 62]]
+        for b in range(int(T / bar) + 1):
+            ch = chords[b % 4]
+            for k in range(8):
+                bass = ch[0] - 12 + (7 if k % 4 == 2 else 0)
+                if k % 2 == 0: _put(music, b * bar + k * beat / 2, _pluck(hz(bass), 0.6, 0.26, decay=6, harm=(1, .45, .2)))
+                else: _put(music, b * bar + k * beat / 2, _pluck(hz(ch[1 + (k // 2) % 3]), 0.5, 0.07, decay=7, harm=(1, .5, .3, .15)))
+            s0 = int(b * bar * SR); e = min(N, int((b + 1) * bar * SR + 0.3 * SR)); tt = t[s0:e] - b * bar
+            env = np.clip(tt / 0.6, 0, 1) * np.clip((bar + 0.3 - tt) / 0.8, 0, 1)
+            vib = 1 + 0.003 * np.sin(2 * np.pi * 5.2 * tt)
+            for n in (ch[1], ch[1] + 7): music[s0:e] += 0.035 * env * (np.sin(2 * np.pi * hz(n) * vib * tt) + 0.3 * np.sin(4 * np.pi * hz(n) * vib * tt))
+            for k in (0, 2): _put(music, b * bar + k * beat, _drum(58, 0.22, 0.2, bend=0.5, decay=18))
     elif STYLE == "eastasia": # pentatonic plucked-zither phrases over a soft pad
         pen = [0, 2, 4, 7, 9, 12, 14]; note = 3
         music += 0.08 * np.sin(2 * np.pi * root * t) * (0.7 + 0.3 * np.sin(t))
@@ -173,6 +188,15 @@ for kind, at in sorted(ev["events"], key=lambda e: e[1]):
         tt = L(0.7); add(at, 0.16 * sum(np.exp(-tt * d) * np.sin(2 * np.pi * f * tt) for f, d in ((310, 6), (837, 9), (1490, 14), (2210, 20))))
     elif kind == "ding":   # small bell (counter end / "three minutes")
         tt = L(1.2); add(at, 0.14 * np.exp(-tt * 3.5) * (np.sin(2 * np.pi * 1568 * tt) + 0.4 * np.sin(2 * np.pi * 3920 * tt) * np.exp(-tt * 6)))
+    elif kind == "scratch":  # added 2026-11-25: record-scratch meme beat (synth fallback, no samples): pitch zig-zag, low-passed
+        tt = L(0.45); f = 300 + 900 * np.abs(np.sin(2 * np.pi * 3.2 * tt)); ph = 2 * np.pi * np.cumsum(f) / SR
+        x = np.sign(np.sin(ph)) * 0.5 + np.sin(ph); add(at, 0.09 * lp(x, 6) * np.clip((0.45 - tt) / 0.1, 0, 1))
+    elif kind == "trombone":  # "sad trombone" (wah-wah-wah-waaah): four falling brassy notes with a wobble on the last
+        for j, (n_, d_) in enumerate(((58, 0.32), (57, 0.32), (56, 0.32), (55, 1.0))):
+            tt = L(d_); f = 440 * 2 ** ((n_ - 69) / 12) * (1 + (0.02 * np.sin(2 * np.pi * 6 * tt) if j == 3 else 0))
+            ph = 2 * np.pi * np.cumsum(f * np.ones_like(tt)) / SR
+            x = sum(np.sin(ph * h) / h ** 1.2 for h in range(1, 6)) * np.clip(tt / 0.04, 0, 1) * np.clip((d_ - tt) / 0.12, 0, 1)
+            add(at + j * 0.34, 0.07 * x)
     elif kind == "splash":
         tt = L(0.5); n = rng.standard_normal(len(tt)); add(at, 0.1 * (lp(n, 10) - lp(n, 60)) * np.exp(-tt * 8))
 # ---- news ident (added 2026-11-23 for the "How On Earth News" format): original synth sting, NOT a real broadcaster's

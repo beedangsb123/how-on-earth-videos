@@ -39,8 +39,9 @@ def commons_search(q, n=12, kind="image"):
 
 def download(title, outdir):
     os.makedirs(outdir, exist_ok=True)
-    url = ("https://commons.wikimedia.org/w/api.php?action=query&format=json&titles=%s&prop=imageinfo&iiprop=url|extmetadata|mime&iiurlwidth=1920"
-           % urllib.parse.quote(title))
+    # FM_WIDTH=3840 for landscape photos that get cropped to a 9:16 frame (1920 px wide is too soft once cropped; added 2026-11-25)
+    url = ("https://commons.wikimedia.org/w/api.php?action=query&format=json&titles=%s&prop=imageinfo&iiprop=url|extmetadata|mime&iiurlwidth=%s"
+           % (urllib.parse.quote(title), os.environ.get("FM_WIDTH", "1920")))
     p = list(json.loads(get(url))["query"]["pages"].values())[0]; ii = p["imageinfo"][0]; m = ii["extmetadata"]
     lic = m.get("LicenseShortName", {}).get("value", ""); assert OK.match(lic.strip()), "licence not allowed: " + lic
     src = ii["url"] if ii["mime"].startswith("video") else (ii.get("thumburl") or ii["url"]).split("?")[0].replace("thumb.wikimedia.org", "upload.wikimedia.org")
