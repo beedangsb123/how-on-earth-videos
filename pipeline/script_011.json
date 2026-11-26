@@ -1,0 +1,149 @@
+{
+ "note": "011 Mount Everest (owner request, Bidhan 2026-11-26): seashells at the top. NEW structure 'packing list countdown' (F packs for Everest: snorkel / tape measure / patience; M = dry geologist). Voices rotation 011: Bill + Jessica. eleven_v3 Creative stability 0, real tags only.",
+ "voices": {
+  "M": {
+   "el": "pqHfZKP75CvOlQylNhV4"
+  },
+  "F": {
+   "el": "cgSgspJ2msm6clMCkdW9"
+  }
+ },
+ "settings": {
+  "stability": 0.0
+ },
+ "tail": 0.15,
+ "tag_lead": 0.4,
+ "lines": [
+  [
+   "There are seashells at the top of Mount Everest.",
+   "There are SEASHELLS at the TOP of Mount EVEREST.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[laughs] Seashells? Who hiked them up there, a very lost crab?",
+   "SEASHELLS? Who hiked them up there, a very LOST CRAB?",
+   "F",
+   "neutral"
+  ],
+  [
+   "Nobody carried them. The summit used to be sea floor.",
+   "Nobody CARRIED them. The summit used to be SEA FLOOR.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[mischievously] Okay, I'm packing for Everest. Item one... a snorkel.",
+   "Okay, I'm PACKING for Everest. Item ONE... a SNORKEL.",
+   "F",
+   "neutral"
+  ],
+  [
+   "Good plan. You're only about four hundred and fifty million years late.",
+   "Good plan. You're only about FOUR HUNDRED and FIFTY MILLION years LATE.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Back then, this rock was mud in a warm, shallow sea.",
+   "Back then, this ROCK was MUD in a WARM, SHALLOW SEA.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[curious] So who lived in my snorkelling spot?",
+   "So who LIVED in my SNORKELLING spot?",
+   "F",
+   "neutral"
+  ],
+  [
+   "Trilobites, sea lilies, tiny shellfish. Their fossils are still up there.",
+   "TRILOBITES, SEA LILIES, tiny SHELLFISH. Their FOSSILS are still UP THERE.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[surprised] The highest rock on Earth... is an old aquarium?!",
+   "The HIGHEST rock on Earth... is an old AQUARIUM?!",
+   "F",
+   "neutral"
+  ],
+  [
+   "Pretty much. Then India showed up.",
+   "Pretty much. Then INDIA showed up.",
+   "M",
+   "neutral"
+  ],
+  [
+   "India... the country?",
+   "INDIA... the COUNTRY?",
+   "F",
+   "neutral"
+  ],
+  [
+   "The plate! It drifted north and slammed into Asia, about fifty-five million years ago.",
+   "The PLATE! It drifted NORTH and SLAMMED into ASIA, about FIFTY-FIVE MILLION years ago.",
+   "M",
+   "neutral"
+  ],
+  [
+   "That sea floor got squeezed, folded and shoved up... five and a half miles.",
+   "That SEA FLOOR got SQUEEZED, FOLDED and SHOVED up... FIVE and a HALF MILES.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[sarcastic] Item two: a tape measure. Because apparently it keeps changing.",
+   "Item TWO: a TAPE MEASURE. Because apparently it keeps CHANGING.",
+   "F",
+   "neutral"
+  ],
+  [
+   "In 2020, Nepal and China remeasured it... almost three feet taller.",
+   "In 2020, NEPAL and CHINA remeasured it... almost THREE FEET taller.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[surprised] It grew three feet?!",
+   "It GREW three FEET?!",
+   "F",
+   "neutral"
+  ],
+  [
+   "Mostly better measuring. But it really is rising... about four inches a century.",
+   "Mostly better MEASURING. But it really IS rising... about FOUR INCHES a CENTURY.",
+   "M",
+   "neutral"
+  ],
+  [
+   "[laughs] Four inches a century? My fingernails are faster.",
+   "FOUR INCHES a century? My FINGERNAILS are FASTER.",
+   "F",
+   "neutral"
+  ],
+  [
+   "Item three... patience.",
+   "Item THREE... PATIENCE.",
+   "F",
+   "neutral"
+  ],
+  [
+   "Lots. India's still pushing. So next time someone says they climbed Everest...",
+   "Lots. INDIA'S still PUSHING. So next time someone says they CLIMBED Everest...",
+   "M",
+   "neutral"
+  ],
+  [
+   "[laughs] ...tell them they walked on the bottom of the sea.",
+   "...tell them they WALKED on the BOTTOM of the SEA.",
+   "F",
+   "neutral"
+  ]
+ ],
+ "drop": [
+  6,
+  14,
+  15
+ ]
+}

@@ -1,0 +1,64 @@
+{
+ "photo": "/home/claude/work011/media/Sunset_view_of_Everest.jpg",
+ "credit": "Photos: N. B. Gurung, B. Chaurasia, Goutam1962 (CC BY-SA 4.0), NASA \u00b7 Facts: MSU, IUGS, NPR, EarthDate",
+ "slides": [
+  {
+   "kicker": "5 THINGS YOU DIDN'T KNOW",
+   "headline": "Mount Everest used to be under the SEA",
+   "focus": [
+    0.44,
+    0.45
+   ]
+  },
+  {
+   "photo": "/home/claude/work011/media/Close_Up_View_of_Mount_Everest_from_Kala_Patthar__5644_m__in_2023-IMG-3485.jpg",
+   "kicker": "1",
+   "headline": "Its summit was sea floor",
+   "body": "The rock at the very top is limestone that formed in a warm, shallow sea about 450 million years ago.",
+   "focus": [
+    0.555,
+    0.25
+   ]
+  },
+  {
+   "photo": "/home/claude/work011/media/Fossil_Trilobite.jpg",
+   "kicker": "2",
+   "headline": "There are fossils up there",
+   "body": "Bits of trilobites, sea lilies and tiny shellfish are in the summit rock. (Trilobite shown: an example, not from Everest.)",
+   "focus": [
+    0.5,
+    0.5
+   ]
+  },
+  {
+   "photo": "/home/claude/work011/media/Himalayas.jpg",
+   "kicker": "3",
+   "headline": "India pushed it up",
+   "body": "The Indian plate slammed into Asia about 55 million years ago and squeezed that old sea floor 5.5 miles into the sky.",
+   "focus": [
+    0.5,
+    0.5
+   ]
+  },
+  {
+   "photo": "/home/claude/work011/media/Mount_Everest__Himalayas.jpg",
+   "kicker": "4",
+   "headline": "8,848.86 m tall",
+   "body": "That's the official height Nepal and China announced together in December 2020 (29,032 ft).",
+   "focus": [
+    0.5,
+    0.4
+   ]
+  },
+  {
+   "photo": "/home/claude/work011/media/Mount_Everest_a_close_view_with_south_summit_and_yellow_band.jpg",
+   "kicker": "5",
+   "headline": "It's still rising",
+   "body": "About 4 inches (10 cm) per century. Your fingernails are faster.",
+   "focus": [
+    0.35,
+    0.6
+   ]
+  }
+ ]
+}
