@@ -10,7 +10,7 @@ Windsor's YouTube connector does NOT return the text of replies (only comment_re
 | 2026-11-26 | Bidhan (owner, live) | chat | Kariba Dam (Zambia/Zimbabwe) + its new project — make it as a "How On Earth News" episode (British anchor style, Friday show). Verify what the "new project" is (e.g. the plunge-pool reshaping / spillway gate rehabilitation) from official sources before scripting | open |
 | 2026-11-26 | Bidhan (owner, live) | chat | Lake Victoria (how Africa's largest lake formed; Nile source) | open |
 | 2026-11-26 | Bidhan (owner, live) | chat | Kathmandu Valley + Chobhar Gorge (the valley was once a lake that drained through the Chobhar gorge; tell the Manjushri legend respectfully alongside the geology — no jokes about the religious story). Nepal/South Asia posting time per PLAYBOOK rule 7 | open |
-| 2026-11-26 | Bidhan (owner, live) | chat | Mount Everest (how it formed / still growing) | open |
+| 2026-11-26 | Bidhan (owner, live) | chat | Mount Everest (how it formed / still growing) | DONE: video 011, posts Mon 2026-11-30 10:00 |
 
 ## Unread YouTube replies
 (none)

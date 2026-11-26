@@ -226,7 +226,8 @@ sync", "there is no fun in this video, not in the content, not in expression")
 - **Visual beats follow the voice:** in renders use wt(line, "word") (render_010.py) for every reveal, stamp, blast and
   counter instead of hard-coded seconds.
 - **Check before posting:** words-vs-energy check (every caption word has voice under it), no line ending loud, then
-  send Bidhan the video.
+  send Bidhan the video. Since 2026-11-26: after tts_el.py ALWAYS run `retime.py --max-pause 0.38 [--tempo k]` (re-aligns
+  v3 word times to the real voice — they were up to 0.8 s early — and trims long pauses), then `check_words.py` must PASS.
 
 ## No formula scripts (Bidhan 2026-11-23: "why does she have to say wait every time", "same script in every file")
 - BANNED as a reaction opener: "Wait", "Hang on", "Hold on", "No way", "Okay, tell me", "Wait, what?". Never reuse a
