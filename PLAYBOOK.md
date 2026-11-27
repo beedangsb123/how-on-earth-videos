@@ -98,6 +98,28 @@ topics).
   The "is a main post already scheduled at 10:00?" check now means: any non-draft Reel/short/TikTok post at that time.
   Log all four post ids in LOG.md. Stories (IG+FB) stay one post each at 10:01/10:02.
 
+## SISTER CHANNEL + FOLLOWER GROWTH (Bidhan 2026-11-26/27 — live, every run)
+**Cross-promotion with Orbit Gossip** (Bidhan's new space-comedy channel; Metricool brand 8377975 — NEVER post How On
+Earth content to it, and never post Orbit Gossip content to How On Earth's brand 8221611):
+- Occasionally — about twice a week, never daily — How On Earth promotes Orbit Gossip and Orbit Gossip promotes How On
+  Earth. **Same platform only:** Facebook → Orbit Gossip Facebook Page (facebook.com/profile.php?id=61597052756928),
+  Instagram → @orbit.gossip, TikTok → @orbit.gossip, YouTube → @orbitgossip. Never send a Facebook viewer to TikTok, etc.
+- Form: ONE caption line or the Instagram/Facebook first comment, e.g. "Love wild space facts too? 🪐 Follow
+  @orbit.gossip". Never a whole video, never inside the voiceover. Pick a space-adjacent video when possible.
+- Log the date and platforms in LOG.md ("cross-promo: …") so it stays ~2x/week.
+
+**Why so few followers (12 YouTube subscribers at 2026-11-26 despite good views) — fix, from the next video:**
+- SERIES: give every video a recurring series name on screen and in the title/caption ("Impossible Builds #7",
+  "Earth's Weirdest Places #3", "How On Earth News" Fridays). Shorts in a named series convert to followers far better
+  than one-offs. Keep the series list in LOG.md and rotate them.
+- END PROMISE: last 3–5 s = a concrete reason to follow, e.g. "Tomorrow: the dam that holds back an ocean — follow so
+  you don't miss it." Never ask to follow/subscribe in the first 3 s.
+- RECURRING CAST: voices still change, but keep ONE recurring character/role per series (e.g. the same sceptical
+  "reactor" persona name) so viewers recognise the show.
+- PINNED COMMENT: on YouTube and Facebook, the first/pinned comment points to the series playlist or the weekly
+  long-form compilation (long videos convert ~10x better and count toward watch hours).
+- Track follower gain per video (Metricool) in LEARNINGS.md and say in the run message which series converts best.
+
 ## Channel mission (Bidhan's own words, 2026-11-20)
 Bidhan is a civil engineer who has always been fascinated by how things work — big designs, big buildings — and equally by geography and geology: how natural landscapes came about. He believes people are more interested in the **HOW** than the what/why. The channel should become a platform for like-minded, curious people. "Nothing fancy" — daily, educational, accurate. Every video must answer a clear "how did this come about / how does this work" question, about either a natural landscape or a great human-made structure. Entertainment hooks serve the education, never replace it.
 **Topic filter (Bidhan, 2026-11-20): a topic is used ONLY if it passes all three:**
