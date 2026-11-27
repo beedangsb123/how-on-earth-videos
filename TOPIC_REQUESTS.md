@@ -8,7 +8,7 @@ Windsor's YouTube connector does NOT return the text of replies (only comment_re
 |---|---|---|---|---|
 | 2026-11-24 | youtube | QWQ5rHMwGAk, reply to our pinned "Which famous landmark should we look inside next?" (UgzzWys32DW6uvNgHvV4AaABAg) | Mount Rushmore | DONE: video 010, posts Sun 2026-11-29 10:00 |
 | 2026-11-26 | Bidhan (owner, live) | chat | Kariba Dam (Zambia/Zimbabwe) + its new project — make it as a "How On Earth News" episode (British anchor style, Friday show). Verify what the "new project" is (e.g. the plunge-pool reshaping / spillway gate rehabilitation) from official sources before scripting | open |
-| 2026-11-26 | Bidhan (owner, live) | chat | Lake Victoria (how Africa's largest lake formed; Nile source) | open |
+| 2026-11-26 | Bidhan (owner, live) | chat | Lake Victoria (how Africa's largest lake formed; Nile source) | DONE: video 012 (first "How On Earth Weather"), posts Tue 2026-12-01 10:00 |
 | 2026-11-26 | Bidhan (owner, live) | chat | Kathmandu Valley + Chobhar Gorge (the valley was once a lake that drained through the Chobhar gorge; tell the Manjushri legend respectfully alongside the geology — no jokes about the religious story). Nepal/South Asia posting time per PLAYBOOK rule 7 | open |
 | 2026-11-26 | Bidhan (owner, live) | chat | Mount Everest (how it formed / still growing) | DONE: video 011, posts Mon 2026-11-30 10:00 |
 
