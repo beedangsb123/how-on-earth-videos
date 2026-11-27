@@ -1,0 +1,138 @@
+{
+ "note": "012 Lake Victoria (owner request, Bidhan 2026-11-26) = FIRST 'How On Earth Weather' (Tuesday show). NEW structure: cheerful studio weather presenter (Sarah, American, explains) + fed-up field reporter live on the shore (Joseph, African-accent shared voice, reacts and gets the punchlines). Voices: Sarah EXAVITQu4vr4xnSDxMaL (rotation 012) + Joseph 4bSnEy0K5TXdv7EEYf9t (shared library, replaces Charlie: accent follows the place). eleven_v3 Creative, real tags only.",
+ "voices": {
+  "F": {
+   "el": "EXAVITQu4vr4xnSDxMaL"
+  },
+  "M": {
+   "el": "4bSnEy0K5TXdv7EEYf9t"
+  }
+ },
+ "settings": {
+  "stability": 0.0
+ },
+ "tail": 0.15,
+ "tag_lead": 0.4,
+ "lines": [
+  [
+   "This lake makes its own thunderstorms. Every single night.",
+   "This lake makes its OWN THUNDERSTORMS. Every single NIGHT.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[sighs] Yes. I'm standing in one.",
+   "Yes. I'm STANDING in one.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Welcome to How On Earth Weather! Joseph is live at Lake Victoria.",
+   "Welcome to HOW ON EARTH WEATHER! Joseph is LIVE at LAKE VICTORIA.",
+   "F",
+   "neutral"
+  ],
+  [
+   "Africa's biggest lake. Bigger than Lake Michigan... and moodier.",
+   "AFRICA'S BIGGEST lake. Bigger than LAKE MICHIGAN... and MOODIER.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Here's the trick. By day, the land heats up faster, so storms pop up over land.",
+   "Here's the TRICK. By DAY, the LAND heats up FASTER, so STORMS pop up over LAND.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[laughs] Perfect! So I just stay on the beach?",
+   "PERFECT! So I just stay on the BEACH?",
+   "M",
+   "neutral"
+  ],
+  [
+   "Until night. The land cools off, but the lake stays warm.",
+   "Until NIGHT. The LAND cools off, but the LAKE stays WARM.",
+   "F",
+   "neutral"
+  ],
+  [
+   "Breezes from every shore crash together over the water... and up it goes.",
+   "BREEZES from EVERY SHORE CRASH together over the WATER... and UP it goes.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[surprised] The whole coastline ganging up on one lake?!",
+   "The WHOLE COASTLINE ganging up on ONE LAKE?!",
+   "M",
+   "neutral"
+  ],
+  [
+   "Every night. And the extended forecast... clouds of flies.",
+   "EVERY night. And the extended FORECAST... CLOUDS of FLIES.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[surprised] I'm sorry... flies?!",
+   "I'm SORRY... FLIES?!",
+   "M",
+   "neutral"
+  ],
+  [
+   "Lake flies. Billions of them, in swarms you can see from miles away.",
+   "LAKE FLIES. BILLIONS of them, in SWARMS you can see from MILES away.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[sarcastic] Fantastic. Cloudy... with a chance of flies.",
+   "FANTASTIC. CLOUDY... with a CHANCE of FLIES.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Could be worse. Seventeen thousand years ago, this lake was completely dry.",
+   "Could be WORSE. 17 THOUSAND YEARS ago, this lake was COMPLETELY DRY.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[curious] Dry? The whole thing?",
+   "DRY? The WHOLE thing?",
+   "M",
+   "neutral"
+  ],
+  [
+   "Gone, for over two thousand years. Then the rain came back.",
+   "GONE, for over TWO THOUSAND YEARS. Then the RAIN came BACK.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[laughs] So it's basically a giant puddle!",
+   "So it's basically a GIANT PUDDLE!",
+   "M",
+   "neutral"
+  ],
+  [
+   "Kind of! At its deepest, the Statue of Liberty's torch would stick out.",
+   "Kind of! At its DEEPEST, the STATUE OF LIBERTY'S TORCH would STICK OUT.",
+   "F",
+   "neutral"
+  ],
+  [
+   "All that water leaves in Uganda... to start the Nile.",
+   "All that WATER leaves in UGANDA... to start the NILE.",
+   "F",
+   "neutral"
+  ],
+  [
+   "So the Nile starts... next to my storm. [sighs] Let me guess tomorrow's forecast...",
+   "So the NILE starts... next to MY STORM. Let me GUESS tomorrow's FORECAST...",
+   "M",
+   "neutral"
+  ]
+ ]
+}

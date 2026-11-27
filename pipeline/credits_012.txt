@@ -1,0 +1,10 @@
+Video 012 — Lake Victoria (How On Earth Weather #1) — media credits
+Lake Victoria (MODIS 2024-03-31): MODIS Land Rapid Response Team, NASA GSFC / Public domain via Wikimedia Commons
+Lake Victoria, Lake Kyoga, and Lake Turkana (MODIS 2016-03-19): Jeff Schmaltz, MODIS Land Rapid Response Team, NASA GSFC / Public domain via Wikimedia Commons
+Shores of Lake Victoria at Ssese Islands: Jiame Josh / CC BY-SA 4.0 via Wikimedia Commons
+Jinja source of Nile: Dror Feitelson / CC BY-SA 3.0 via Wikimedia Commons
+Statue of Liberty frontal 2 crop: Daniel Schwen / Public domain via Wikimedia Commons (sky keyed out, placed on a drawn pedestal)
+Sunrise at the Victoria lake (Story extra): Allan Twinamasiko / CC BY-SA 4.0 via Wikimedia Commons
+Pixabay (free licence): thunderstorm over a lake — adege (id 308832, illustrative, not Lake Victoria); insect swarms — adege (94108), Hans (7907) (illustrative); cracked dry mud — daeron (780088)
+Drained-lake map = the MODIS image with lake pixels replaced by the daeron mud photo (illustration). Radar blobs, icons, fly, duck, umbrella, cloud = original drawings.
+Voices: ElevenLabs eleven_v3 — Sarah (EXAVITQu4vr4xnSDxMaL) + Joseph (shared library 4bSnEy0K5TXdv7EEYf9t). Music + SFX: original numpy synthesis (audio2 "weather").

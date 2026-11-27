@@ -45,7 +45,7 @@ for b in range(int(T / bar) + 1):
 # ---- regional / occasion music styles (added 2026-11-23, Bidhan: "if it's India give Indian music, the Taj Mahal can
 # evoke Central Asian Sufi music, Egypt can give Arabic music"). All ORIGINAL numpy synthesis, inspired by the scale/
 # rhythm conventions only (no melodies copied). Choose with events.json "music_style": default | news | sufi | arabic |
-# festive | latin | eastasia | swing | americana. TR (transpose) and BPM still apply.
+# festive | latin | eastasia | swing | americana | weather. TR (transpose) and BPM still apply.
 STYLE = ev.get("music_style", "default")
 _rng2 = np.random.default_rng(11)
 def _pluck(f, d, a, decay=4.0, harm=(1, 0.5, 0.33, 0.2)):
@@ -127,6 +127,21 @@ if STYLE != "default":
             vib = 1 + 0.003 * np.sin(2 * np.pi * 5.2 * tt)
             for n in (ch[1], ch[1] + 7): music[s0:e] += 0.035 * env * (np.sin(2 * np.pi * hz(n) * vib * tt) + 0.3 * np.sin(4 * np.pi * hz(n) * vib * tt))
             for k in (0, 2): _put(music, b * bar + k * beat, _drum(58, 0.22, 0.2, bend=0.5, decay=18))
+    elif STYLE == "weather":  # added 2026-11-27 (video 012, "How On Earth Weather"): original smooth weather-channel
+        # lounge -- electric-piano-like maj7/min9 chords with tremolo, round bass on 1 and the "and" of 2, soft rim
+        # ticks, a light interlocking guitar-ish pluck figure (nod to East African picking). All numpy, no melody copied.
+        chords = [[50, 57, 61, 64, 66], [47, 54, 57, 62, 64], [43, 50, 54, 57, 62], [45, 52, 55, 59, 61]]
+        for b in range(int(T / bar) + 1):
+            ch = chords[b % 4]; s0 = int(b * bar * SR); e = min(N, int((b + 1) * bar * SR + 0.4 * SR)); tt = t[s0:e] - b * bar
+            env = np.clip(tt / 0.05, 0, 1) * np.exp(-tt * 0.55) * np.clip((bar + 0.4 - tt) / 0.5, 0, 1)
+            trem = 1 + 0.18 * np.sin(2 * np.pi * 4.6 * tt)
+            for n in ch[1:]:
+                f = hz(n); music[s0:e] += 0.045 * env * trem * (np.sin(2 * np.pi * f * tt) + 0.25 * np.sin(4 * np.pi * f * tt) * np.exp(-tt * 3))
+            for at_, n in ((0, ch[0] - 12), (beat * 1.5, ch[0] - 12), (beat * 2.5, ch[0] - 5)):
+                _put(music, b * bar + at_, _pluck(hz(n), 0.5, 0.22, decay=5, harm=(1, .3, .1)))
+            for k in (1, 3): _put(music, b * bar + k * beat, 0.05 * np.exp(-L(0.04) * 160) * np.sin(2 * np.pi * 1800 * L(0.04)))
+            for k in range(8):
+                if k % 3 != 1: _put(music, b * bar + k * beat / 2 + beat / 4, _pluck(hz(ch[2 + k % 3] + 12), 0.3, 0.04, decay=10, harm=(1, .4, .2)))
     elif STYLE == "eastasia": # pentatonic plucked-zither phrases over a soft pad
         pen = [0, 2, 4, 7, 9, 12, 14]; note = 3
         music += 0.08 * np.sin(2 * np.pi * root * t) * (0.7 + 0.3 * np.sin(t))
@@ -170,6 +185,13 @@ for kind, at in sorted(ev["events"], key=lambda e: e[1]):
     elif kind == "crack":
         tt = L(0.6); n = rng.standard_normal(len(tt)) * (rng.random(len(tt)) > 0.97)
         add(at, 0.35 * lp(n, 8) * np.exp(-tt * 8))
+    elif kind == "thunder":   # added 2026-11-27 (012): distant thunder = very low-passed rumble, soft, slow decay
+        tt = L(2.2); n = rng.standard_normal(len(tt)); x = lp(lp(n, 120), 60)
+        add(at, 3.2 * x * (np.clip(tt / 0.08, 0, 1) * np.exp(-tt * 1.6)) * (1 + 0.6 * np.sin(2 * np.pi * 3 * tt)))
+    elif kind == "buzz":      # added 2026-11-27 (012): cartoon fly buzz, band-limited, wobbling pitch, short
+        tt = L(0.9); f = 210 + 25 * np.sin(2 * np.pi * 7 * tt)
+        ph = 2 * np.pi * np.cumsum(f) / SR; x = sum(np.sin(h * ph) / h for h in range(1, 6))
+        add(at, 0.07 * x * np.sin(np.pi * tt / 0.9) ** 2)
     elif kind == "pop":
         tt = L(0.12); add(at, 0.25 * np.exp(-tt * 40) * np.sin(2 * np.pi * (600 + 900 * tt) * tt))
     elif kind == "drill":
