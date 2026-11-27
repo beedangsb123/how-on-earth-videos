@@ -97,6 +97,16 @@ topics).
   - YouTube: #shorts first + 3–4 topic tags + #howonearth in the text; "#shorts" in the title; searchable tags list.
   The "is a main post already scheduled at 10:00?" check now means: any non-draft Reel/short/TikTok post at that time.
   Log all four post ids in LOG.md. Stories (IG+FB) stay one post each at 10:01/10:02.
+- **CROSS-LINKS in every post (Bidhan 2026-11-27: "add icons and links of other accounts in each account")** — every
+  main post (and the weekly long-form) ends with the OTHER three accounts, emoji as icons (🎵 TikTok, 📸 Instagram,
+  ▶️ YouTube, 📘 Facebook):
+  - Facebook + YouTube (links are clickable): "🌍 Follow How On Earth everywhere:" + one line per other account with
+    its full URL (TikTok https://www.tiktok.com/@the.how.on.earth · Instagram https://www.instagram.com/thehowonearth/ ·
+    YouTube https://www.youtube.com/@thehowonearth · Facebook https://www.facebook.com/1474038465792135).
+  - Instagram (caption links are not clickable): "🌍 Also on 🎵 TikTok @the.how.on.earth · ▶️ YouTube @thehowonearth ·
+    📘 Facebook: How On Earth (links in bio)".
+  - TikTok (short caption): append " | 📸 Instagram + ▶️ YouTube: @thehowonearth".
+  Profile bios/links can't be edited through Metricool: Bidhan adds them in each app (see LOG 2026-11-27 note).
 
 ## SISTER CHANNEL + FOLLOWER GROWTH (Bidhan 2026-11-26/27 — live, every run)
 **Cross-promotion with Orbit Gossip** (Bidhan's new space-comedy channel; Metricool brand 8377975 — NEVER post How On
