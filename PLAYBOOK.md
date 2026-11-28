@@ -3,7 +3,32 @@
 Faceless short-video channel: **natural wonders and mega-builds, and how they came to be.**
 Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Facebook, YouTube.
 
-## BIDHAN'S REVIEW 2026-11-28 (of 006 Empire State, posted 28 Nov) — READ FIRST, overrides older rules where they clash
+## BIDHAN 2026-11-28 (live, evening) — 50–60 s + MAKE PEOPLE LOL. READ FIRST; overrides EVERY older length rule
+"Videos should be between 50-60 seconds from now on. Learn from Orbit Gossip too. It should be funny, really fun, nice,
+cool, makes you lol or giggle." — "except ones already made" (queued 010 v5, 011 v3, 012 v2 stay as they are).
+1. **LENGTH 50–60 s total, including the follow line + closing card.** Script ≤ ~800 characters / ≤ 14 lines; END card
+   2.5 s; retime --max-pause 0.3, tempo ≤ 1.05. Check: 50.0 ≤ duration ≤ 60.0 before posting. This replaces "61–75 s",
+   "62–67 s" and "must exceed 60 s" everywhere below (trade-off accepted by Bidhan: TikTok Creator Rewards only pays on
+   videos over 1 minute).
+2. **The laugh is the point.** Target: a giggle every ~6–8 s (7+ laugh beats per video), built on a real sourced fact.
+   Write the jokes FIRST, then fit the facts into them. Read each line and ask "would a friend snort at this?" — if
+   not, rewrite or cut.
+3. **Lessons from Orbit Gossip (adapt, never copy its formats, titles or lines):**
+   - Personify the wonder: it has a dating profile, a hotel review, a bad attitude, a job interview, a complaint to
+     the manager. Our own recurring bits: "Wonder Reviews" (star rating at the end), "the wonder's job interview",
+     "customer complaints", "red flags / green flags" of a place.
+   - Hooks the viewer answers in their head in 1 s: "Would you…?", "Real or fake:", a ridiculous true number.
+   - Short personified titles for TikTok/Facebook ("Niagara Falls has trust issues"); searchable titles stay on YouTube.
+   - First comment = would-you-rather with two concrete funny options.
+   - Deadpan verdict / punchline as the final line ("One star. Would not visit.") → then the spoken follow line.
+4. **Comedy toolkit (rotate):** rule of three with a twist in the third; understatement ("slightly damp"); the wonder
+   answering back; mock-outrage reactor; a callback to the opening joke at the end; a meme beat on screen (own
+   format) with a sound gag (record scratch, sad trombone, crowd "ooh"). Family-friendly, jokes about places and
+   physics only.
+5. **Cool + nice to look at:** fast cuts (new visual every 1.5–2.5 s), punchline words popping on screen, a reaction
+   face of the wonder (simple drawn eyes/mouth on the real photo are fine — cartoon, not a real person).
+
+## BIDHAN'S REVIEW 2026-11-28 (of 006 Empire State, posted 28 Nov) — overrides older rules where they clash (length: see section above)
 "Ends abruptly — add 'Follow for…' to the end", "felt like it went on forever", "not funny / not fun to watch",
 "comparisons were not relatable — don't compare unnecessarily", "I didn't want to follow it", "learn from Orbit Gossip but
 don't copy it", "don't make videos for the entire week — every video comes with its lessons", "don't be boring".
@@ -13,7 +38,7 @@ don't copy it", "don't make videos for the entire week — every video comes wit
 2. **ENDING:** the last spoken line is a follow line from the funny character ("…follow for more…"), then a 2.5–3 s
    closing card "FOLLOW FOR MORE" + logo; music fades over ≥2.5 s and an "outro" chord rings out (audio2 events
    "outro", events.json "music_fade"; render END ≥ 2.8). Check: no loud sound in the last 0.5 s. Old renders: outro.py.
-3. **PACE:** total 62–67 s (still > 60 s), ≤ 18 lines, retime --max-pause 0.3, tempo up to 1.05. Every line must either
+3. **PACE:** total 50–60 s (changed the same evening, see section above), ≤ 14 lines, retime --max-pause 0.3, tempo up to 1.05. Every line must either
    move the HOW forward or get a laugh — cut the rest. Fewer facts, told better.
 4. **COMPARISONS:** at most ONE per video, and only an instantly relatable everyday one (your fingernails, a kettle, a
    bathtub). No landmark-vs-landmark or area/height chains (Lake Michigan, Statue of Liberty, football fields, "taller
@@ -165,7 +190,7 @@ If a topic fails any one of these, pick another. Note in LOG.md for each video o
 - Log of every video: `LOG.md`. Lessons from analytics: `LEARNINGS.md`.
 
 ## Video spec
-- 1080×1920, 30 fps, H.264 CRF 18, AAC. **61–75 s** (must exceed 60 s for TikTok Creator Rewards / Facebook).
+- 1080×1920, 30 fps, H.264 CRF 18, AAC. **50–60 s** (Bidhan 2026-11-28; was 61–75 s).
 - Voiceover: kokoro-onnx (models from github.com/thewh1teagle/kokoro-onnx releases `model-files-v1.0`), voice `am_michael`. Spell tricky names phonetically for TTS, correct spelling in captions.
 - Background music: original synth (pipeline/music.py), ducked under voice. Never use copyrighted music.
 - Burnt-in captions in the safe zone: y≈1300–1500, max width 860 px. Keep anything important out of: top 180 px, bottom 400 px, right 160 px (platform UI).
