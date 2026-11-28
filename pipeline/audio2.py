@@ -2,7 +2,7 @@
 under the voice) + synthesised SFX (whoosh, boom, tick, thunk, crack, pop, drill).
 usage (in work dir with meta.json, l*.wav, events.json): python audio2.py [pad] [transpose] [bpm]  -> mix.wav
 Rotate transpose (semitones from A minor) and bpm every video (anti-slop rule). 003: +5 (D minor), 92 bpm.
-SFX kinds: scratch trombone (meme beats, 2026-11-25) clank ding whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
+SFX kinds: outro (resolving end chord) thunder buzz scratch trombone (meme beats, 2026-11-25) clank ding whoosh boom tick thunk crack pop drill hiss (steam roar) bubble (rising blips) splash roar (deep waterfall rumble)."""
 import json, sys, numpy as np, soundfile as sf
 SR = 44100
 PAD = float(sys.argv[1]) if len(sys.argv) > 1 else 0.25
@@ -155,7 +155,7 @@ env = np.convolve(np.abs(voice), np.ones(2205) / 2205, mode="same")
 duck = 1 - 0.6 * np.clip(env / 0.05, 0, 1)
 duck = np.convolve(duck, np.ones(4410) / 4410, mode="same")
 music *= 0.32 * duck
-music *= np.clip((T - t) / 1.0, 0, 1)
+music *= np.clip((T - t) / float(ev.get("music_fade", 1.0)), 0, 1)   # 2026-11-28: longer fade = no abrupt end
 
 # ---- sfx ----
 sfx = np.zeros(N)
@@ -185,6 +185,9 @@ for kind, at in sorted(ev["events"], key=lambda e: e[1]):
     elif kind == "crack":
         tt = L(0.6); n = rng.standard_normal(len(tt)) * (rng.random(len(tt)) > 0.97)
         add(at, 0.35 * lp(n, 8) * np.exp(-tt * 8))
+    elif kind == "outro":     # added 2026-11-28 (Bidhan: "ends abruptly"): warm resolving chord that rings out to silence
+        tt = L(3.2); env = np.clip(tt / 0.25, 0, 1) * np.exp(-tt * 1.3)
+        add(at, sum(0.07 * env * np.sin(2 * np.pi * f * tt) * (1 + 0.15 * np.sin(2 * np.pi * 4.5 * tt)) for f in (hz(50), hz(57), hz(62), hz(66), hz(69))))
     elif kind == "thunder":   # added 2026-11-27 (012): distant thunder = very low-passed rumble, soft, slow decay
         tt = L(2.2); n = rng.standard_normal(len(tt)); x = lp(lp(n, 120), 60)
         add(at, 3.2 * x * (np.clip(tt / 0.08, 0, 1) * np.exp(-tt * 1.6)) * (1 + 0.6 * np.sin(2 * np.pi * 3 * tt)))

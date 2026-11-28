@@ -1,0 +1,126 @@
+{
+ "note": "012 v2 (remake 2026-11-28 after Bidhan: 'felt like it went on forever', 'comparisons not relatable', 'not funny', 'ends abruptly, add Follow for...'). Weather show, Sarah (presenter) + Joseph (fed-up reporter, gets the punchlines). No size comparisons; Nile + flies + dry lake kept as jokes; spoken follow line at the end.",
+ "voices": {
+  "F": {
+   "el": "EXAVITQu4vr4xnSDxMaL"
+  },
+  "M": {
+   "el": "4bSnEy0K5TXdv7EEYf9t"
+  }
+ },
+ "settings": {
+  "stability": 0.0
+ },
+ "tail": 0.15,
+ "tag_lead": 0.4,
+ "lines": [
+  [
+   "This lake makes its own thunderstorm. Every. Single. Night.",
+   "This lake makes its OWN THUNDERSTORM. Every. Single. NIGHT.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[sighs] I know. I'm standing in it.",
+   "I know. I'm STANDING in it.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Welcome to How On Earth Weather! Joseph, how's Lake Victoria tonight?",
+   "Welcome to HOW ON EARTH WEATHER! Joseph, how's LAKE VICTORIA tonight?",
+   "F",
+   "neutral"
+  ],
+  [
+   "Wet. The Nile starts at this lake... and apparently, so does every storm.",
+   "WET. The NILE starts at this lake... and apparently, so does EVERY STORM.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Here's the trick. By day, the sun cooks the land, so the storms happen over there.",
+   "Here's the TRICK. By DAY, the SUN cooks the LAND, so the STORMS happen over THERE.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[laughs] So daytime is a lovely beach day!",
+   "So DAYTIME is a lovely BEACH DAY!",
+   "M",
+   "neutral"
+  ],
+  [
+   "Then at night, the land cools down... but the lake stays warm.",
+   "Then at NIGHT, the LAND cools down... but the LAKE stays WARM.",
+   "F",
+   "neutral"
+  ],
+  [
+   "So breezes from every shore rush to the middle... and crash.",
+   "So BREEZES from EVERY SHORE rush to the MIDDLE... and CRASH.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[surprised] Every shore? At once? That's a whole gang!",
+   "EVERY SHORE? At ONCE? That's a whole GANG!",
+   "M",
+   "neutral"
+  ],
+  [
+   "The warm, wet air shoots up... and builds a thunderstorm. Right on top of you.",
+   "The WARM, WET air shoots UP... and builds a THUNDERSTORM. Right on TOP of you.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[sarcastic] Fantastic. Any good news in the forecast?",
+   "FANTASTIC. Any GOOD NEWS in the FORECAST?",
+   "M",
+   "neutral"
+  ],
+  [
+   "Flies! Lake flies. Billions of them, in clouds you can see from miles away.",
+   "FLIES! LAKE FLIES. BILLIONS of them, in CLOUDS you can see from MILES away.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[surprised] I'm sorry... flies?!",
+   "I'm SORRY... FLIES?!",
+   "M",
+   "neutral"
+  ],
+  [
+   "[sarcastic] Cloudy... with a chance of flies. Love that for me.",
+   "CLOUDY... with a CHANCE of FLIES. Love that for ME.",
+   "M",
+   "neutral"
+  ],
+  [
+   "Fun fact: seventeen thousand years ago, this whole lake was completely dry.",
+   "FUN FACT: 17 THOUSAND YEARS ago, this whole lake was COMPLETELY DRY.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[mischievously] Dry? Can it do that again... tonight, please?",
+   "DRY? Can it do that AGAIN... TONIGHT, please?",
+   "M",
+   "neutral"
+  ],
+  [
+   "Sorry, Joseph. The storm's booked. Every single night.",
+   "SORRY, Joseph. The STORM'S BOOKED. Every single NIGHT.",
+   "F",
+   "neutral"
+  ],
+  [
+   "[sighs] Then follow for more... I'll be under this umbrella.",
+   "Then FOLLOW for MORE... I'll be under this UMBRELLA.",
+   "M",
+   "neutral"
+  ]
+ ]
+}
