@@ -3,6 +3,25 @@
 Faceless short-video channel: **natural wonders and mega-builds, and how they came to be.**
 Owner: Bidhan. Goal: **US$500/month combined** across TikTok, Instagram, Facebook, YouTube.
 
+## BIDHAN'S REVIEW 2026-11-28 (of 006 Empire State, posted 28 Nov) — READ FIRST, overrides older rules where they clash
+"Ends abruptly — add 'Follow for…' to the end", "felt like it went on forever", "not funny / not fun to watch",
+"comparisons were not relatable — don't compare unnecessarily", "I didn't want to follow it", "learn from Orbit Gossip but
+don't copy it", "don't make videos for the entire week — every video comes with its lessons", "don't be boring".
+1. **ONE VIDEO AT A TIME.** Never schedule a main video more than 2 days ahead. If the next free 10:00 slot is more than
+   2 days away, the daily run does NOT make a new video: it re-checks the queued, unpublished videos against the newest
+   lessons/feedback, fixes them (re-cut, outro, caption) and reports. Never edit a video that is already posted.
+2. **ENDING:** the last spoken line is a follow line from the funny character ("…follow for more…"), then a 2.5–3 s
+   closing card "FOLLOW FOR MORE" + logo; music fades over ≥2.5 s and an "outro" chord rings out (audio2 events
+   "outro", events.json "music_fade"; render END ≥ 2.8). Check: no loud sound in the last 0.5 s. Old renders: outro.py.
+3. **PACE:** total 62–67 s (still > 60 s), ≤ 18 lines, retime --max-pause 0.3, tempo up to 1.05. Every line must either
+   move the HOW forward or get a laugh — cut the rest. Fewer facts, told better.
+4. **COMPARISONS:** at most ONE per video, and only an instantly relatable everyday one (your fingernails, a kettle, a
+   bathtub). No landmark-vs-landmark or area/height chains (Lake Michigan, Statue of Liberty, football fields, "taller
+   than 3 X stacked"). Prefer a joke or a reaction to a comparison.
+5. **FUN:** the reactor owns the punchlines (5+), a running gag that pays off at the end, and give the subject a
+   personality (it misbehaves, has moods, "books" storms). Learn from Orbit Gossip's personification (Planet Reviews)
+   but never copy its formats, titles or lines.
+
 ## AUTOPILOT MODE — Bidhan 2026-11-23, valid until 2027 (READ FIRST; overrides older rules where they clash)
 Bidhan will not review or add anything until 2027: no drafts, no approval, the channel runs itself. ElevenLabs credits
 (Starter, 40,000 chars/month, resets ~21st) are reserved for the videos — keep each script ≤ ~1,200 characters incl.
